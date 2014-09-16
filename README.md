@@ -28,7 +28,8 @@ inspired by [angular-xl](https://github.com/kennethlynne/generator-angular-xl).
 -----
 
 ## Quick start
-Install
+Install Node.js with npm FIRST!!!
+then run:
 ```
 npm install -g generator-angular-flow
 
