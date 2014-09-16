@@ -1,7 +1,7 @@
 {
     "name": "generator-angular-flow",
     "version": "0.0.1",
-    "description": "AngularJS app generator for large applications with maintainable and clear file structure (simulation off web components).",
+    "description": "AngularJS app generator for large applications with maintainable and clear file structure (simulation of web components).",
     "keywords": [
         "yeoman-generator",
         "angular",
@@ -26,11 +26,9 @@
         "inflection": "~1.3.5"
     },
     "peerDependencies": {
-        "generator-karma": ">=0.6.0",
         "yo": ">=1.2.1"
     },
     "devDependencies": {
-        "mocha": "*",
         "grunt": "~0.4.1",
         "grunt-contrib-jshint": "~0.8.0",
         "grunt-conventional-changelog": "~1.1.0",
