@@ -28,13 +28,10 @@ inspired by [angular-xl](https://github.com/kennethlynne/generator-angular-xl).
 -----
 
 ## Quick start
-Install by cloning the repo
+Install
 ```
-git clone https://github.com/myflowpl/generator-angular-flow.git generator-angular-flow
-```
-create link to the package
-```
-sudo npm link generator-angular-flow
+npm install -g generator-angular-flow
+
 ```
 
 Make a new directory, and `cd` into it:
@@ -49,8 +46,9 @@ yo angular-flow app-name
 ```
 
 Run `grunt server` to start the local server.
+OR
+Run `grunt watch` if you use your own web serwer (apache, nginx etc.)
 
-*Awesomeness ensues*
 
 # Developing with the generator
 
