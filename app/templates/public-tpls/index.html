@@ -1,0 +1,53 @@
+<!doctype html>
+<html ng-app="<%= scriptAppName %>" manifest="manifest.appcache">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title><%= scriptAppName %></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <!-- TODO: -->
+    <!--<link rel="shortcut icon" sizes="196x196" href="assets/images/icon.png">-->
+
+    <!-- TODO: Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!--<link rel="apple-touch-icon" href="assets/images/custom_icon.png">-->
+    <!--<link rel="apple-touch-icon" href="assets/images/touch-icon-iphone.png">-->
+    <!--<link rel="apple-touch-icon" sizes="76x76" href="assets/images/touch-icon-ipad.png">-->
+    <!--<link rel="apple-touch-icon" sizes="120x120" href="assets/images/touch-icon-iphone-retina.png">-->
+    <!--<link rel="apple-touch-icon" sizes="152x152" href="assets/images/touch-icon-ipad-retina.png">-->
+
+    <!-- TODO: Add startup image - On iPhone and iPod touch, the image must be 320 x 480 pixels and in portrait orientation.-->
+    <!--<link rel="apple-touch-startup-image" href="images/startup.png">-->
+
+    <!-- TODO: Insert Qbaka script-->
+    <!-- /Qbaka -->
+
+    <!--INJECT STYLES--><!--/INJECT STYLES-->
+
+  </head>
+  <body>
+
+    <div class="site-loading" ng-show="false">
+        <div class="spinner"></div>
+    </div>
+
+    <noscript>
+      <div>
+        <h3>Javascript is deactivated. You must <a href="http://www.activatejavascript.org/">activate javascript</a> in order to use this site.</h3>
+      </div>
+    </noscript>
+
+    <div id="root" class="ng-cloak">
+
+        <navbar-comp></navbar-comp>
+        <div ui-view class="view-change-animation"></div>
+
+    </div>
+
+    <!--INJECT SCRIPTS--><!--/INJECT SCRIPTS-->
+
+  </body>
+</html>
