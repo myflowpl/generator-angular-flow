@@ -29,6 +29,7 @@ inspired by [angular-xl](https://github.com/kennethlynne/generator-angular-xl).
 
 ## Quick start
 Install Node.js with npm FIRST!!!
+
 then run:
 ```
 npm install -g generator-angular-flow
@@ -47,7 +48,9 @@ yo angular-flow app-name
 ```
 
 Run `grunt server` to start the local server.
+
 OR
+
 Run `grunt watch` if you use your own web serwer (apache, nginx etc.)
 
 
