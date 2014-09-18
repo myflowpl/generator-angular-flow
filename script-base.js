@@ -86,6 +86,9 @@ module.exports = yeoman.generators.NamedBase.extend({
 
         this.sourceRoot(path.join(__dirname, '/'));
     },
+    gruntLink: function () {
+        this.spawnCommand('grunt', ['link']);
+    },
     appTemplate: function (src, dest) {
         yeoman.generators.Base.prototype.template.apply(this, [
             src + this.scriptSuffix,

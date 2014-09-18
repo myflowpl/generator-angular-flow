@@ -13,5 +13,6 @@ module.exports = ScriptBase.extend({
             'filter/filter-tpl.js',
             path.join(this.appPath, filePath, this.dasherizedFullName + '-filter.js')
         );
+        this.gruntLink();
     }
 });

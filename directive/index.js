@@ -12,5 +12,6 @@ module.exports = ScriptBase.extend({
             'directive/directive-tpl.js',
             path.join(this.appPath, filePath, this.dasherizedFullName + '.js')
         );
+        this.gruntLink();
     }
 });

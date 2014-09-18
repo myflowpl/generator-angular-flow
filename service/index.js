@@ -13,5 +13,6 @@ module.exports = ScriptBase.extend({
             'service/templates/factory-tpl.js',
             path.join(this.appPath, filePath, this.dasherizedFullName + '-srv.js')
         );
+        this.gruntLink();
     }
 });

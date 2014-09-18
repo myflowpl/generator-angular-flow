@@ -26,5 +26,6 @@ module.exports = ScriptBase.extend({
             path.join(this.appPath, filePath, '_' + this.dasherizedFullName + '.scss')
         );
         this.addStyleToComponentScss(['..', filePath, this.dasherizedFullName].join('/'));
+        this.gruntLink();
     }
 });

@@ -28,5 +28,6 @@ module.exports = ScriptBase.extend({
             path.join(this.appPath, filePath, '_' + this.dasherizedFullName + '-state.scss')
         );
         this.addStyleToStateScss(['..', filePath, this.dasherizedFullName+'-state'].join('/'));
+        this.gruntLink();
     }
 });

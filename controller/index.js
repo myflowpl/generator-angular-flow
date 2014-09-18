@@ -12,5 +12,6 @@ module.exports = ScriptBase.extend({
             'controller/controller-tpl.js',
             path.join(this.appPath, filePath, this.dasherizedFullName + '-ctrl.js')
         );
+        this.gruntLink();
     }
 });
