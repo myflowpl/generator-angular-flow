@@ -459,7 +459,7 @@ module.exports = function (grunt) {
     /**
      * builds app scripts form production
      */
-    grunt.registerTask('build-app', [
+    grunt.registerTask('build-js', [
         'ngAnnotate',// copy and annotate all js scripts
         'copy:app_templates', // copy all templates to one folder
         'ngtemplates:app_templates', // concat all templates to one file
