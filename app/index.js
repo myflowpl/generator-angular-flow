@@ -118,7 +118,7 @@ module.exports = yeoman.generators.Base.extend({
          * Gruntfile.js
          */
         //TODO if file already exist, add the content to it
-        this.template('gitignore', '.gitignore');
-        this.template('gruntfile-tpl.js', 'Gruntfile.js');
+        this.src.copy('gitignore', '.gitignore');
+        this.src.copy('gruntfile-tpl.js', 'Gruntfile.js');
     }
 });
