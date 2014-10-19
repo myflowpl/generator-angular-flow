@@ -51,7 +51,7 @@ Run `grunt server` to start the local server.
 
 OR
 
-Run `grunt watch` if you use your own web serwer (apache, nginx etc.)
+Run `grunt` if you use your own web serwer (apache, nginx etc.)
 
 
 # Developing with the generator
@@ -59,7 +59,7 @@ Run `grunt watch` if you use your own web serwer (apache, nginx etc.)
 ## Available Grunt tasks
 
 ```shell
-grunt               to watch files for compass and live reload.
+grunt (default)     to watch files for compass and live reload.
 grunt server        to run a test server with live reload.
 grunt server-dist   to run a test server of builded version of your app.
 grunt link          links newly added files (css, js) to index.html
