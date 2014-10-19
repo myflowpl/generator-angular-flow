@@ -95,13 +95,10 @@ module.exports = function (grunt) {
                 hostname: process.env.IP || 'localhost',
                 livereload: 35729
             },
-            livereload: {
+            dev: {
                 options: {
                     open: true,
-                    base: [
-                        '.tmp',
-                        '<%= yeoman.app %>'
-                    ]
+                    base: '<%= yeoman.app %>'
                 }
             },
             dist: {
@@ -163,7 +160,7 @@ module.exports = function (grunt) {
                 }
             },
 
-            prodJs: {
+            distJs: {
                 options: {
                     startTag: '<!--INJECT SCRIPTS-->',
                     endTag: '<!--/INJECT SCRIPTS-->',
@@ -190,7 +187,7 @@ module.exports = function (grunt) {
                 }
             },
 
-            prodStyles: {
+            distStyles: {
                 options: {
                     startTag: '<!--INJECT STYLES-->',
                     endTag: '<!--/INJECT STYLES-->',
@@ -516,8 +513,27 @@ module.exports = function (grunt) {
      * link assets prod
      */
     grunt.registerTask('link-dist', [
-        'sails-linker:prodStyles',
-        'sails-linker:prodJs'
+        'sails-linker:distStyles',
+        'sails-linker:distJs'
+    ]);
+
+    /**
+     * run quick server to start right away
+     */
+    grunt.registerTask('server', [
+        'compass:dev',
+        'link',
+        'connect:dev',
+        'watch'
+    ]);
+
+    /**
+     * test build the production
+     */
+    grunt.registerTask('server-dist', [
+        'build',
+        'link-dist',
+        'connect:dev:keepalive'
     ]);
 
     /**
