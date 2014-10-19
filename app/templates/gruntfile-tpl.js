@@ -14,8 +14,9 @@ module.exports = function (grunt) {
         dist: require('./bower.json').distPath || 'public/dist'
     };
 
-    var externalJsSrc = [];
-    var externalJsMin = [];
+    var externalJs = []; // all src for vendors, used for developing
+    var externalJsSrc = []; // all src scripts for vendors not available in min version, used for build
+    var externalJsMin = []; // all min vendors used for build
 
     includes.javascript.external.map(function (path) {
         if (typeof path === 'object') {
@@ -23,6 +24,11 @@ module.exports = function (grunt) {
                 externalJsMin.push(yeomanConfig.app + '/' + path.min);
             } else {
                 externalJsSrc.push(yeomanConfig.app + '/' + path.src);
+            }
+            if(path.src) {
+                externalJs.push(yeomanConfig.app + '/' + path.src);
+            } else {
+                externalJs.push(yeomanConfig.app + '/' + path.min);
             }
             return path;
         }
@@ -33,6 +39,7 @@ module.exports = function (grunt) {
         } else {
             externalJsSrc.push(path);
         }
+        externalJs.push(path);
         return path;
     });
 
@@ -152,7 +159,7 @@ module.exports = function (grunt) {
                     relative: true
                 },
                 files: {
-                    '<%= yeoman.app %>/index.html': externalJsSrc.concat(prototypeAppJs)
+                    '<%= yeoman.app %>/index.html': externalJs.concat(prototypeAppJs)
                 }
             },
 
