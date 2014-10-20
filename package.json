@@ -1,6 +1,6 @@
 {
     "name": "generator-angular-flow",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "description": "AngularJS app generator for large applications with maintainable and clear file structure (simulation of web components).",
     "keywords": [
         "yeoman-generator",
