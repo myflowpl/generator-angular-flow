@@ -25,18 +25,18 @@
         ],
         "app": [
             "scripts/deepExtend.js",
-            "config/module.js",
-            "config/local.js",
-            "config/*.js",
-            "scripts/framework/**/*.js",
+            "scripts/config/module.js",
+            "scripts/config/local.js",
+            "scripts/config/*.js",
             "components/**/*.js",
             "modals/**/*.js",
             "states/**/*.js",
-            "states/error/error-state.js",
+            "!states/error/*.js",
+            "states/error/*.js",
             "scripts/**/*.js"
         ],
         "appExcludeFromBuild": [
-            "config/local.js"
+            "scripts/config/local.js"
         ]
     },
     "css": [

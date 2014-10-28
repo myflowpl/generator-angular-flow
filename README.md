@@ -28,7 +28,19 @@ inspired by [angular-xl](https://github.com/kennethlynne/generator-angular-xl).
 -----
 
 ## Quick start
-Install Node.js with npm FIRST!!!
+FIRST!!!
+install node.js with npm
+install ruby, sass, compass
+then install bower
+```
+npm install -g bower
+
+```
+then install grunt
+```
+npm install -g grunt-cli
+
+```
 
 then run:
 ```

@@ -48,7 +48,12 @@ module.exports = function (grunt) {
     });
 
     var appJs = includes.javascript.app.map(function (path) {
-        return yeomanConfig.app + '/' + path;
+        var ex = '';
+        if(path.charAt(0)==='!') {
+            ex = '!';
+            path = path.slice(1)
+        }
+        return ex+yeomanConfig.app + '/' + path;
     });
 
     var appJsExcludeFromBuild = includes.javascript.appExcludeFromBuild.map(function (path) {
