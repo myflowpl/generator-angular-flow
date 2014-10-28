@@ -1,3 +1,23 @@
+.view-flip.ng-enter {
+  -webkit-animation: flipInX 1s;
+  animation: flipInX 1s;
+}
+.view-flip.ng-leave {
+  -webkit-animation: flipOutX 1s;
+  animation: flipOutX 1s;
+
+}
+
+.view-bounce.ng-enter {
+  -webkit-animation: bounceInLeft .2s;
+  animation: bounceInLeft .2s;
+}
+.view-bounce.ng-leave {
+  -webkit-animation: fadeOut .2s;
+  animation: fadeOut .2s;
+  display: none;
+}
+
 .view-change-animation
 {
   &.ng-enter, &.ng-leave {

@@ -77,6 +77,7 @@ Available generators:
 * [angular-flow:filter](#filter)
 * [angular-flow:state](#state)
 * [angular-flow:service](#service)
+* [angular-flow:resource](#resource)
 
 **Note: Generators are to be run from the root directory of your app.**
 
@@ -144,15 +145,16 @@ Produces these files:
 `public/components/navbar.js`:
 ```javascript
 angular.module('yourModule')
-    .directive('navbarComp', function () {
+    .directive('navbar', function () {
             return {
                 restrict: 'E',
+                restrict: true,
                 templateUrl: '/components/navbar/navbar.html',
-                controller: 'navbarComp'
+                controller: 'navbarComponent'
             };
         })
 
-        .controller('navbarComp', function ($scope) {
+        .controller('navbarComponent', function ($scope) {
 
         });
 ```
@@ -166,7 +168,7 @@ angular.module('yourModule')
 
 Witch in turn lets you specify custom HTML tags like this to invoke a completely self contained component:
 ```
-<navbar-comp></navbar-comp>
+<navbar></navbar>
 ```
 
 The view has specified a component name as a class, helping you avoid CSS collisions. Specify your styles specific for this component in SCSS under a ```.navbar-comp``` class wrapper, and only this component is targeted. This is an OK approach until shadow DOMs and web components become widely supported.
@@ -199,6 +201,21 @@ yo angular-flow:service myService
 Produces `public/scripts/services/my-service.js`:
 ```javascript
 angular.module('myMod').service('myService', function () {
+  // ...
+});
+```
+
+### Resources
+Generates an AngularJS $resource instance.
+
+Example:
+```bash
+yo angular-flow:resource myResource
+```
+
+Produces `public/scripts/resources/my-resource.js`:
+```javascript
+angular.module('myMod').factory('MyResource', function ($resource, apiBaseUrl) {
   // ...
 });
 ```

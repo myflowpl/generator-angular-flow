@@ -48,7 +48,7 @@ module.exports = [
     {
         name: 'angular-resource.js',
         bowerName: 'angular-resource',
-        version: '~1.2.16',
+        version: '~1.3.0',
         moduleName: 'ngResource',
         scripts: '/angular-resource/angular-resource.js',
         styles: ''
@@ -64,9 +64,17 @@ module.exports = [
     {
         name: 'angular-sanitize.js',
         bowerName: 'angular-sanitize',
-        version: '~1.2.16',
+        version: '~1.3.0',
         moduleName: 'ngSanitize',
         scripts: '/angular-sanitize/angular-sanitize.js',
+        styles: ''
+    },
+    {
+        name: 'angular-messages.js',
+        bowerName: 'angular-messages',
+        version: '~1.3.0',
+        moduleName: 'ngMessages',
+        scripts: '/angular-messages/angular-messages.js',
         styles: ''
     }
 ];

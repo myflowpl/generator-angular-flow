@@ -2,14 +2,15 @@
 
 angular.module('<%= scriptAppName %>')
 
-    .directive('<%= cameledFullName %>Comp', function () {
+    .directive('<%= cameledFullName %>', function () {
         return {
             restrict: 'E',
+            replace:true,
             templateUrl: '<%= templateUrl %>',
-            controller: '<%= cameledFullName %>Comp'
+            controller: '<%= cameledFullName %>Component'
         };
     })
 
-    .controller('<%= cameledFullName %>Comp', function ($scope) {
+    .controller('<%= cameledFullName %>Component', function ($scope) {
 
     });
