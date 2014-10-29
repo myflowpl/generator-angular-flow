@@ -6,10 +6,10 @@ angular.module('<%= scriptAppName %>')
         return {
             restrict: 'E',
             templateUrl: '/components/navbar/navbar.html',
-            controller: 'navbarComp'
+            controller: 'navbarComponent'
         };
     })
 
-    .controller('navbarComp', function ($scope) {
+    .controller('navbarComponent', function ($scope) {
 
     });

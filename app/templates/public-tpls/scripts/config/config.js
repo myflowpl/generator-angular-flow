@@ -13,7 +13,13 @@ angular.module('<%= scriptAppName %>')
             path: '/api'
         }
     }, angular._localConfig || {}))
-    .value('cgBusyTemplateName', 'views/angular-busy/default-spinner.html')
+    .value('cgBusyDefaults',{
+        message:'Loading...',
+        backdrop: true,
+        templateUrl: '/views/angular-busy/default-spinner.html',
+        delay: 0,
+        minDuration: 500
+    })
     .factory('BaseUrl', function (Config) {
         return (Config.API.protocol + '://' + Config.API.host + ':' + Config.API.port + '/');
     })
