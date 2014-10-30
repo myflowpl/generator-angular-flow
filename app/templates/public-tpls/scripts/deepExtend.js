@@ -1,14 +1,15 @@
 'use strict';
-
-angular.deepExtend = function (destination, source) {
-    for (var property in source) {
-        if (source[property] && source[property].constructor && source[property].constructor === Object) {
-            destination[property] = destination[property] || {};
-            angular.deepExtend(destination[property], source[property]);
+angular.deepExtend = function (dst) {
+    angular.forEach(arguments, function(obj) {
+        if (obj !== dst) {
+            angular.forEach(obj, function(value, key) {
+                if (dst[key] && dst[key].constructor && dst[key].constructor === Object) {
+                    angular.deepExtend(dst[key], value);
+                } else {
+                    dst[key] = angular.copy(value);
+                }
+            });
         }
-        else {
-            destination[property] = source[property];
-        }
-    }
-    return destination;
+    });
+    return dst;
 };
