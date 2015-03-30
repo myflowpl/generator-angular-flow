@@ -6,10 +6,7 @@ var angularUtils = require('./util.js');
 var _ = require('underscore.string');
 var inflection = require('inflection');
 
-
-module.exports = yeoman.generators.NamedBase.extend({});
-
-yeoman.generators.NamedBase.extend({
+module.exports = yeoman.generators.NamedBase.extend({
     constructor: function ()
     {
         yeoman.generators.NamedBase.apply(this, arguments);
