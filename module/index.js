@@ -27,33 +27,10 @@ module.exports = yeoman.generators.Base.extend({
     },
 
     default: function(){
-        var baseDir = this.config.get('baseDir');
-        if(baseDir) {
-            // info about existing app
-            this.log('____________________________________________________________________________');
-            this.log('');
-            this.log('Welcome to "'+this.config.get('name')+'" application!');
-            this.log('');
-            this.log('CREATED MODULES:');
-            var fs = require('fs'),
-                path = require('path');
-                var baseDir = this.config.get('baseDir');
-                var modules = fs.readdirSync(baseDir).filter(function(file) {
-                    if(fs.statSync(path.join(baseDir, file)).isDirectory() && fs.existsSync(path.join(baseDir, file, file+'-resources.json'))) {
-                        console.log('-> '+file);
-                        return true;
-                    } else {
-                        return false;
-                    }
-                });
-
-            this.log('');
-            this.log('AVAILABLE COMMANDS:');
-            this.log('-> yo angular-flow:module {moduleName}                    - creates module');
-            this.log('-> yo angular-flow:component {moduleName} {componentName} - creates component for module');
-            this.log('-> yo angular-flow:state {moduleName} {stateNamePath}     - creates state for module');
-            this.log('____________________________________________________________________________');
-
+        var appPath = this.config.get('appPath');
+        if(appPath) {
+            // modify existing app
+            console.log('app path is: ', appPath);
         } else {
             // ask if you want to crate new app
             this.log('____________________________________________________________________________');
@@ -85,12 +62,6 @@ module.exports = yeoman.generators.Base.extend({
         this.prompt([
             {
                 type: 'input',
-                name: 'name',
-                message: 'application name',
-                default: this.appname // Default to current folder
-            },
-            {
-                type: 'input',
                 name: 'baseDir',
                 message: 'base directory',
                 default: './' // Default to current folder
@@ -102,9 +73,6 @@ module.exports = yeoman.generators.Base.extend({
                 default: '/' // Default to current folder name
             }
         ], function (answers) {
-            answers.name = this._.camelize(this._.slugify(this._.humanize(answers.name)));
-            this.appname = answers.name;
-
             this.config.set(answers);
             this.config.save();
         }.bind(this));

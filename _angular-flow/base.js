@@ -7,7 +7,7 @@ var _ = require('underscore.string');
 var inflection = require('inflection');
 
 module.exports = yeoman.generators.NamedBase.extend({
-    constructor: function ()
+    constructor22: function ()
     {
         yeoman.generators.NamedBase.apply(this, arguments);
 
