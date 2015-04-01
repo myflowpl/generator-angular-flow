@@ -1,80 +1,59 @@
 'use strict';
 var path = require('path');
-var util = require('util');
-var angularUtils = require('../util.js');
-var spawn = require('child_process').spawn;
+var base = require('../_angular-flow/base');
 var yeoman = require('yeoman-generator');
 
-
-module.exports = yeoman.generators.Base.extend({
+module.exports = base.extend({
     constructor: function (args, options) {
-        yeoman.generators.Base.apply(this, arguments);
+        yeoman.Base.apply(this, arguments);
 
-        //if (typeof this.env.options.appPath === 'undefined') {
-        //    try {
-        //        this.env.options.appPath = require(path.join(process.cwd(), 'bower.json')).appPath;
-        //    } catch (e) {
-        //        this.env.options.appPath = this.env.options.appPath || 'public';
-        //    }
-        //}
-        //this.appPath = this.env.options.appPath;
-
-        //this.on('end', function () {
-        //    this.installDependencies({skipInstall: this.options['skip-install']});
-        //});
-
-        this.pkg = JSON.parse(this.readFileAsString(path.join(__dirname, '../package.json')));
-    },
-
-    default: function(){
-        var appPath = this.config.get('appPath');
-        if(appPath) {
-            // modify existing app
-            console.log('app path is: ', appPath);
-        } else {
-            // ask if you want to crate new app
-            this.log('____________________________________________________________________________');
-            this.log('');
-            this.log('Welcome to generator-angular-flow!!!');
-            this.log('AngularJs Yeoman generator for large application.');
-            this.log('____________________________________________________________________________');
-            this.log('');
-            this.log('Project not found');
-
-            this.prompt({
-                type: 'confirm',
-                name: 'start',
-                message: 'Do you want to create new project',
-                default: true
-            }, function (answers) {
-                if(answers.start) {
-                    this._startNewApp();
-                }
-            }.bind(this));
+        this.argument('name', { type: String, required: false });
+        if(this.name) {
+            this.setName(this.name)
         }
     },
 
-    /**
-     * init new app
-     */
-    _startNewApp: function () {
+    default: function(){
 
-        this.prompt([
-            {
-                type: 'input',
-                name: 'baseDir',
-                message: 'base directory',
-                default: './' // Default to current folder
-            },
-            {
-                type: 'input',
-                name: 'basePath',
-                message: 'Your angular app module name',
-                default: '/' // Default to current folder name
+        var appPath = this.config.get('appPath');
+        if(this.moduleName) {
+            // modify existing module
+            this.log('info about module: ', this.moduleName);
+        } else {
+            this.log('EXISTING MODULES:')
+            var modules = this.getModules();
+            modules.forEach(function(m){
+                this.log('-> ', m.dirName);
+            }.bind(this));
+            this.log('');
+            this._promptModuleName();
+        }
+    },
+    _promptModuleName: function() {
+        var modules = this.getModules();
+        this.prompt([{
+            type: 'input',
+            name: 'name',
+            message: 'create new module with name'
+        }, {
+            type: 'input',
+            name: 'alias',
+            message: 'do you want to create alias, best are 2 or 3 chars long'
+        }], function (answers) {
+            if(!answers.name) {
+                this.log('ERROR: module name is required, type the name');
+                this._promptModuleName();
+            } else if (modules.indexOf(answers.name) >=0) {
+                this.log('ERROR: module name exists, choose other name');
+                this._promptModuleName(answers.name);
+            } else {
+                this.aliasName = answers.alias;
+                this.setName(answers.name);
+                if(!answers.alias) {
+                    this.aliasName = this.dirName;
+                }
+                this._promptModules();
             }
-        ], function (answers) {
-            this.config.set(answers);
-            this.config.save();
         }.bind(this));
     },
 
@@ -82,71 +61,93 @@ module.exports = yeoman.generators.Base.extend({
      * ask for extra modules you want to include in your app
      */
     _promptModules: function () {
-        var done = this.async();
-        var modules = require('./module-list.js');
-        var choices = [];
-        for (var m in modules) {
-            choices.push({
-                value: modules[m],
-                name: modules[m].name+' ('+modules[m].version+')',
-                checked: !!modules[m].checked
-            });
-        }
-        var prompts = [
-            {
-                type: 'checkbox',
-                name: 'modules',
-                message: 'Which modules would you like to include?',
-                choices: choices
-            }
-        ];
+        var modules = this.getModules();
 
-        this.prompt(prompts, function (props) {
-
-            this.bowerComponents = '';
-            var angMods = [
-                "ngAnimate",
-                "ajoslin.promise-tracker",
-                "cgBusy",
-                "chieffancypants.loadingBar",
-                "ui.router",
-                "ui.bootstrap"
-            ];
-            for (var m in props.modules) {
-                if(props.modules[m].moduleName) {
-                    angMods.push(props.modules[m].moduleName);
-                }
-                if(props.modules[m].bowerName) {
-                    this.bowerComponents = this.bowerComponents+',\n        "'+props.modules[m].bowerName+'": "'+props.modules[m].version+'"';
-                }
-            }
-            this.angularModules = "\n    '" + angMods.join("',\n    '") + "'\n";
-            done();
+        this.prompt({
+            type: 'checkbox',
+            name: 'modules',
+            message: 'Which modules would you like to include?',
+            choices: modules
+        }, function (props) {
+            this.angularModules = props.modules;
+            this._createModuleFiles();
         }.bind(this));
     },
 
     /**
-     * now all data are ready so create all required files
+     * we have module name, so we crate it
      */
-    _createAppFiles: function () {
-        /**
-         * copy root files and directories
-         */
-        this.directory('root-tpls', '.');
+    _createModuleFiles: function () {
 
-        /**
-         * copy public files and directories
-         */
-        this.directory('public-tpls', this.appPath);
+        this.destinationRoot(this.destinationRoot()+'/'+this.dirName)
 
-        /**
-         * create single files witch can't be process in batch
-         *
-         * .gitignore
-         * Gruntfile.js
-         */
-        //TODO if file already exist, add the content to it
-        this.src.copy('gitignore', '.gitignore');
-        this.src.copy('gruntfile-tpl.js', 'Gruntfile.js');
+        this.angularModulesString = "\n"+this.angularModules.map(function(m){
+            return "    '"+m+"'";
+        }).join(",\n")+"\n";
+
+        this.fs.copyTpl(
+            this.templatePath('module.js'),
+            this.destinationPath(this.dirName+'-module.js'),
+            this
+        );
+        this.fs.copyTpl(
+            this.templatePath('module.json'),
+            this.destinationPath(this.dirName+'-module.json'),
+            this
+        );
+
+        this.fs.copyTpl(
+            this.templatePath('index.html'),
+            this.destinationPath('index.html'),
+            this
+        );
     }
+
+    ///**
+    // * ask for extra modules you want to include in your app
+    // */
+    //_promptBowerComponents: function () {
+    //    var done = this.async();
+    //    var modules = this.getBowerComponents();
+    //    var choices = [];
+    //    for (var m in modules) {
+    //        choices.push({
+    //            value: modules[m],
+    //            name: modules[m].name+' ('+modules[m].version+')',
+    //            checked: !!modules[m].checked
+    //        });
+    //    }
+    //    var prompts = [
+    //        {
+    //            type: 'checkbox',
+    //            name: 'modules',
+    //            message: 'Which modules would you like to include?',
+    //            choices: choices
+    //        }
+    //    ];
+    //
+    //    this.prompt(prompts, function (props) {
+    //
+    //        this.bowerComponents = '';
+    //        var angMods = [
+    //            "ngAnimate",
+    //            "ajoslin.promise-tracker",
+    //            "cgBusy",
+    //            "chieffancypants.loadingBar",
+    //            "ui.router",
+    //            "ui.bootstrap"
+    //        ];
+    //        for (var m in props.modules) {
+    //            if(props.modules[m].moduleName) {
+    //                angMods.push(props.modules[m].moduleName);
+    //            }
+    //            if(props.modules[m].bowerName) {
+    //                this.bowerComponents = this.bowerComponents+',\n        "'+props.modules[m].bowerName+'": "'+props.modules[m].version+'"';
+    //            }
+    //        }
+    //        this.angularModules = "\n    '" + angMods.join("',\n    '") + "'\n";
+    //        done();
+    //    }.bind(this));
+    //},
+
 });

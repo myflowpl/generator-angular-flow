@@ -1,3 +1,3 @@
 'use strict';
 
-var app = angular.module('<%= scriptAppName %>', [<%= angularModules %>]);
+angular.module('<%= name %>', [<%= angularModulesString %>]);

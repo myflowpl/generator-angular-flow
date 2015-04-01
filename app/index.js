@@ -1,29 +1,14 @@
 'use strict';
 var path = require('path');
 var util = require('util');
-var angularUtils = require('../util.js');
-var spawn = require('child_process').spawn;
+var base = require('../_angular-flow/base');
 var yeoman = require('yeoman-generator');
 
 
-module.exports = yeoman.generators.Base.extend({
+module.exports = base.extend({
     constructor: function (args, options) {
-        yeoman.generators.Base.apply(this, arguments);
+        yeoman.Base.apply(this, arguments);
 
-        //if (typeof this.env.options.appPath === 'undefined') {
-        //    try {
-        //        this.env.options.appPath = require(path.join(process.cwd(), 'bower.json')).appPath;
-        //    } catch (e) {
-        //        this.env.options.appPath = this.env.options.appPath || 'public';
-        //    }
-        //}
-        //this.appPath = this.env.options.appPath;
-
-        //this.on('end', function () {
-        //    this.installDependencies({skipInstall: this.options['skip-install']});
-        //});
-
-        this.pkg = JSON.parse(this.readFileAsString(path.join(__dirname, '../package.json')));
     },
 
     default: function(){
@@ -35,18 +20,9 @@ module.exports = yeoman.generators.Base.extend({
             this.log('Welcome to "'+this.config.get('name')+'" application!');
             this.log('');
             this.log('CREATED MODULES:');
-            var fs = require('fs'),
-                path = require('path');
-                var baseDir = this.config.get('baseDir');
-                var modules = fs.readdirSync(baseDir).filter(function(file) {
-                    if(fs.statSync(path.join(baseDir, file)).isDirectory() && fs.existsSync(path.join(baseDir, file, file+'-resources.json'))) {
-                        console.log('-> '+file);
-                        return true;
-                    } else {
-                        return false;
-                    }
-                });
-
+            this.getModules().forEach(function(m){
+                this.log('-> '+ m.dirName);
+            }.bind(this))
             this.log('');
             this.log('AVAILABLE COMMANDS:');
             this.log('-> yo angular-flow:module {moduleName}                    - creates module');

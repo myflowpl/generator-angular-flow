@@ -1,0 +1,21 @@
+{
+    "name": "<%= name %>",
+    "dirName": "<%= dirName %>",
+    "humanName": "<%= humanName %>",
+    "aliasName": "<%= aliasName %>",
+    "bower_components": [],
+    "modules": [],
+    "js": [
+        "<%= dirName %>-module.js",
+        "!_states/**/*.js",
+        "**/*.js",
+        "_states/**/*.js"
+    ],
+    "css": [
+        "main.css"
+    ]
+}
+
+
+
+
