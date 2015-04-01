@@ -15,6 +15,11 @@ module.exports = yeoman.Base.extend({
         // module name is required
         this.argument('name', { type: String, required: true });
         this.setName(this.name);
+        var m = this.getModule(this.name);
+        if(!m) {
+            throw new String('module "'+this.name+'" not found');
+        }
+        util._extend(this, m);
     },
     /**
      * set module name
@@ -47,11 +52,9 @@ module.exports = yeoman.Base.extend({
         return require('../_angular-flow/module-list.js')
     },
     getModule: function(moduleName) {
-        return this.getModules().find(function(m){
-            if(m.name == moduleName) {
-                return m;
-            }
-        })
+        return this.getModules().filter(function(m){
+            return (m.name == moduleName);
+        })[0];
     }
 });
 
