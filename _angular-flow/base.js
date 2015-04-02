@@ -28,11 +28,18 @@ module.exports = yeoman.Base.extend({
         }
         this._extend(m);
 
-        var file = this.normalizeName(fileArg.replace('/', '-'));
-        var fileParts = fileArg.split('/');
+        // set destination for this module
+        this.destinationRoot(this.destinationRoot()+'/'+this.dirName)
 
-        console.log(file);
-        console.log(fileParts);
+        this.fileParts = parts.map(function(n){
+            return this.normalizeName(n);
+        }.bind(this));
+        this.file = this.normalizeName(fileArg.replace('/', '-'));
+
+        console.log(this.file);
+        console.log(this.fileParts);
+
+
 
     },
 

@@ -1,17 +1,17 @@
 'use strict';
 
-angular.module('<%= scriptAppName %>')
+angular.module('<%= name %>')
     .config(function ($stateProvider) {
         $stateProvider.state('<%= stateName %>', {
             url: '<%= stateUrl %>',
             views: {
                 "": {
-                    controller: '<%= cameledFullName %>State',
+                    controller: '<%= controllerName %>',
                     templateUrl: '<%= templateUrl %>'
                 }
             }
         });
     })
-    .controller('<%= cameledFullName %>State', function ($scope) {
-        $scope.foo = 'bar';
+    .controller('<%= controllerName %>', function ($scope) {
+
     });
