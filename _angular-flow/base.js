@@ -34,7 +34,7 @@ module.exports = yeoman.Base.extend({
         this.fileParts = parts.map(function(n){
             return this.normalizeName(n);
         }.bind(this));
-        this.file = this.normalizeName(fileArg.replace('/', '-'));
+        this.file = this.normalizeName(fileArg.replace(/\//g, '-'));
 
         console.log(this.file);
         console.log(this.fileParts);

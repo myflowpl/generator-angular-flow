@@ -9,9 +9,9 @@ this.log('state for', this.aliasName, this.file.name);
         * template url for component directive
         */
         this.templateUrl = '/' + [filePath, this.dasherizedFullName + '-state.html'].join('/');
-        this.stateName = this.dottedName;
-        this.stateUrl = '/' + this.cameledName;
-        this.controllerName = this.file.cameledFullName;
+        this.stateName = this.file.dirName.replace(/-/g, '.');
+        this.stateUrl = '/' + this.camelName;
+        this.controllerName = this.file.camelName+'StateController';
 
         var dir = this.fileParts.map(function(part){
             return part.dirName
