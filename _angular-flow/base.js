@@ -14,22 +14,69 @@ module.exports = yeoman.Base.extend({
 
         // module name is required
         this.argument('name', { type: String, required: true });
-        this.setName(this.name);
-        var m = this.getModule(this.name);
+
+        var fileArg = this.name;
+
+        var parts = this.name.split('/');
+
+        var mp = this.normalizeName(parts[0]);
+
+        var m = this.getModule(mp.name);
+
         if(!m) {
-            throw new String('module "'+this.name+'" not found');
+            this.error('module "'+mp.dirName+'" not found');
         }
-        util._extend(this, m);
+        this._extend(m);
+
+        var file = this.normalizeName(fileArg.replace('/', '-'));
+        var fileParts = fileArg.split('/');
+
+        console.log(file);
+        console.log(fileParts);
+
     },
+
     /**
-     * set module name
+     * converts user input string to normalized file/module names
      *
      * @param name
      */
-    setName: function (name) {
-        this.dirName = this._.slugify(this._.humanize(name));
-        this.name = this._.camelize(this.dirName, true);
-        this.humanName = this._.humanize(this.dirName);
+    normalizeName: function (str) {
+        var dirName = this._.slugify(this._.humanize(str));
+        var name = this._.camelize(dirName, true);
+        var camelName = this._.classify(dirName);
+        var humanName = this._.humanize(dirName);
+        return {
+            name: name,
+            dirName: dirName,
+            humanName: humanName,
+            camelName: camelName
+        }
+    },
+
+    /**
+     * extend this object with given object props
+     *
+     * @param obj
+     * @private
+     */
+    _extend: function (obj) {
+        util._extend(this, obj);
+    },
+    /**
+     * display error message
+     *
+     * @param msg
+     */
+    error: function (msg) {
+        this.log('____________________________________________________________________________');
+        this.log('');
+        this.log('ERROR !!!');
+        this.log('');
+        this.log(msg);
+        this.log('____________________________________________________________________________');
+        this.log('');
+        throw new String(msg);
     },
 
     modules: null,

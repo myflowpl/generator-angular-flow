@@ -9,7 +9,7 @@ module.exports = base.extend({
 
         this.argument('name', { type: String, required: false });
         if(this.name) {
-            this.setName(this.name)
+            this._extend(this.normalizeName(this.name))
         }
     },
 
@@ -48,7 +48,7 @@ module.exports = base.extend({
                 this._promptModuleName(answers.name);
             } else {
                 this.aliasName = answers.alias;
-                this.setName(answers.name);
+                this._extend(this.normalizeName(answers.name));
                 if(!answers.alias) {
                     this.aliasName = this.dirName;
                 }
