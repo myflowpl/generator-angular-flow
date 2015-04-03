@@ -1,46 +1,60 @@
 'use strict';
 var base = require('../_angular-flow/base');
-
+var pr = console.log.bind(console);
 module.exports = base.extend({
     createStateFiles: function() {
-this.log('state for', this.aliasName, this.file.name);
-        var filePath = ['states'].concat(this.hierarchy).join('/');
-        /**
-        * template url for component directive
-        */
-        this.templateUrl = '/' + [filePath, this.dasherizedFullName + '-state.html'].join('/');
-        this.stateName = this.file.dirName.replace(/-/g, '.');
-        this.stateUrl = '/' + this.camelName;
+        this.log('state for', this.aliasName, this.file.name);
+        // module directory parts
+
+        // pure state file name, used later for constructiin .js .html .scss file names
+        this.templateFileName = this.fileDirParts.join('-')+'-state';
+
+        // state html template url
+        this.templateUrl = ['_states'].concat(this.fileDirParts.slice(1), this.templateFileName+'.html').join('/');
+
+        // css class name
+        this.cssClassName = this.templateFileName;
+
+        // controller name
         this.controllerName = this.file.camelName+'StateController';
 
-        var dir = this.fileParts.map(function(part){
-            return part.dirName
-        });
-        var fileName = dir.join('-')+'-state';
-        dir = dir.slice(1);
-        dir.unshift('_states');
-        dir.push(fileName);
-        var path = dir.join('/');
-console.log('DIR', path);
+        // state name
+        this.stateName = this.fileDirParts.join('.'); //this.file.dirName.replace(/-/g, '.');
+
+        // state url
+        this.stateUrl = '/'+this.fileDirParts.slice(this.fileDirParts.length-1);
+
+        pr('tpl url', this.templateUrl)
+        pr('file name', this.templateFileName);
+
+        /**
+         * render templates
+         */
+        var jsFile = ['_states'].concat(this.fileDirParts.slice(1), this.templateFileName+'.js').join('/');
+        var htmlFile = ['_states'].concat(this.fileDirParts.slice(1), this.templateFileName+'.html').join('/');
+        var scssFile = ['_states'].concat(this.fileDirParts.slice(1), '_'+this.templateFileName+'.scss').join('/');
+
+        // JS
         this.fs.copyTpl(
             this.templatePath('state-tpl.js'),
-            this.destinationPath(path+'.js'),
+            this.destinationPath(jsFile),
             this
         );
 
+        // HTML
+        this.fs.copyTpl(
+            this.templatePath('state-tpl.html'),
+            this.destinationPath(htmlFile),
+            this
+        );
 
-        //this.template(
-        //    'state/state-tpl.js',
-        //    path.join(filePath, this.dasherizedFullName + '-state.js')
-        //);
-        //this.template(
-        //    'state/state-tpl.html',
-        //    path.join(this.appPath, filePath, this.dasherizedFullName + '-state.html')
-        //);
-        //this.template(
-        //    'state/state-tpl.scss',
-        //    path.join(this.appPath, filePath, '_' + this.dasherizedFullName + '-state.scss')
-        //);
+        // SASS
+        this.fs.copyTpl(
+            this.templatePath('state-tpl.scss'),
+            this.destinationPath(scssFile),
+            this
+        );
+
         //this.addStyleToStateScss(['..', filePath, this.dasherizedFullName+'-state'].join('/'));
         //this.gruntLink();
     }

@@ -15,7 +15,9 @@ module.exports = base.extend({
 
     default: function(){
 
-        var appPath = this.config.get('appPath');
+        this.basePath = this.config.get('basePath');
+        this.moduleBasePathFactoryName = this.name+'BasePath';
+
         if(this.moduleName) {
             // modify existing module
             this.log('info about module: ', this.moduleName);

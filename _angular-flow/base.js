@@ -35,9 +35,15 @@ module.exports = yeoman.Base.extend({
             return this.normalizeName(n);
         }.bind(this));
         this.file = this.normalizeName(fileArg.replace(/\//g, '-'));
+        this.fileDirParts = this.fileParts.map(function(part){
+            return part.dirName
+        });
 
-        console.log(this.file);
-        console.log(this.fileParts);
+        // module base path factory
+        this.moduleBasePathFactoryName = this.name+'BasePath';
+
+        //console.log(this.file);
+        //console.log(this.fileParts);
 
 
 
