@@ -7,9 +7,7 @@
     "modules": [],
     "js": [
         "<%= dirName %>-module.js",
-        "!_states/**/*.js",
-        "**/*.js",
-        "_states/**/*.js"
+        "**/*.js"
     ],
     "css": [
         "main.css"

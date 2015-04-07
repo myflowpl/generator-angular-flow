@@ -1,9 +1,39 @@
-/**
- * extra modules you want to require by bower
- *
- * @type {*[]}
- */
-module.exports = [
+[
+    {
+        name: 'jquery',
+        label: 'jquery.js',
+        version: '~1.11.0',
+        angularModule: false,
+        scripts: '/jquery/dist/jquery.js',
+        styles: '',
+        checked: true
+    },
+    {
+        name: 'angular',
+        label: 'angular.js',
+        version: '~1.3.0',
+        angularModule: false,
+        scripts: '/angular/angular.js',
+        styles: '',
+        checked: true
+    },
+    {
+        name: 'lodash',
+        label: 'lodash.js',
+        version: '~2.4.1',
+        moduleName: '',
+        scripts: '/lodash/dist/lodash.js',
+        styles: ''
+    },
+    {
+        name: 'ngstorage',
+        label: 'angular-storage.js',
+        version: '~0.3.0',
+        angularModule: 'ngStorage',
+        scripts: '/ngstorage/ngStorage.js',
+        styles: '',
+        checked: true
+    },
     {
         name: 'angular-storage.js',
         bowerName: 'ngstorage',
@@ -19,14 +49,6 @@ module.exports = [
         version: '~1.2.16',
         moduleName: 'ngTouch',
         scripts: '/angular-touch/angular-touch.js',
-        styles: ''
-    },
-    {
-        name: 'lodash.js',
-        bowerName: 'lodash',
-        version: '~2.4.1',
-        moduleName: '',
-        scripts: '/lodash/dist/lodash.js',
         styles: ''
     },
     {
@@ -77,4 +99,4 @@ module.exports = [
         scripts: '/angular-messages/angular-messages.js',
         styles: ''
     }
-];
+]

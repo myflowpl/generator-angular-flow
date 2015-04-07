@@ -9,6 +9,7 @@ var fs = require('fs');
 var path = require('path');
 
 module.exports = yeoman.Base.extend({
+    updateDocumentRoot: true,
     constructor: function (args, options) {
         yeoman.Base.apply(this, arguments);
 
@@ -29,7 +30,9 @@ module.exports = yeoman.Base.extend({
         this._extend(m);
 
         // set destination for this module
-        this.destinationRoot(this.destinationRoot()+'/'+this.dirName)
+        if(this.updateDocumentRoot) {
+            this.destinationRoot(this.destinationRoot()+'/'+this.dirName)
+        }
 
         this.fileParts = parts.map(function(n){
             return this.normalizeName(n);
@@ -89,7 +92,7 @@ module.exports = yeoman.Base.extend({
         this.log(msg);
         this.log('____________________________________________________________________________');
         this.log('');
-        throw new String(msg);
+        throw new Error(msg);
     },
 
     modules: null,
@@ -109,7 +112,7 @@ module.exports = yeoman.Base.extend({
         return this.modules;
     },
     getBowerComponents: function () {
-        return require('../_angular-flow/module-list.js')
+        return JSON.parse(fs.readFileSync(this.templatePath('../../_angular-flow/bower-components.json')))
     },
     getModule: function(moduleName) {
         return this.getModules().filter(function(m){

@@ -1,0 +1,26 @@
+[
+    {
+        "name": "jquery",
+        "label": "jquery.js",
+        "version": "~1.11.0",
+        "angularModule": false,
+        "js": ["jquery/dist/jquery.js"],
+        "css": []
+    },
+    {
+        "name": "angular",
+        "label": "angular.js",
+        "version": "~1.3.0",
+        "angularModule": false,
+        "js": ["angular/angular.js"],
+        "css": []
+    },
+    {
+        "name": "lodash",
+        "label": "lodash.js",
+        "version": "~3.6.0",
+        "angularModule": false,
+        "js": ["lodash/dist/lodash.js"],
+        "css": []
+    }
+]
