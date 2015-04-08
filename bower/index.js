@@ -1,30 +1,36 @@
 'use strict';
-var path = require('path');
-var util = require('util');
-var base = require('../_angular-flow/base');
-var yeoman = require('yeoman-generator');
+var af = require('generator-angular-flow');
 var fs = require('fs');
+var _ = require('lodash');
+var yeoman = require('yeoman-generator');
 
-module.exports = base.extend({
+module.exports = af.Base.extend({
+    constructor: function (args, options) {
+        yeoman.Base.apply(this, arguments);
+
+    },
     updateDocumentRoot: false,
     default: function(){
 
-        this.log('install bower components');
-        var list = this.getBowerComponents();
-        var components = this.bower_components.map(function(name){
-            return list.filter(function(v){
-                if(v.name == name) {
-                    return true;
-                }
-            })[0];
-        });
-        var install = components.map(function(m){
+        // get all required bower componets from all modules
+        var components = _.pluck(af.getModules(), 'bower_components')
+
+        // flatten to array of names
+        components = _.flatten(components)
+
+        // remove duplicated names
+        components = _.union(components)
+
+        // convert to array of configs
+        components = af.getBowerComponents(components);
+
+        // convert to array of bower installable names <name>#<version>
+        components = components.map(function(m){
             return m.name+'#'+ m.version;
         })
-        //console.log(list);
-        //console.log(install);
 
-        this.bowerInstall(install, { 'saveDev': true });
+        this.log('install bower components');
+        this.bowerInstall(components, { 'saveDev': true });
 
-    },
+    }
 });

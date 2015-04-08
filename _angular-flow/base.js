@@ -48,11 +48,6 @@ module.exports = yeoman.Base.extend({
         // module base path factory
         this.moduleBasePathFactoryName = this.name+'BasePath';
 
-        //console.log(this.file);
-        //console.log(this.fileParts);
-
-
-
     },
 
     /**
@@ -82,6 +77,7 @@ module.exports = yeoman.Base.extend({
     _extend: function (obj) {
         util._extend(this, obj);
     },
+
     /**
      * display error message
      *
@@ -96,31 +92,6 @@ module.exports = yeoman.Base.extend({
         this.log('____________________________________________________________________________');
         this.log('');
         throw new Error(msg);
-    },
-
-    modules: null,
-    getModules: function () {
-        if(!this.modules) {
-            var baseDir = this.config.get('baseDir');
-            this.modules = fs.readdirSync(baseDir).filter(function(file) {
-                if(fs.statSync(path.join(baseDir, file)).isDirectory() && fs.existsSync(path.join(baseDir, file, file+'-module.json'))) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }).map(function(dirName){
-                return JSON.parse(fs.readFileSync(path.join(baseDir, dirName, dirName+'-module.json')));
-            });
-        }
-        return this.modules;
-    },
-    getBowerComponents: function () {
-        return JSON.parse(fs.readFileSync(this.templatePath('../../_angular-flow/bower-components.json')))
-    },
-    getModule: function(moduleName) {
-        return this.getModules().filter(function(m){
-            return (m.name == moduleName);
-        })[0];
     }
 });
 

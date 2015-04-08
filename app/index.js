@@ -1,12 +1,12 @@
 'use strict';
 var path = require('path');
 var util = require('util');
-var base = require('../_angular-flow/base');
+var af = require('generator-angular-flow');
 var yeoman = require('yeoman-generator');
 var _ = require('lodash');
 
 
-module.exports = base.extend({
+module.exports = af.Base.extend({
     constructor: function (args, options) {
         yeoman.Base.apply(this, arguments);
 
@@ -21,7 +21,7 @@ module.exports = base.extend({
             this.log('Welcome to "'+this.config.get('name')+'" application!');
             this.log('');
             this.log('CREATED MODULES:');
-            this.getModules().forEach(function(m){
+            af.getModules().forEach(function(m){
                 this.log('-> '+ m.dirName);
             }.bind(this))
             this.log('');

@@ -25,7 +25,7 @@ module.exports = af.Base.extend({
             this.log('info about module: ', this.moduleName);
         } else {
             this.log('EXISTING MODULES:')
-            var modules = this.getModules();
+            var modules = af.getModules();
             modules.forEach(function(m){
                 this.log('-> ', m.dirName);
             }.bind(this));
@@ -34,7 +34,7 @@ module.exports = af.Base.extend({
         }
     },
     _promptModuleName: function() {
-        var modules = this.getModules();
+        var modules = af.getModules();
         this.prompt([{
             type: 'input',
             name: 'name',
@@ -65,7 +65,7 @@ module.exports = af.Base.extend({
      * ask for extra modules you want to include in your app
      */
     _promptModules: function () {
-        var modules = this.getModules();
+        var modules = af.getModules();
 
         var components = af.getBowerComponents().map(function(m){
             return {

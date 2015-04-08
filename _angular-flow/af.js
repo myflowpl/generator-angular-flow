@@ -52,7 +52,7 @@ module.exports = {
             return name.map(function(component_name){
                 var c = _.find(bower_components, 'name', component_name);
                 if(!c) {
-                    throw new Error('bower component '+component_name+' not found!!!')
+                    throw new Error('bower component "'+component_name+'" not found!!!')
                 }
                 return c;
             })
