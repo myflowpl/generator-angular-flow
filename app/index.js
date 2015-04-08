@@ -3,6 +3,7 @@ var path = require('path');
 var util = require('util');
 var base = require('../_angular-flow/base');
 var yeoman = require('yeoman-generator');
+var _ = require('lodash');
 
 
 module.exports = base.extend({
@@ -74,62 +75,17 @@ module.exports = base.extend({
             {
                 type: 'input',
                 name: 'basePath',
-                message: 'Your angular app module name',
+                message: 'base path (url)',
                 default: '/' // Default to current folder name
             }
         ], function (answers) {
             answers.name = this._.camelize(this._.slugify(this._.humanize(answers.name)));
             this.appname = answers.name;
-
+            answers.baseDir = _.trimRight(answers.baseDir, '/')+'/';
+            answers.basePath = _.trimRight(answers.basePath, '/')+'/';
             this.config.set(answers);
             this.config.save();
-        }.bind(this));
-    },
-
-    /**
-     * ask for extra modules you want to include in your app
-     */
-    _promptModules: function () {
-        var done = this.async();
-        var modules = require('./module-list.js');
-        var choices = [];
-        for (var m in modules) {
-            choices.push({
-                value: modules[m],
-                name: modules[m].name+' ('+modules[m].version+')',
-                checked: !!modules[m].checked
-            });
-        }
-        var prompts = [
-            {
-                type: 'checkbox',
-                name: 'modules',
-                message: 'Which modules would you like to include?',
-                choices: choices
-            }
-        ];
-
-        this.prompt(prompts, function (props) {
-
-            this.bowerComponents = '';
-            var angMods = [
-                "ngAnimate",
-                "ajoslin.promise-tracker",
-                "cgBusy",
-                "chieffancypants.loadingBar",
-                "ui.router",
-                "ui.bootstrap"
-            ];
-            for (var m in props.modules) {
-                if(props.modules[m].moduleName) {
-                    angMods.push(props.modules[m].moduleName);
-                }
-                if(props.modules[m].bowerName) {
-                    this.bowerComponents = this.bowerComponents+',\n        "'+props.modules[m].bowerName+'": "'+props.modules[m].version+'"';
-                }
-            }
-            this.angularModules = "\n    '" + angMods.join("',\n    '") + "'\n";
-            done();
+            this._createAppFiles();
         }.bind(this));
     },
 
@@ -137,24 +93,31 @@ module.exports = base.extend({
      * now all data are ready so create all required files
      */
     _createAppFiles: function () {
-        /**
-         * copy root files and directories
-         */
-        this.directory('root-tpls', '.');
+        this.baseDir = this.config.get('baseDir');
+        this.name = this.config.get('name');
 
-        /**
-         * copy public files and directories
-         */
-        this.directory('public-tpls', this.appPath);
+        this.bowerDir = this.baseDir+'bower_components';
 
-        /**
-         * create single files witch can't be process in batch
-         *
-         * .gitignore
-         * Gruntfile.js
-         */
-        //TODO if file already exist, add the content to it
-        this.src.copy('gitignore', '.gitignore');
-        this.src.copy('gruntfile-tpl.js', 'Gruntfile.js');
+        this.fs.copyTpl(
+            this.templatePath('Gulpfile.js'),
+            this.destinationPath('Gulpfile.js'),
+            this
+        );
+        this.fs.copyTpl(
+            this.templatePath('package.json'),
+            this.destinationPath('package.json'),
+            this
+        );
+        this.fs.copyTpl(
+            this.templatePath('bower.json'),
+            this.destinationPath('bower.json'),
+            this
+        );
+        this.fs.copyTpl(
+            this.templatePath('bowerrc'),
+            this.destinationPath('.bowerrc'),
+            this
+        );
+
     }
 });

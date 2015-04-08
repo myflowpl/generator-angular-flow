@@ -31,7 +31,7 @@ module.exports = yeoman.Base.extend({
 
         // set destination for this module
         if(this.updateDocumentRoot) {
-            this.destinationRoot(this.destinationRoot()+'/'+this.dirName)
+            this.destinationRoot(path.join(this.destinationRoot(), this.baseDir, this.dirName));
         }
 
         this.fileParts = parts.map(function(n){

@@ -1,20 +1,20 @@
 {
-  "name": "aftest",
-  "version": "0.0.0",
-  "authors": [
-    "piotr.blaszczak <pedro.blaszczak@gmail.com>"
-  ],
-  "moduleType": [
-    "globals"
-  ],
-  "license": "MIT",
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
-  ],
-  "devDependencies": {
-  }
+    "name": "<%= name %>",
+    "version": "0.0.0",
+    "authors": [
+        "piotr.blaszczak <pedro.blaszczak@gmail.com>"
+    ],
+    "moduleType": [
+        "globals"
+    ],
+    "license": "MIT",
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "test",
+        "tests"
+    ],
+    "devDependencies": {
+    }
 }
