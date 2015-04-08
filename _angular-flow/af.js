@@ -10,6 +10,7 @@ var fs = require('fs'),
 
 module.exports = {
     Base: require('./base'),
+    gulp: require('./gulp'),
     bower_components: null,
     modules: null,
     config: null,
