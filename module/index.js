@@ -1,11 +1,13 @@
 'use strict';
 var path = require('path');
-var base = require('../_angular-flow/base');
+var af = require('generator-angular-flow');
 var yeoman = require('yeoman-generator');
 
-module.exports = base.extend({
+module.exports = af.Base.extend({
     constructor: function (args, options) {
         yeoman.Base.apply(this, arguments);
+
+        this._extend(this.config.getAll());
 
         this.argument('name', { type: String, required: false });
         if(this.name) {
@@ -65,14 +67,30 @@ module.exports = base.extend({
     _promptModules: function () {
         var modules = this.getModules();
 
-        this.prompt({
+        var components = af.getBowerComponents().map(function(m){
+            return {
+                value: m,
+                name: m.label+' ('+m.version+')'
+            };
+        });
+
+        this.prompt([{
             type: 'checkbox',
             name: 'modules',
             message: 'Which modules would you like to include?',
             choices: modules
-        }, function (props) {
+        },{
+            type: 'checkbox',
+            name: 'components',
+            message: 'Which bower components would you like to include?',
+            choices: components
+
+        }], function (props) {
+
             this.angularModules = props.modules;
+            this.bowerComponents = props.components;
             this._createModuleFiles();
+
         }.bind(this));
     },
 
@@ -80,12 +98,27 @@ module.exports = base.extend({
      * we have module name, so we crate it
      */
     _createModuleFiles: function () {
+        this.destinationRoot(path.join(this.destinationRoot(), this.baseDir, this.dirName));
+        //this.destinationRoot(this.destinationRoot()+'/'+this.dirName)
 
-        this.destinationRoot(this.destinationRoot()+'/'+this.dirName)
+        this.moduleBasePathFactoryName = this.name+'BasePath';
 
         this.angularModulesString = "\n"+this.angularModules.map(function(m){
-            return "    '"+m+"'";
+            return '        "'+m+'"';
+        }).join(",\n")+"\n    ";
+
+        this.bowerComponentsString = "\n"+this.bowerComponents.map(function(m){
+            return '        "'+ m.name+'"';
+        }).join(",\n")+"\n    ";
+
+        this.moduleModulesString = "\n"+this.bowerComponents.filter(function(m){
+            return !!m.angular_module;
+        }).map(function(m){
+            return m.angular_module;
+        }).concat(this.angularModules).map(function(m){
+            return '    "'+m+'"';
         }).join(",\n")+"\n";
+
 
         this.fs.copyTpl(
             this.templatePath('module.js'),
@@ -104,52 +137,5 @@ module.exports = base.extend({
             this
         );
     }
-
-    ///**
-    // * ask for extra modules you want to include in your app
-    // */
-    //_promptBowerComponents: function () {
-    //    var done = this.async();
-    //    var modules = this.getBowerComponents();
-    //    var choices = [];
-    //    for (var m in modules) {
-    //        choices.push({
-    //            value: modules[m],
-    //            name: modules[m].name+' ('+modules[m].version+')',
-    //            checked: !!modules[m].checked
-    //        });
-    //    }
-    //    var prompts = [
-    //        {
-    //            type: 'checkbox',
-    //            name: 'modules',
-    //            message: 'Which modules would you like to include?',
-    //            choices: choices
-    //        }
-    //    ];
-    //
-    //    this.prompt(prompts, function (props) {
-    //
-    //        this.bowerComponents = '';
-    //        var angMods = [
-    //            "ngAnimate",
-    //            "ajoslin.promise-tracker",
-    //            "cgBusy",
-    //            "chieffancypants.loadingBar",
-    //            "ui.router",
-    //            "ui.bootstrap"
-    //        ];
-    //        for (var m in props.modules) {
-    //            if(props.modules[m].moduleName) {
-    //                angMods.push(props.modules[m].moduleName);
-    //            }
-    //            if(props.modules[m].bowerName) {
-    //                this.bowerComponents = this.bowerComponents+',\n        "'+props.modules[m].bowerName+'": "'+props.modules[m].version+'"';
-    //            }
-    //        }
-    //        this.angularModules = "\n    '" + angMods.join("',\n    '") + "'\n";
-    //        done();
-    //    }.bind(this));
-    //},
 
 });

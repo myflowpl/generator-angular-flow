@@ -1,31 +1,5 @@
 [
     {
-        name: 'jquery',
-        label: 'jquery.js',
-        version: '~1.11.0',
-        angularModule: false,
-        scripts: '/jquery/dist/jquery.js',
-        styles: '',
-        checked: true
-    },
-    {
-        name: 'angular',
-        label: 'angular.js',
-        version: '~1.3.0',
-        angularModule: false,
-        scripts: '/angular/angular.js',
-        styles: '',
-        checked: true
-    },
-    {
-        name: 'lodash',
-        label: 'lodash.js',
-        version: '~2.4.1',
-        moduleName: '',
-        scripts: '/lodash/dist/lodash.js',
-        styles: ''
-    },
-    {
         name: 'ngstorage',
         label: 'angular-storage.js',
         version: '~0.3.0',
@@ -83,20 +57,5 @@
         scripts: '/angular-cookies/angular-cookies.js',
         styles: ''
     },
-    {
-        name: 'angular-sanitize.js',
-        bowerName: 'angular-sanitize',
-        version: '~1.3.0',
-        moduleName: 'ngSanitize',
-        scripts: '/angular-sanitize/angular-sanitize.js',
-        styles: ''
-    },
-    {
-        name: 'angular-messages.js',
-        bowerName: 'angular-messages',
-        version: '~1.3.0',
-        moduleName: 'ngMessages',
-        scripts: '/angular-messages/angular-messages.js',
-        styles: ''
-    }
+
 ]

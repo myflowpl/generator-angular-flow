@@ -13,6 +13,9 @@ module.exports = yeoman.Base.extend({
     constructor: function (args, options) {
         yeoman.Base.apply(this, arguments);
 
+
+        this._extend(this.config.getAll());
+
         // module name is required
         this.argument('name', { type: String, required: true });
 

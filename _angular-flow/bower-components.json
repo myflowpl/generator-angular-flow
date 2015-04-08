@@ -3,7 +3,7 @@
         "name": "jquery",
         "label": "jquery.js",
         "version": "~1.11.0",
-        "angularModule": false,
+        "angular_module": false,
         "js": ["jquery/dist/jquery.js"],
         "css": []
     },
@@ -11,7 +11,7 @@
         "name": "angular",
         "label": "angular.js",
         "version": "~1.3.0",
-        "angularModule": false,
+        "angular_module": false,
         "js": ["angular/angular.js"],
         "css": []
     },
@@ -19,8 +19,24 @@
         "name": "lodash",
         "label": "lodash.js",
         "version": "~3.6.0",
-        "angularModule": false,
+        "angular_module": false,
         "js": ["lodash/dist/lodash.js"],
+        "css": []
+    },
+    {
+        "name": "angular-sanitize",
+        "label": "angular-sanitize.js",
+        "version": "~1.3.0",
+        "angular_module": "ngSanitize",
+        "js": ["angular-sanitize/angular-sanitize.js"],
+        "css": []
+    },
+    {
+        "name": "angular-messages",
+        "label": "angular-messages.js",
+        "version": "~1.3.0",
+        "angular_module": "ngMessages",
+        "js": ["angular-messages/angular-messages.js"],
         "css": []
     }
 ]

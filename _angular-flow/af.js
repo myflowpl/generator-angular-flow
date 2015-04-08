@@ -31,7 +31,7 @@ module.exports = {
      * @param name
      * @returns {*}
      */
-    getBowerComponentConfig: function(name){
+    getBowerComponents: function(name){
 
         if(this.bower_components === null) {
             this.bower_components = [];

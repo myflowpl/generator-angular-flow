@@ -3,8 +3,8 @@
     "dirName": "<%= dirName %>",
     "humanName": "<%= humanName %>",
     "aliasName": "<%= aliasName %>",
-    "bower_components": [],
-    "modules": [],
+    "bower_components": [<%= bowerComponentsString %>],
+    "modules": [<%= angularModulesString %>],
     "js": [
         "<%= dirName %>-module.js",
         "**/*.js"
