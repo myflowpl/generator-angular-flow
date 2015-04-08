@@ -19,6 +19,9 @@ module.exports = function(require, dir){
     var baseDir = path.join(dir, config.baseDir);
     var module = af.normalizeModuleName(argv.module ? argv.module : '');
     var log = console.log;
+    if(!module) {
+        throw new Error('module parameter is required: gulp --module moduleName');
+    }
 
 
     console.log('module', module, dir, baseDir)
@@ -27,11 +30,11 @@ module.exports = function(require, dir){
     gulp.task('express', function() {
         var express = require('express');
         var app = express();
-        app.use(express.static(__dirname));
+        app.use(express.static(baseDir));
         app.listen(4000);
     });
 
-    gulp.task('default', ['styles','express', 'livereload', 'watch'], function() {
+    gulp.task('default', ['styles','express', 'watch'], function() {
 
     });
 
