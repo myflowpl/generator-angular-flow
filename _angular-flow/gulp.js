@@ -69,6 +69,16 @@ module.exports = function(require, dir){
         //gulp.watch(baseDir+module+'/**/*.json', ['json']);
     });
 
+    gulp.task('link-sass', function() {
+        var map   = require('map-stream');
+
+        gulp.src(baseDir+'/**/*.scss')
+            .pipe(map(function(file, cb){
+                console.log(file.path);
+                cb(null, file);
+            }));
+    });
+
     /**
      * link files to index.html
      */
