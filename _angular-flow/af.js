@@ -9,14 +9,14 @@ var fs = require('fs'),
     ;
 
 module.exports = {
-    Base: require('./base'),
+    //Base: require('./base'),
     gulp: require('./gulp'),
     bower_components: null,
     modules: null,
     config: null,
     getConfig: function(){
         if(this.config) {
-            return config;
+            return this.config;
         }
         if(!fs.existsSync('.yo-rc.json')) {
             throw new Error('.yo-rc.json is required, you have to init your project, or run commands from project root folder')

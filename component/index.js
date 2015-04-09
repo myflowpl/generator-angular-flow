@@ -1,31 +1,53 @@
 'use strict';
-var util = require('util');
-var ScriptBase = require('../script-base.js');
-var path = require('path');
-var yeoman = require('yeoman-generator');
-var _ = require('underscore.string');
+var af = require('generator-angular-flow');
+var Base = require('generator-angular-flow/base');
 
-module.exports = ScriptBase.extend({
+module.exports = Base.extend({
     createComponentFiles: function() {
 
-        var filePath = ['components'].concat(this.hierarchy).join('/');
+        // pure state file name, used later for constructiin .js .html .scss file names
+        this.templateFileName = this.fileDirParts.join('-');
+
+        // state html template url
+        this.templateUrl = [].concat(this.fileDirParts.slice(1), this.templateFileName+'.html').join('/');
+
+        // css class name
+        this.cssClassName = this.templateFileName+'-component';
+
+        // controller name
+        this.controllerName = this.file.camelName+'ComponentController';
+
+        // controller name
+        this.directiveName = this.file.camelLowName;
+
         /**
-         * template url for component directive
+         * render templates
          */
-        this.templateUrl = '/' + [filePath, this.dasherizedFullName + '.html'].join('/');
-        this.template(
-            'component/component-tpl.js',
-            path.join(this.appPath, filePath, this.dasherizedFullName + '.js')
+        var jsFile = [].concat(this.fileDirParts.slice(1), this.templateFileName+'.js').join('/');
+        var htmlFile = [].concat(this.fileDirParts.slice(1), this.templateFileName+'.html').join('/');
+        var scssFile = [].concat(this.fileDirParts.slice(1), '_'+this.templateFileName+'.scss').join('/');
+
+        // JS
+        this.fs.copyTpl(
+            this.templatePath('component-tpl.js'),
+            this.destinationPath(jsFile),
+            this
         );
-        this.template(
-            'component/component-tpl.html',
-            path.join(this.appPath, filePath, this.dasherizedFullName + '.html')
+
+        // HTML
+        this.fs.copyTpl(
+            this.templatePath('component-tpl.html'),
+            this.destinationPath(htmlFile),
+            this
         );
-        this.template(
-            'component/component-tpl.scss',
-            path.join(this.appPath, filePath, '_' + this.dasherizedFullName + '.scss')
+
+        // SASS
+        this.fs.copyTpl(
+            this.templatePath('component-tpl.scss'),
+            this.destinationPath(scssFile),
+            this
         );
-        this.addStyleToComponentScss(['..', filePath, this.dasherizedFullName].join('/'));
-        this.gruntLink();
+
+        this.link();
     }
 });

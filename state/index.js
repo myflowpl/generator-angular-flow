@@ -1,7 +1,9 @@
 'use strict';
-var base = require('../_angular-flow/base');
+var Base = require('generator-angular-flow/base');
+var af = require('generator-angular-flow');
 var pr = console.log.bind(console);
-module.exports = base.extend({
+
+module.exports = Base.extend({
     createStateFiles: function() {
         this.log('state for', this.aliasName, this.file.name);
         // module directory parts
@@ -13,7 +15,7 @@ module.exports = base.extend({
         this.templateUrl = ['_states'].concat(this.fileDirParts.slice(1), this.templateFileName+'.html').join('/');
 
         // css class name
-        this.cssClassName = this.templateFileName;
+        this.cssClassName = this.templateFileName+'-state';
 
         // controller name
         this.controllerName = this.file.camelName+'StateController';
@@ -24,8 +26,8 @@ module.exports = base.extend({
         // state url
         this.stateUrl = '/'+this.fileDirParts.slice(this.fileDirParts.length-1);
 
-        pr('tpl url', this.templateUrl)
-        pr('file name', this.templateFileName);
+        //pr('tpl url', this.templateUrl)
+        //pr('file name', this.templateFileName);
 
         /**
          * render templates
@@ -55,7 +57,7 @@ module.exports = base.extend({
             this
         );
 
-        //this.addStyleToStateScss(['..', filePath, this.dasherizedFullName+'-state'].join('/'));
-        //this.gruntLink();
+        // link assets
+        this.link();
     }
 });

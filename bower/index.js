@@ -1,10 +1,11 @@
 'use strict';
 var af = require('generator-angular-flow');
+var Base = require('generator-angular-flow/base');
 var fs = require('fs');
 var _ = require('lodash');
 var yeoman = require('yeoman-generator');
 
-module.exports = af.Base.extend({
+module.exports = Base.extend({
     constructor: function (args, options) {
         yeoman.Base.apply(this, arguments);
 

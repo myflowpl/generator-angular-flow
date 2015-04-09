@@ -6,36 +6,43 @@ module.exports = function(require, dir){
 
     var gulp = require('gulp'),
         sass = require('gulp-ruby-sass'),
+        sourcemaps = require('gulp-sourcemaps'),
         autoprefixer = require('gulp-autoprefixer'),
         minifycss = require('gulp-minify-css'),
         linker = require('gulp-linker'),
         fs = require('fs'),
         path = require('path'),
         argv = require('yargs').argv,
-        af = require('generator-angular-flow')
+        connect = require('gulp-connect'),
+        af = require('generator-angular-flow'),
+         _ = require('lodash');
         rename = require('gulp-rename');
 
     var config = af.getConfig();
     var baseDir = path.join(dir, config.baseDir);
-    var module = af.normalizeModuleName(argv.module ? argv.module : '');
+
+    var module = af.normalizeModuleName(argv.module ? argv.module : config.defaultModule);
+
     var log = console.log;
     if(!module) {
         throw new Error('module parameter is required: gulp --module moduleName');
     }
+    var moduleConfig = af.getModules(module);
 
 
     console.log('module', module, dir, baseDir)
 
 
-    gulp.task('express', function() {
-        var express = require('express');
-        var app = express();
-        app.use(express.static(baseDir));
-        app.listen(4000);
+    gulp.task('default', ['connect', 'styles', 'link', 'watch'], function() {
+
     });
 
-    gulp.task('default', ['styles','express', 'watch'], function() {
-
+    gulp.task('connect', function(){
+        connect.server({
+            root: baseDir,
+            livereload: true,
+            port: 8888
+        })
     });
 
 
@@ -44,83 +51,123 @@ module.exports = function(require, dir){
             .on('error', function (err) {
                 console.error('Error', err.message);
             })
-
-            //return gulp.src('sale/_sass/*.scss')
-            //    .pipe(sass({ style: 'expanded' }))
+            .pipe(sourcemaps.init())
             .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1'))
-            .pipe(gulp.dest(baseDir+'css/'+module));
-        //.pipe(rename({suffix: '.min'}))
-        //.pipe(minifycss())
-        //.pipe(gulp.dest('css'));
+            .pipe(sourcemaps.write())
+            .pipe(gulp.dest(baseDir+'css/'+module))
+            .pipe(connect.reload());
+    });
+
+    gulp.task('html', function () {
+        gulp.src(baseDir+module+'/**/*.{html,js}')
+            .pipe(connect.reload());
     });
 
     gulp.task('watch', function() {
-        gulp.watch(module+'/**/*.scss', ['styles']);
+        gulp.watch(baseDir+module+'/**/*.scss', ['styles']);
+        gulp.watch(baseDir+module+'/**/*.{html,js}', ['html']);
+        //gulp.watch(baseDir+module+'/**/*.json', ['json']);
     });
 
+    /**
+     * link files to index.html
+     */
     gulp.task('link', function() {
-        return;
-        var moduleConfig = getModule(module);
+
+        var modules = af.getModules();
+
+        // get all required bower componets from all modules
+        var components = _.pluck(modules, 'bower_components')
+
+        // flatten to array of names
+        components = _.flatten(components)
+
+        // remove duplicated names
+        components = _.union(components)
+
+        // convert to array of configs
+        components = af.getBowerComponents(components);
+
+        // convert to array of js files
+        var componentsJsFiles = _.pluck(components, 'js');
+        // flatten to array of files
+        componentsJsFiles = _.flatten(componentsJsFiles).map(function(file){
+            return baseDir+'bower_components/'+file;
+        });
+
+        // convert to array of js files
+        var componentsCssFiles = _.pluck(components, 'css');
+        // flatten to array of fils
+        componentsCssFiles = _.flatten(componentsCssFiles);
+
+        //log('bower js files', componentsJsFiles)
+        //log('bower css files', componentsCssFiles)
 
         /**
-         * module scripts
+         * all modules js files
          */
-        var jsFiles = moduleConfig.js.map(function(file){
-            var ex = '';
-            if(file.charAt(0)==='!') {
-                ex = '!';
-                file = file.slice(1)
-            }
-            return ex+config.baseDir+moduleConfig.dirName+'/'+file;
-        })
-        log('js', jsFiles);
-
-        var list = getBowerComponents();
-        var bowerJsFiles = moduleConfig.bower_components.map(function(name){
-            var files = list.filter(function(v){
-                if(v.name == name) {
-                    return true;
+        var modulesJsFiles = modules.map(function(m){
+            return m.js.map(function(file){
+                var ex = '';
+                if(file.charAt(0)==='!') {
+                    ex = '!';
+                    file = file.slice(1)
                 }
-            })[0].js;
-            return config.baseDir+'bower_components/'+files;
+                return ex+baseDir+ m.dirName+'/'+file;
+            });
         })
-        log('bowerJsFiles', bowerJsFiles);
+        // flatten to array of names
+        modulesJsFiles = _.flatten(modulesJsFiles)
+
+        //log('mod js file', modulesJsFiles)
+
 
         /**
-         * module styles
+         * all modules css files
          */
-        var cssFiles = moduleConfig.css.map(function(file){
-            var ex = '';
-            if(file.charAt(0)==='!') {
-                ex = '!';
-                file = file.slice(1)
-            }
-            return ex+config.baseDir+'/css/'+moduleConfig.dirName+'/'+file;
+        var modulesCssFiles = modules.map(function(m){
+            return m.css.map(function(file){
+                var ex = '';
+                if(file.charAt(0)==='!') {
+                    ex = '!';
+                    file = file.slice(1)
+                }
+                return ex+baseDir+'css/'+m.dirName+'/'+file;
+            });
         })
-        log('css', cssFiles);
+        // flatten to array of names
+        modulesCssFiles = _.flatten(modulesCssFiles)
 
-        var scripts = bowerJsFiles.concat(jsFiles);
+        //log('mod css file', modulesCssFiles)
+
+
+        var js = componentsJsFiles.concat(modulesJsFiles);
+        var css = componentsCssFiles.concat(modulesCssFiles)
+
+        //log('JS', js);log('CSS', css);
+
         // Read templates
-        gulp.src(config.baseDir+'sale/index.html')
+        gulp.src(baseDir+moduleConfig.dirName+'/index.html')
             // Link the JavaScript
             .pipe(linker({
-                scripts: scripts,
+                scripts: js,
                 startTag: '<!--INJECT SCRIPTS-->',
                 endTag: '<!--INJECT SCRIPTS END-->',
                 fileTmpl: '<script src="/%s"></script>',
                 relative: false,
-                appRoot: config.baseDir
+                appRoot: baseDir
             }))
             // link the css
             .pipe(linker({
-                scripts: cssFiles,
+                scripts: css,
                 startTag: '<!--INJECT STYLES-->',
                 endTag: '<!--INJECT STYLES END-->',
                 fileTmpl: '<link rel="stylesheet" href="/%s">',
                 relative: false,
-                appRoot: config.baseDir
+                appRoot: baseDir
             }))
             // Write modified files to www/
-            .pipe(gulp.dest(config.baseDir+'sale'));
+            .pipe(gulp.dest(baseDir+moduleConfig.dirName));
+
     });
 }
