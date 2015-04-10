@@ -78,5 +78,13 @@
         "angular_module": "ngAnimate",
         "js": ["angular-animate/angular-animate.js"],
         "css": []
+    },
+    {
+        "name": "sass-bootstrap",
+        "label": "sass-bootstrap",
+        "version": "~3.0.2",
+        "angular_module": null,
+        "js": [],
+        "css": ["sass-bootstrap/dist/css/bootstrap.css"]
     }
 ]

@@ -69,6 +69,8 @@ module.exports = function(require, dir){
         //gulp.watch(baseDir+module+'/**/*.json', ['json']);
     });
 
+    gulp.task('link', ['link-js', 'link-sass', 'link-css']);
+
     gulp.task('link-sass', function() {
 
         var mixer   = require('generator-angular-flow/gulp-sass-mixer');
@@ -102,7 +104,7 @@ module.exports = function(require, dir){
     /**
      * link files to index.html
      */
-    gulp.task('link', function() {
+    gulp.task('link-js', function() {
 
         var modules = af.getModules();
 
@@ -125,14 +127,6 @@ module.exports = function(require, dir){
             return baseDir+'bower_components/'+file;
         });
 
-        // convert to array of js files
-        var componentsCssFiles = _.pluck(components, 'css');
-        // flatten to array of fils
-        componentsCssFiles = _.flatten(componentsCssFiles);
-
-        //log('bower js files', componentsJsFiles)
-        //log('bower css files', componentsCssFiles)
-
         /**
          * all modules js files
          */
@@ -149,8 +143,52 @@ module.exports = function(require, dir){
         // flatten to array of names
         modulesJsFiles = _.flatten(modulesJsFiles)
 
-        //log('mod js file', modulesJsFiles)
 
+        var js = componentsJsFiles.concat(modulesJsFiles);
+
+        //log('JS', js);log('CSS', css);
+
+        // Read templates
+        gulp.src(baseDir+moduleConfig.dirName+'/index.html')
+            // Link the JavaScript
+            .pipe(linker({
+                scripts: js,
+                startTag: '<!--INJECT SCRIPTS-->',
+                endTag: '<!--INJECT SCRIPTS END-->',
+                fileTmpl: '<script src="/%s"></script>',
+                relative: false,
+                appRoot: baseDir
+            }))
+            // Write modified files to www/
+            .pipe(gulp.dest(baseDir+moduleConfig.dirName));
+
+    });
+
+    /**
+     * link files to index.html
+     */
+    gulp.task('link-css', function() {
+
+        var modules = af.getModules();
+
+        // get all required bower componets from all modules
+        var components = _.pluck(modules, 'bower_components')
+
+        // flatten to array of names
+        components = _.flatten(components)
+
+        // remove duplicated names
+        components = _.union(components)
+
+        // convert to array of configs
+        components = af.getBowerComponents(components);
+
+        // convert to array of js files
+        var componentsCssFiles = _.pluck(components, 'css');
+        // flatten to array of fils
+        componentsCssFiles = _.flatten(componentsCssFiles).map(function(file){
+            return baseDir+'bower_components/'+file;
+        });
 
         /**
          * all modules css files
@@ -168,25 +206,13 @@ module.exports = function(require, dir){
         // flatten to array of names
         modulesCssFiles = _.flatten(modulesCssFiles)
 
-        //log('mod css file', modulesCssFiles)
 
-
-        var js = componentsJsFiles.concat(modulesJsFiles);
         var css = componentsCssFiles.concat(modulesCssFiles)
 
         //log('JS', js);log('CSS', css);
 
         // Read templates
         gulp.src(baseDir+moduleConfig.dirName+'/index.html')
-            // Link the JavaScript
-            .pipe(linker({
-                scripts: js,
-                startTag: '<!--INJECT SCRIPTS-->',
-                endTag: '<!--INJECT SCRIPTS END-->',
-                fileTmpl: '<script src="/%s"></script>',
-                relative: false,
-                appRoot: baseDir
-            }))
             // link the css
             .pipe(linker({
                 scripts: css,
