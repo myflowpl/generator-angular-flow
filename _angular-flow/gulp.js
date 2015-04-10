@@ -70,13 +70,33 @@ module.exports = function(require, dir){
     });
 
     gulp.task('link-sass', function() {
-        var map   = require('map-stream');
 
-        gulp.src(baseDir+'/**/*.scss')
-            .pipe(map(function(file, cb){
-                console.log(file.path);
-                cb(null, file);
-            }));
+        var mixer   = require('generator-angular-flow/gulp-sass-mixer');
+        af.getModules().forEach(function(m){
+
+            var sassDir = baseDir+ m.dirName+'/_sass';
+
+            gulp.src([
+                baseDir+ m.dirName+'/_states/**/*.scss'
+            ])
+            .pipe(mixer({
+                verbose: false,
+                baseDir: sassDir,
+                file: '_states.scss'
+            }))
+            .pipe(gulp.dest(sassDir));
+
+            gulp.src([
+                '!'+baseDir+ m.dirName+'/_sass/**/*.scss',
+                '!'+baseDir+ m.dirName+'/_states/**/*.scss',
+                baseDir+ m.dirName+'/**/*.scss'
+            ])
+            .pipe(mixer({
+                baseDir: sassDir,
+                file: '_components.scss'
+            }))
+            .pipe(gulp.dest(sassDir));
+        })
     });
 
     /**
