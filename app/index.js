@@ -120,5 +120,7 @@ module.exports = Base.extend({
             this
         );
 
+        this.spawnCommand('sudo', ['npm', 'install', 'underscore'], {'saveDev':true});
+        this.bowerInstall();
     }
 });
