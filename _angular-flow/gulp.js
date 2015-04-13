@@ -20,6 +20,7 @@ module.exports = function(require, dir){
 
     var config = af.getConfig();
     var baseDir = path.join(dir, config.baseDir);
+    var basePath = path.join(dir, config.basePath);
 
     var module = af.normalizeModuleName(argv.module ? argv.module : config.defaultModule);
 
@@ -39,7 +40,7 @@ module.exports = function(require, dir){
 
     gulp.task('connect', function(){
         connect.server({
-            root: baseDir,
+            root: dir,
             livereload: true,
             port: 8888
         })
@@ -176,6 +177,7 @@ module.exports = function(require, dir){
 
         //log('JS', js);log('CSS', css);
 
+
         // Read templates
         gulp.src(baseDir+moduleConfig.dirName+'/index.html')
             // Link the JavaScript
@@ -183,18 +185,18 @@ module.exports = function(require, dir){
                 scripts: js,
                 startTag: '<!--INJECT SCRIPTS-->',
                 endTag: '<!--INJECT SCRIPTS END-->',
-                fileTmpl: '<script src="/%s"></script>',
+                fileTmpl: '<script src="%s"></script>',
                 relative: false,
-                appRoot: baseDir
+                appRoot: dir
             }))
             // link the css
             .pipe(linker({
                 scripts: css,
                 startTag: '<!--INJECT STYLES-->',
                 endTag: '<!--INJECT STYLES END-->',
-                fileTmpl: '<link rel="stylesheet" href="/%s">',
+                fileTmpl: '<link rel="stylesheet" href="%s">',
                 relative: false,
-                appRoot: baseDir
+                appRoot: dir
             }))
             // Write modified files to www/
             .pipe(gulp.dest(baseDir+moduleConfig.dirName));

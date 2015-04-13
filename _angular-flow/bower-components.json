@@ -66,9 +66,12 @@
     {
         "name": "angular-bootstrap",
         "label": "angular-bootstrap",
-        "version": "~3.0.2",
+        "version": "~0.12.1",
         "angular_module": "ui.bootstrap",
-        "js": ["angular-bootstrap/angular-bootstrap.js"],
+        "js": [
+            "angular-bootstrap/ui-bootstrap.js",
+            "angular-bootstrap/ui-bootstrap-tpls.js"
+        ],
         "css": []
     },
     {
