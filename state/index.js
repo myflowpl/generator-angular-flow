@@ -15,7 +15,7 @@ module.exports = Base.extend({
         this.templateUrl = ['_states'].concat(this.fileDirParts.slice(1), this.templateFileName+'.html').join('/');
 
         // css class name
-        this.cssClassName = this.templateFileName+'-state';
+        this.cssClassName = this.templateFileName;
 
         // controller name
         this.controllerName = this.file.camelName+'StateController';
