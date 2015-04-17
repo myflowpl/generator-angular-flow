@@ -1,17 +1,17 @@
 'use strict';
 
-angular.module('<%= scriptAppName %>')
+angular.module('<%= name %>')
 
     .run(function($modals){
-        $modals.register('<%= dasherizedFullName %>', function(){
+        $modals.register('<%= modalName %>', function(){
             return {
                 templateUrl: '<%= templateUrl %>',
-                controller: '<%= cameledFullName %>Modal'
+                controller: '<%= controllerName %>'
             };
         });
     })
 
-    .controller('<%= cameledFullName %>Modal', function ($scope, $modalInstance) {
+    .controller('<%= controllerName %>', function ($scope, $modalInstance) {
         $scope.ok = function () {
             $modalInstance.close('reason');
         };

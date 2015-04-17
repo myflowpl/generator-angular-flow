@@ -1,31 +1,61 @@
 'use strict';
-var util = require('util');
-var ScriptBase = require('../script-base.js');
-var path = require('path');
-var yeoman = require('yeoman-generator');
-var _ = require('underscore.string');
 
-module.exports = ScriptBase.extend({
+var path = require('path');
+var Base = require('generator-angular-flow/base');
+var af = require('generator-angular-flow');
+var pr = console.log.bind(console);
+
+module.exports = Base.extend({
     createModalFiles: function() {
 
-        var filePath = ['modals'].concat(this.hierarchy).join('/');
+        this.modalName = this.fileDirParts.join('-');
+
+        // pure state file name, used later for constructiin .js .html .scss file names
+        this.templateFileName = this.fileDirParts.join('-')+'-modal';
+
+        // state html template url
+        this.templateUrl = [].concat(this.fileDirParts, this.templateFileName+'.html').join('/');
+
+        // css class name
+        this.cssClassName = this.templateFileName;
+
+        // controller name
+        this.controllerName = this.file.camelName+'ModalController';
+
+        // controller name
+        this.directiveName = this.file.camelLowName;
+
+        this.fileDirParts = this.fileDirParts.slice(0, -1).concat(this.fileDirParts.slice(-1)+'-modal');
         /**
-         * template url for modal directive
+         * render templates
          */
-        this.templateUrl = '/' + [filePath, this.dasherizedFullName + '.html'].join('/');
-        this.template(
-            'modal/modal-tpl.js',
-            path.join(this.appPath, filePath, this.dasherizedFullName + '.js')
+        var jsFile = [].concat(this.fileDirParts.slice(1), this.templateFileName+'.js').join('/');
+        var htmlFile = [].concat(this.fileDirParts.slice(1), this.templateFileName+'.html').join('/');
+        var scssFile = [].concat(this.fileDirParts.slice(1), '_'+this.templateFileName+'.scss').join('/');
+
+        // JS
+        this.fs.copyTpl(
+            this.templatePath('modal-tpl.js'),
+            this.destinationPath(jsFile),
+            this
         );
-        this.template(
-            'modal/modal-tpl.html',
-            path.join(this.appPath, filePath, this.dasherizedFullName + '.html')
+
+        // HTML
+        this.fs.copyTpl(
+            this.templatePath('modal-tpl.html'),
+            this.destinationPath(htmlFile),
+            this
         );
-        this.template(
-            'modal/modal-tpl.scss',
-            path.join(this.appPath, filePath, '_' + this.dasherizedFullName + '.scss')
+
+        // SASS
+        this.fs.copyTpl(
+            this.templatePath('modal-tpl.scss'),
+            this.destinationPath(scssFile),
+            this
         );
-        this.addStyleToModalScss(['..', filePath, this.dasherizedFullName].join('/'));
-        this.gruntLink();
+
+        //this.link();
+
+
     }
 });
