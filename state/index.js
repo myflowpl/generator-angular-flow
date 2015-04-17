@@ -12,7 +12,7 @@ module.exports = Base.extend({
         this.templateFileName = this.fileDirParts.join('-')+'-state';
 
         // state html template url
-        this.templateUrl = ['_states'].concat(this.fileDirParts.slice(1), this.templateFileName+'.html').join('/');
+        this.templateUrl = ['_states'].concat(this.fileDirParts, this.templateFileName+'.html').join('/');
 
         // css class name
         this.cssClassName = this.templateFileName;

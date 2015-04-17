@@ -1,0 +1,27 @@
+{
+    "name": "config",
+    "dirName": "config",
+    "humanName": "Config",
+    "aliasName": "config",
+    "bower_components": [
+        "jquery",
+        "angular",
+        "lodash",
+        "angular-ui-router",
+        "angular-bootstrap"
+    ],
+    "modules": [
+
+    ],
+    "js": [
+        "config-module.js",
+        "**/*.js"
+    ],
+    "css": [
+        "main.css"
+    ]
+}
+
+
+
+

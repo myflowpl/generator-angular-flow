@@ -1,13 +1,13 @@
 'use strict';
 
 angular.module('<%= name %>')
-    .config(function ($stateProvider, <%= moduleBasePathFactoryName %>) {
+    .config(function ($stateProvider) {
         $stateProvider.state('<%= stateName %>', {
             url: '<%= stateUrl %>',
             views: {
                 "": {
                     controller: '<%= controllerName %>',
-                    templateUrl: <%= moduleBasePathFactoryName %>('<%= templateUrl %>')
+                    templateUrl: '<%= templateUrl %>'
                 }
             }
         });

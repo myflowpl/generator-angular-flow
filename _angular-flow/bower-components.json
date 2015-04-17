@@ -89,5 +89,13 @@
         "angular_module": null,
         "js": [],
         "css": ["sass-bootstrap/dist/css/bootstrap.css"]
+    },
+    {
+        "name": "font-awesome",
+        "label": "font-awesome",
+        "version": "~4.3.0",
+        "angular_module": null,
+        "js": [],
+        "css": ["font-awesome/css/font-awesome.css"]
     }
 ]

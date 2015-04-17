@@ -1,0 +1,87 @@
+<!doctype html>
+<html ng-app="config">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Config</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <!--INJECT STYLES-->
+    <link rel="stylesheet" href="/public_html/css/sale/main.css">
+    <!--INJECT STYLES END-->
+
+</head>
+<body>
+
+    <div id="root" class="ng-cloak view-change-animation" ui-view></div>
+
+    <!--INJECT SCRIPTS-->
+    <script src="/public_html/bower_components/jquery/dist/jquery.js"></script>
+    <script src="/public_html/bower_components/angular/angular.js"></script>
+    <script src="/public_html/bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="/public_html/bower_components/angular-bootstrap/ui-bootstrap.js"></script>
+    <script src="/public_html/bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="/public_html/bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="/public_html/bower_components/angular-messages/angular-messages.js"></script>
+    <script src="/public_html/bower_components/angular-busy/dist/angular-busy.js"></script>
+    <script src="/public_html/bower_components/angular-animate/angular-animate.js"></script>
+    <script src="/public_html/config/config-module.js"></script>
+    <script src="/public_html/config/_directives/confirm-message.js"></script>
+    <script src="/public_html/config/_states/app/app-state.js"></script>
+    <script src="/public_html/config/_states/error/error-state.js"></script>
+    <script src="/public_html/config/config.js"></script>
+    <script src="/public_html/config/debug.js"></script>
+    <script src="/public_html/config/modal-directive.js"></script>
+    <script src="/public_html/config/modals-srv.js"></script>
+    <script src="/public_html/inhub/inhub-module.js"></script>
+    <script src="/public_html/inhub/_states/index/inhub-index-state.js"></script>
+    <script src="/public_html/inhub/_states/inhub-state.js"></script>
+    <script src="/public_html/sale/sale-module.js"></script>
+    <script src="/public_html/sale/_filters/first-upper-filter.js"></script>
+    <script src="/public_html/sale/_services/action-srv.js"></script>
+    <script src="/public_html/sale/_services/attributes-srv.js"></script>
+    <script src="/public_html/sale/_services/library-srv.js"></script>
+    <script src="/public_html/sale/_states/profile/sale-profile-state.js"></script>
+    <script src="/public_html/sale/_states/profile/tab/sale-profile-tab-state.js"></script>
+    <script src="/public_html/sale/_states/sale-state.js"></script>
+    <script src="/public_html/sale/add-to-action-modal/add-to-action.js"></script>
+    <script src="/public_html/sale/attribute-object/attribute-object.js"></script>
+    <script src="/public_html/sale/form-object/date/form-object-date.js"></script>
+    <script src="/public_html/sale/form-object/dictionary/form-object-dictionary.js"></script>
+    <script src="/public_html/sale/form-object/file/form-object-file.js"></script>
+    <script src="/public_html/sale/form-object/form-object.js"></script>
+    <script src="/public_html/sale/form-object/input-email-mask/form-object-input-email-mask.js"></script>
+    <script src="/public_html/sale/form-object/input-email/form-object-input-email.js"></script>
+    <script src="/public_html/sale/form-object/input-fax/form-object-input-fax.js"></script>
+    <script src="/public_html/sale/form-object/input-int/form-object-input-int.js"></script>
+    <script src="/public_html/sale/form-object/input-string/form-object-input-string.js"></script>
+    <script src="/public_html/sale/form-object/input-tel/form-object-input-tel.js"></script>
+    <script src="/public_html/sale/form-object/input-url/form-object-input-url.js"></script>
+    <script src="/public_html/sale/form-object/textarea/form-object-textarea.js"></script>
+    <script src="/public_html/sale/navbar/navbar.js"></script>
+    <script src="/public_html/sale/profile/add-contact/manual/profile-add-contact-manual.js"></script>
+    <script src="/public_html/sale/profile/add-contact/profile-add-contact.js"></script>
+    <script src="/public_html/sale/profile/add-contact/script/profile-add-contact-script.js"></script>
+    <script src="/public_html/sale/profile/company-header/profile-company-header.js"></script>
+    <script src="/public_html/sale/profile/info-tabs/activity/item/profile-info-tabs-activity-item.js"></script>
+    <script src="/public_html/sale/profile/info-tabs/activity/profile-info-tabs-activity.js"></script>
+    <script src="/public_html/sale/profile/info-tabs/add-as-person/lead/profile-info-tabs-add-as-person-lead.js"></script>
+    <script src="/public_html/sale/profile/info-tabs/add-as-person/profile-info-tabs-add-as-person.js"></script>
+    <script src="/public_html/sale/profile/info-tabs/add-as-person/similar/profile-info-tabs-add-as-person-similar.js"></script>
+    <script src="/public_html/sale/profile/info-tabs/data/profile-info-tabs-data.js"></script>
+    <script src="/public_html/sale/profile/info-tabs/join-similar/profile-info-tabs-join-similar.js"></script>
+    <script src="/public_html/sale/profile/info-tabs/profile-info-tabs.js"></script>
+    <script src="/public_html/sale/profile/lead-options/profile-lead-options.js"></script>
+    <script src="/public_html/sale/profile/profile.js"></script>
+    <script src="/public_html/sale/profile/search/filters/profile-search-filters.js"></script>
+    <script src="/public_html/sale/profile/search/item/lead/profile-search-item-lead.js"></script>
+    <script src="/public_html/sale/profile/search/item/person/profile-search-item-person.js"></script>
+    <script src="/public_html/sale/profile/search/item/profile-search-item.js"></script>
+    <script src="/public_html/sale/profile/search/profile-search.js"></script>
+    <!--INJECT SCRIPTS END-->
+
+</body>
+</html>
