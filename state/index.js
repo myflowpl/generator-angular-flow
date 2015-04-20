@@ -1,6 +1,6 @@
 'use strict';
-var Base = require('generator-angular-flow/base');
-var af = require('generator-angular-flow');
+var Base = require('../base');
+var af = require('../_angular-flow/af');
 var pr = console.log.bind(console);
 
 module.exports = Base.extend({
