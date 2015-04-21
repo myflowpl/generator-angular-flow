@@ -1,17 +1,34 @@
 'use strict';
-var util = require('util');
-var ScriptBase = require('../script-base.js');
+
 var path = require('path');
+var Base = require('../base');
+var af = require('../_angular-flow/af');
+var pr = console.log.bind(console);
 
+module.exports = Base.extend({
+    createResourceFiles: function () {
 
-module.exports = ScriptBase.extend({
-    createFilterFiles: function () {
+        // pure state file name, used later for constructiin .js .html .scss file names
+        this.templateFileName = this.fileDirParts.slice(1).join('-');
 
-        var filePath = ['scripts', 'resources'].concat(this.slugifiedPath).join('/');
-        this.resName = this.cameledName.charAt(0).toUpperCase() + this.cameledName.slice(1) + 'Res';
-        this.template(
-            'resource/resource-tpl.js',
-            path.join(this.appPath, filePath, this.dasherizedFullName + '-res.js')
+        // service name
+        this.serviceName = this._.classify(this.fileDirParts.slice(1).concat('res').join('-'), false);
+
+        // controller name
+        this.resName = this.fileDirParts.slice(1).join('-');
+
+        /**
+         * render templates
+         */
+        var jsFile = [].concat('_resources', this.templateFileName+'-res.js').join('/');
+
+        //// JS
+        this.fs.copyTpl(
+            this.templatePath('resource-tpl.js'),
+            this.destinationPath(jsFile),
+            this
         );
+
+        this.link();
     }
 });
