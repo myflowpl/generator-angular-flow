@@ -9,7 +9,11 @@ module.exports = function(options){
 
     var write = function (file, enc, cb){
         if (file.path != "undefined"){
-            paths =  paths + '\n' + '@import "' + path.relative(options.baseDir, file.path) + '";';
+            console.log('file', file.path)
+            var filePath = path.relative(options.baseDir, file.path).replace('\\', '/');
+
+            console.log('file2', filePath)
+            paths =  paths + '\n' + '@import "' + filePath + '";';
         }
         cb();
     };
