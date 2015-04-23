@@ -85,6 +85,16 @@
         "css": []
     },
     {
+        "name": "angular-mocks",
+        "label": "angular-mocks",
+        "version": "~1.1.8",
+        "angular_module": "ngMockE2E",
+        "js": [
+            "angular-mocks/angular-mocks.js"
+        ],
+        "css": []
+    },
+    {
         "name": "angular-animate",
         "label": "angular-animate",
         "version": "~1.3",
