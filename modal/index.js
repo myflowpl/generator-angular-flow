@@ -54,7 +54,7 @@ module.exports = Base.extend({
             this
         );
 
-        //this.link();
+        this.link();
 
 
     }

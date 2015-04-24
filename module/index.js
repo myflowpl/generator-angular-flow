@@ -137,6 +137,8 @@ module.exports = Base.extend({
             this.destinationPath('index.html'),
             this
         );
+
+        this.link();
     }
 
 });
