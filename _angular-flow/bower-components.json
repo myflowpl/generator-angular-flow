@@ -20,7 +20,7 @@
         "label": "lodash.js",
         "version": "~3.6.0",
         "angular_module": false,
-        "js": ["lodash/dist/lodash.js"],
+        "js": ["lodash/lodash.js"],
         "css": []
     },
     {
