@@ -2,11 +2,11 @@
 
 angular.module('<%= name %>')
 
-    .directive('<%= directiveName %>', function (<%= moduleBasePathFactoryName %>) {
+    .directive('<%= directiveName %>', function () {
         return {
             restrict: 'E',
             replace:false,
-            templateUrl: <%= moduleBasePathFactoryName %>('<%= templateUrl %>'),
+            templateUrl: '<%= templateUrl %>',
             controller: '<%= controllerName %>'
         };
     })

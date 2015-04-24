@@ -9,7 +9,7 @@ module.exports = Base.extend({
         this.templateFileName = this.fileDirParts.join('-');
 
         // state html template url
-        this.templateUrl = [].concat(this.fileDirParts.slice(1), this.templateFileName+'.html').join('/');
+        this.templateUrl = [].concat(this.fileDirParts, this.templateFileName+'.html').join('/');
 
         // css class name
         this.cssClassName = this.templateFileName+'-component';
