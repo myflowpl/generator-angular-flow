@@ -6,7 +6,8 @@ angular.module('<%= name %>')
         var <%= serviceName %> = restmod.model('<%= resName %>').mix({
             $extend: {
                 Collection: {},
-                Model: {}
+                Model: {},
+                Record: {}
             }
             //default_val_example: 'brak',
             //int_example: { init: 0 },
