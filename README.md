@@ -10,7 +10,7 @@ npm install -g generator-angular-flow@0.0.3
 ```
 to use 2 beta version based on gulp install:
 ```
-npm install -g generator-angular-flow@0.1.1
+npm install -g generator-angular-flow@0.1.2
 
 ```
 
