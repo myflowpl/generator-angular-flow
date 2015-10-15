@@ -20,6 +20,10 @@ npm install -g generator-angular-flow@0.2.*
 
 ```
 
+## WARNING
+this documentation is for grunt 1 beta version
+documentatnion for 2 beta is not available, sorry..
+
 ## Features
 - All scripts in `public/scrips`, `public/components`, `public/modals` and `public/states` and styles in `public/styles` will be automatically included in minifiers, index.html and tests. Specify configuration once and share it between *all the things*. Need more control? Check out [resources.json](#resources.json).
 - Controllers, views and styling are grouped on a per component and state basis to facilitate high cohesion.
