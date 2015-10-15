@@ -1,16 +1,16 @@
 'use strict';
 
-angular.module('<%= name %>')
+angular.module('<%= module.name %>')
 
-    .directive('<%= directiveName %>', function () {
+    .directive('<%= file.nameLowCamel %>', function () {
         return {
             restrict: 'E',
             replace:false,
-            templateUrl: '<%= templateUrl %>',
-            controller: '<%= controllerName %>'
+            template: require('./<%= file.name %>.html'),
+            controller: '<%= file.nameCamel %>Controller'
         };
     })
 
-    .controller('<%= controllerName %>', function ($scope) {
+    .controller('<%= file.nameCamel %>Controller', function ($scope) {
 
     });

@@ -1,53 +1,32 @@
 'use strict';
-var Base = require('../base');
-var af = require('../_angular-flow/af');
+var Base = require('../base-public');
+var path = require('path');
 
 module.exports = Base.extend({
-    createComponentFiles: function() {
+    createFiles: function() {
 
-        // pure state file name, used later for constructiin .js .html .scss file names
-        this.templateFileName = this.fileDirParts.join('-');
-
-        // state html template url
-        this.templateUrl = [].concat(this.fileDirParts, this.templateFileName+'.html').join('/');
-
-        // css class name
-        this.cssClassName = this.templateFileName+'-component';
-
-        // controller name
-        this.controllerName = this.file.camelName+'ComponentController';
-
-        // controller name
-        this.directiveName = this.file.camelLowName;
-
-        /**
-         * render templates
-         */
-        var jsFile = [].concat(this.fileDirParts.slice(1), this.templateFileName+'.js').join('/');
-        var htmlFile = [].concat(this.fileDirParts.slice(1), this.templateFileName+'.html').join('/');
-        var scssFile = [].concat(this.fileDirParts.slice(1), '_'+this.templateFileName+'.scss').join('/');
+        var file = path.join(this.modulesDir, this.file.dir, this.file.name);
 
         // JS
         this.fs.copyTpl(
             this.templatePath('component-tpl.js'),
-            this.destinationPath(jsFile),
+            this.destinationPath(file+'.js'),
             this
         );
 
         // HTML
         this.fs.copyTpl(
             this.templatePath('component-tpl.html'),
-            this.destinationPath(htmlFile),
+            this.destinationPath(file+'.html'),
             this
         );
 
         // SASS
         this.fs.copyTpl(
             this.templatePath('component-tpl.scss'),
-            this.destinationPath(scssFile),
+            this.destinationPath(file+'.scss'),
             this
         );
 
-        this.link();
     }
 });

@@ -1,7 +1,7 @@
 'use strict';
 
 var path = require('path');
-var Base = require('../base');
+var Base = require('../base-public');
 var af = require('../_angular-flow/af');
 var pr = console.log.bind(console);
 

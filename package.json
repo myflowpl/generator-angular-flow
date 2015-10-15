@@ -1,13 +1,15 @@
 {
   "name": "generator-angular-flow",
-  "version": "0.1.2",
-  "description": "AngularJS app generator for large applications with maintainable and clear file structure (simulation of web components).",
+  "version": "0.2.0",
+  "description": "AngularJS+Webpack app generator for large applications with maintainable and clear file structure",
   "keywords": [
+    "yeoman",
     "yeoman-generator",
     "angular",
     "frontend",
     "large",
-    "application"
+    "application",
+    "webpack"
   ],
   "homepage": "https://github.com/myflowpl/generator-angular-flow",
   "bugs": "https://github.com/myflowpl/generator-angular-flow/issues",
@@ -28,15 +30,6 @@
     "yo": ">=1.4.6"
   },
   "devDependencies": {
-    "grunt": "~0.4.1",
-    "grunt-contrib-jshint": "~0.8.0",
-    "grunt-conventional-changelog": "~1.1.0",
-    "grunt-release": "~0.6.0",
-    "gulp-util": "^3.0.4",
-    "load-grunt-tasks": "~0.3.0",
-    "marked": "~0.2.8",
-    "semver": "~2.2.1",
-    "through2": "^0.6.5"
   },
   "engines": {
     "node": ">=0.10.0",

@@ -1,7 +1,7 @@
 'use strict';
 var path = require('path');
 var util = require('util');
-var Base = require('../base');
+var Base = require('../base-public');
 var af = require('../_angular-flow/af');
 var yeoman = require('yeoman-generator');
 var _ = require('lodash');
