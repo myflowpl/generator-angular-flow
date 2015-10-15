@@ -2,7 +2,7 @@ GENERATOR-ANGULAR-FLOW
 
 Avoid boilerplate and improve productivity and consistency.
 
-NOTICE
+## NOTICE
 to use 1 beta version besed on grunt install:
 ```
 npm install -g generator-angular-flow@0.0.3
