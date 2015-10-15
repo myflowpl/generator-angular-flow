@@ -2,11 +2,23 @@ GENERATOR-ANGULAR-FLOW
 
 Avoid boilerplate and improve productivity and consistency.
 
-<img height="180" align="left" src="http://gruntjs.com/img/grunt-logo.svg">
+NOTICE
+to use 1 beta version besed on grunt install:
+```
+npm install -g generator-angular-flow@0.0.3
 
-<img height="180" align="left" src="http://bower.io/img/bower-logo.png">
+```
+to use 2 beta version based on gulp install:
+```
+npm install -g generator-angular-flow@0.1.1
 
-<img height="180" align="left" src="https://s3.amazonaws.com/media-p.slid.es/uploads/hugojosefson/images/86267/angularjs-logo.png">
+```
+
+currently at master we develop 0.2.0 beta version based on webpack
+```
+npm install -g generator-angular-flow@0.2.*
+
+```
 
 <br><br><br>
 <br>
@@ -31,6 +43,11 @@ inspired by [angular-xl](https://github.com/kennethlynne/generator-angular-xl).
 FIRST!!!
 install node.js with npm
 install ruby, sass, compass
+then install yeoman
+```
+npm install -g yo
+
+```
 then install bower
 ```
 npm install -g bower
