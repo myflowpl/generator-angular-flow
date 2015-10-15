@@ -111,7 +111,7 @@ Available generators:
 **Note: Generators are to be run from the root directory of your app.**
 
 ### Module
-`public/config/module.js` contains the applications main module definition. All dependancies for your application needs to be specified here.
+`public/config/module-tpl.js` contains the applications main module definition. All dependancies for your application needs to be specified here.
 
 ### App
 Sets up a new AngularJS app, generating all the boilerplate you need to get started. The app generator also installs Twitter Bootstrap and additional AngularJS modules.
