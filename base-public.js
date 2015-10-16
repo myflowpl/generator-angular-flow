@@ -1,19 +1,17 @@
-'use strict';
-var util = require('util');
+
 var path = require('path');
 var generators = require('yeoman-generator');
 var _ = require('underscore.string');
-var inflection = require('inflection');
 var fs = require('fs');
-var af = require('./_angular-flow/af');
-var path = require('path');
-//console.log('af', af.getModules);
+
 module.exports = generators.Base.extend({
 
     publicDir: './', // public dir of the frontend app parts
     modulesDir: './modules', // public dir of the frontend app parts
     module: {
         name: '', // angular module name
+        nameCamel: '', // camelcse version of name, ideal for js class name
+        label: '', // module human name
         dir: '', // module directory name
         path: '', // full path to module dir
     },
@@ -22,7 +20,8 @@ module.exports = generators.Base.extend({
         label: '', // label is human redable title version of name
         nameLowCamel: '', // camelcase with firs lower letter, ideal for dirctive name
         nameCamel: '', // camecase of the name, ideal for controller or js clsass name
-        parts:[]
+        dir: '',
+        dirParts: ''
     },
 
     constructor: function (args, options) {
@@ -41,12 +40,18 @@ module.exports = generators.Base.extend({
         this.setModule(parts[0]);
         this.setFile(parts);
 
+        console.log("MODULE\n", this.module);
+        console.log("FILE\n", this.file);
+
         // test if module exists
-        if(!fs.existsSync(this.module.path)) {
-            //throw new Error('Module "'+this.module.dir+'" does not exist');
+        var moduleFile = this.module.path
+        if((this.options.namespace === 'angular-flow:module') && fs.existsSync(moduleFile)) {
+            throw new Error('Module "'+this.module.dir+'" already exist, can\'t overwrite it');
         }
-        console.log('MODULE', this.module);
-        console.log('FILE', this.file);return;
+        if((this.options.namespace !== 'angular-flow:module') && !fs.existsSync(moduleFile)) {
+            throw new Error('Module "'+this.module.dir+'" does not exist, create id first with angular-flow:module [name] command' );
+        }
+
 
         // set destination for this module
         //if(this.updateDocumentRoot) {
@@ -69,7 +74,7 @@ module.exports = generators.Base.extend({
         this.module = {
             name: name,
             dir: dir,
-            paht: path.join(this.publicDir,dir),
+            path: path.join(this.modulesDir,dir),
             label: label,
             nameCamel: nameCamel
         }
@@ -99,6 +104,23 @@ module.exports = generators.Base.extend({
             label: label,
             nameLowCamel: nameLowCamel,
             nameCamel: nameCamel
+        }
+    },
+
+    /**
+     * creates require() with provided file inside of main module file
+     * file has to have module directory as it's first part of the url
+     *
+     * @param file
+     */
+    moduleAppendFile: function(file) {
+        var moduleFile =  path.join(this.modulesDir, this.module.dir, this.module.dir)+'-module.js';
+        var parts = file.split('/').splice(1);
+        var str = "require('./"+parts.join('/')+"');";
+
+        var data = fs.readFileSync(moduleFile);
+        if(data.indexOf(str) < 0){
+            fs.appendFileSync(moduleFile, "\n"+str);
         }
     },
 

@@ -1,17 +1,20 @@
 'use strict';
 
-angular.module('<%= name %>')
+require('./<%= file.name %>.scss');
 
-    .run(function($modals){
-        $modals.register('<%= modalName %>', function(){
+angular.module('<%= module.name %>')
+
+    .run(function($modalsProvider){
+        $modalsProvider.register('<%= modalName %>', function(){
             return {
-                templateUrl: '<%= templateUrl %>',
-                controller: '<%= controllerName %>'
+                template: require('./<%= file.name %>.html'),
+                controller: '<%= file.nameCamel %>ModalController',
+                windowClass: '<%=file.name%>',
             };
         });
     })
 
-    .controller('<%= controllerName %>', function ($scope, $modalInstance) {
+    .controller('<%= file.nameCamel %>ModalController', function ($scope, $modalInstance) {
         $scope.ok = function () {
             $modalInstance.close('reason');
         };

@@ -10,4 +10,4 @@ angular.module('<%= module.name %>',[
 
 module.exports = '<%= module.name %>';
 
-
+// require module components here

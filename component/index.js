@@ -28,5 +28,7 @@ module.exports = Base.extend({
             this
         );
 
+        this.moduleAppendFile(path.join(this.file.dir, this.file.name)+'.js');
+
     }
 });

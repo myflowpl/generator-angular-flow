@@ -1,4 +1,7 @@
-'use strict';
+/**
+ * <%=file.name%> component
+ */
+require('./<%= file.name %>.scss'),
 
 angular.module('<%= module.name %>')
 
