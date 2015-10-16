@@ -1,23 +1,20 @@
-GENERATOR-ANGULAR-FLOW
+# GENERATOR-ANGULAR-FLOW
 
-Avoid boilerplate and improve productivity and consistency.
+Improve productivity and consistency on your AngularJS projects.
 
 ## NOTICE
 to use 1 beta version besed on grunt install:
 ```
 npm install -g generator-angular-flow@0.0.3
-
 ```
 to use 2 beta version based on gulp install:
 ```
 npm install -g generator-angular-flow@0.1.2
-
 ```
 
 currently at master we develop 0.2.0 beta version based on webpack
 ```
 npm install -g generator-angular-flow@0.2.*
-
 ```
 
 ## WARNING
