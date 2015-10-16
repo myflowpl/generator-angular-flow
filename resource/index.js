@@ -1,34 +1,22 @@
-'use strict';
 
 var path = require('path');
 var Base = require('../base-public');
-var af = require('../_angular-flow/af');
-var pr = console.log.bind(console);
 
 module.exports = Base.extend({
-    createResourceFiles: function () {
+    createFiles: function () {
 
-        // pure state file name, used later for constructiin .js .html .scss file names
-        this.templateFileName = this.fileDirParts.slice(1).join('-');
+        this.setFile(this.file.dirParts.slice(1), '-res');
 
-        // service name
-        this.serviceName = this._.classify(this.fileDirParts.slice(1).concat('res').join('-'), false);
+        var file = path.join(this.module.dir, '_resources',  this.file.dir, this.file.name);
+        var filePath = path.join(this.modulesDir, file);
 
-        // controller name
-        this.resName = this.fileDirParts.slice(1).join('-');
-
-        /**
-         * render templates
-         */
-        var jsFile = [].concat('_resources', this.templateFileName+'-res.js').join('/');
-
-        //// JS
+        // JS
         this.fs.copyTpl(
-            this.templatePath('resource-tpl.js'),
-            this.destinationPath(jsFile),
+            this.templatePath('restmod-tpl.js'),
+            this.destinationPath(filePath+'.js'),
             this
         );
 
-        this.link();
+        this.moduleAppendFile(file+'.js');
     }
 });

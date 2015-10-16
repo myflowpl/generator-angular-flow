@@ -1,9 +1,10 @@
-'use strict';
+/**
+ * <%=file.nameLowCamel%> service
+ */
+angular.module('<%= module.name %>')
+    .factory('<%= file.nameLowCamel %>', function (restmod) {
 
-angular.module('<%= name %>')
-    .factory('<%= serviceName %>', function (restmod) {
-
-        var <%= serviceName %> = restmod.model('<%= resName %>').mix({
+        var <%= file.nameLowCamel %> = restmod.model('<%= file.nameLowCamel %>').mix({
             $extend: {
                 Collection: {},
                 Model: {},
@@ -31,6 +32,6 @@ angular.module('<%= name %>')
             //}
         });
 
-        return <%= serviceName %>;
+        return <%= file.nameLowCamel %>;
 
     });
