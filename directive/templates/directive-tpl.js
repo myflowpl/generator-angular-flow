@@ -1,14 +1,13 @@
-'use strict';
 /**
  * @ngdoc directive
- * @name <%= cameledFullName %>
+ * @name <%= filterName %>
  * @restrict A
  * @description
  *
  */
-angular.module('<%= scriptAppName %>')
+angular.module('<%= module.name %>')
 
-    .directive('<%= cameledFullName %>', function () {
+    .directive('<%= filterName %>', function () {
         return {
             restrict: 'A',
             link: function link(scope, element, attrs) {

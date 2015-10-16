@@ -12,7 +12,7 @@ module.exports = Base.extend({
 
         // JS
         this.fs.copyTpl(
-            this.templatePath('restmod-tpl.js'),
+            this.templatePath('restmod.tpl'),
             this.destinationPath(filePath+'.js'),
             this
         );
