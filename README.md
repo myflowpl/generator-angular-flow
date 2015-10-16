@@ -1,25 +1,8 @@
-# GENERATOR-ANGULAR-FLOW
+# generator-angular-flow
 
 Improve productivity and consistency on your AngularJS projects.
-
-## NOTICE
-to use 1 beta version besed on grunt install:
-```
-npm install -g generator-angular-flow@0.0.3
-```
-to use 2 beta version based on gulp install:
-```
-npm install -g generator-angular-flow@0.1.2
-```
-
-currently at master we develop 0.2.0 beta version based on webpack
-```
-npm install -g generator-angular-flow@0.2.*
-```
-
-## WARNING
-this documentation is for grunt 1 beta version
-documentatnion for 2 beta is not available, sorry..
+Designed for large multi-module ng apps.
+Utilises Webpack for builds and development.
 
 ## Features
 - All scripts in `public/scrips`, `public/components`, `public/modals` and `public/states` and styles in `public/styles` will be automatically included in minifiers, index.html and tests. Specify configuration once and share it between *all the things*. Need more control? Check out [resources.json](#resources.json).
@@ -27,12 +10,11 @@ documentatnion for 2 beta is not available, sorry..
 - Use [components](#component) as syntactic sugar to use directives as web components with a convention over configuration approach
 - Start a server with live reload, easily monitoring your progress with ```grunt server```
 
-### Roadmap:
+## Roadmap:
 - generate docs
 - generate tests
 
 Maintainer: [Piotr Błaszczak](https://github.com/myflowpl)
-inspired by [angular-xl](https://github.com/kennethlynne/generator-angular-xl).
 
 -----
 
