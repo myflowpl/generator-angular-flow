@@ -1,17 +1,20 @@
-'use strict';
+/**
+ * <%=file.name%> state
+ */
+require('./<%= file.name %>.scss'),
 
-angular.module('<%= name %>')
+angular.module('<%= module.name %>')
     .config(function ($stateProvider) {
-        $stateProvider.state('<%= stateName %>', {
-            url: '<%= stateUrl %>',
+        $stateProvider.state('<%= state.name %>', {
+            url: '<%= state.url %>',
             views: {
                 "": {
-                    controller: '<%= controllerName %>',
-                    templateUrl: '<%= templateUrl %>'
+                    template: require('./<%= file.name %>.html'),
+                    controller: '<%= file.nameCamel %>StateController'
                 }
             }
         });
     })
-    .controller('<%= controllerName %>', function ($scope) {
+    .controller('<%= file.nameCamel %>StateController', function ($scope) {
 
     });

@@ -90,6 +90,71 @@ module.exports = generators.Base.extend({
     },
 
     /**
+     * return list of created modules names
+     *
+     * @returns []
+     */
+    getModules: function() {
+        if(!this.modules) {
+            var baseDir = this.modulesDir;
+            this.modules = fs.readdirSync(baseDir).filter(function(file) {
+                if(fs.statSync(path.join(baseDir, file)).isDirectory()) {
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+        }
+        return this.modules;
+    },
+
+    /**
+     * get component config
+     * all | by name | by array of names
+     *
+     * @param name
+     * @returns {*}
+     */
+    getComponents: function(name){
+
+        if(this.bower_components === null) {
+            this.bower_components = [];
+            if(fs.existsSync('bower-components.json')) {
+                this.bower_components = JSON.parse(fs.readFileSync('bower-components.json'));
+            }
+
+            this.bower_components = this.bower_components.concat(JSON.parse(fs.readFileSync(__dirname+'/bower-components.json')));
+        }
+        // return list if no name given
+        if(arguments.length === 0) {
+            return this.bower_components;
+        }
+
+        // if array, its array of names, so convert it to array of configs
+        if(_.isArray(name)) {
+            var bower_components = this.bower_components;
+            return name.map(function(component_name){
+                var c = _.find(bower_components, 'name', component_name);
+                if(!c) {
+                    throw new Error('bower component "'+component_name+'" not found!!!')
+                }
+                return c;
+            })
+        }
+
+        // else its string, so return it's config
+        if(!name) {
+            throw new Error('bower component name is empty!!!')
+        }
+        var c = _.find(this.bower_components, 'name', name);
+        if(!c) {
+            throw new Error('bower component '+name+' not found!!!')
+        }
+        return c;
+
+    },
+
+    /**
      * converts user input string to normalized file/module names
      *
      * @param name
