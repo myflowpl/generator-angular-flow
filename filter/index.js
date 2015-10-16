@@ -1,18 +1,26 @@
 'use strict';
-var util = require('util');
-var ScriptBase = require('../script-base.js');
+var Base = require('../base-public.js');
 var path = require('path');
 
 
-module.exports = ScriptBase.extend({
-    createFilterFiles: function () {
+module.exports = Base.extend({
+    createFiles: function () {
 
-        var filePath = ['scripts', 'filters'].concat(this.slugifiedPath).join('/');
+        this.setFile(this.file.dirParts.slice(1));
+        this.filterName = this.file.nameLowCamel;
 
-        this.template(
-            'filter/filter-tpl.js',
-            path.join(this.appPath, filePath, this.dasherizedFullName + '-filter.js')
+        this.setFile(this.file.dirParts, '-filter');
+
+        var file = path.join(this.module.dir, '_filters',  this.file.dir, this.file.name);
+        var filePath = path.join(this.modulesDir, file);
+
+        // JS
+        this.fs.copyTpl(
+            this.templatePath('filter-tpl.js'),
+            this.destinationPath(filePath+'.js'),
+            this
         );
-        this.gruntLink();
+
+        this.moduleAppendFile(file+'.js');
     }
 });

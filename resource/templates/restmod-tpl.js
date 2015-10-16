@@ -1,5 +1,5 @@
 /**
- * <%=file.nameLowCamel%> service
+ * <%=file.nameLowCamel%> restmode resource
  */
 angular.module('<%= module.name %>')
     .factory('<%= file.nameLowCamel %>', function (restmod) {
