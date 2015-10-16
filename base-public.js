@@ -40,8 +40,8 @@ module.exports = generators.Base.extend({
         this.setModule(parts[0]);
         this.setFile(parts);
 
-        console.log("MODULE\n", this.module);
-        console.log("FILE\n", this.file);
+        //console.log("MODULE\n", this.module);
+        //console.log("FILE\n", this.file);
 
         // test if module exists
         var moduleFile = this.module.path
@@ -80,9 +80,9 @@ module.exports = generators.Base.extend({
         }
     },
 
-    setFile: function(parts) {
-
-        this.file = this.normalizeName(this.name.replace(/\//g, '-'));
+    setFile: function(parts, sufix) {
+        sufix = sufix||'';
+        this.file = this.normalizeName(parts.join('/').replace(/\//g, '-')+sufix);
         this.file.dirParts = parts.map(function(n){
             return this._.slugify(this._.humanize(n));
         }.bind(this));

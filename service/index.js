@@ -1,31 +1,23 @@
-'use strict';
 
 var path = require('path');
 var Base = require('../base-public');
-var af = require('../_angular-flow/af');
-var pr = console.log.bind(console);
 
 module.exports = Base.extend({
-    createFilterFiles: function () {
+    createFiles: function () {
 
-        // pure state file name, used later for constructiin .js .html .scss file names
-        this.templateFileName = this.fileDirParts.slice(1).join('-');
+        this.setFile(this.file.dirParts.slice(1), '-srv');
 
-        // controller name
-        this.directiveName = this._.camelize(this.fileDirParts.slice(1).join('-'), true);
+        console.log('FILE', this.file);
 
-        /**
-         * render templates
-         */
-        var jsFile = [].concat('_services', this.templateFileName+'-srv.js').join('/');
+        var file = path.join(this.modulesDir, this.module.dir, '_services',  this.file.dir, this.file.name);
 
-        //// JS
+        // JS
         this.fs.copyTpl(
             this.templatePath('factory-tpl.js'),
-            this.destinationPath(jsFile),
+            this.destinationPath(file+'.js'),
             this
         );
 
-        this.link();
+        this.moduleAppendFile(path.join(this.module.dir, '_states',  this.file.dir, this.file.name)+'.js');
     }
 });

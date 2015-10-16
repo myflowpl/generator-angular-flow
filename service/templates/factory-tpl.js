@@ -1,7 +1,8 @@
-'use strict';
-
-angular.module('<%= name %>')
-    .factory('<%= directiveName %>Srv', function () {
+/**
+ * <%=file.nameLowCamel%> service
+ */
+angular.module('<%= module.name %>')
+    .factory('<%= file.nameLowCamel %>', function () {
 
         return {
             get: function(){
