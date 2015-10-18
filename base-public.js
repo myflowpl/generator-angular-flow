@@ -7,7 +7,7 @@ var fs = require('fs');
 module.exports = generators.Base.extend({
 
     publicDir: './', // public dir of the frontend app parts
-    modulesDir: './modules', // public dir of the frontend app parts
+    srcDir: './src', // soruce dir, contains all ng modules created by generator
     module: {
         name: '', // angular module name
         nameCamel: '', // camelcse version of name, ideal for js class name
@@ -30,7 +30,7 @@ module.exports = generators.Base.extend({
 
         // config props
         this.publicDir = this.config.get('publicDir') || this.publicDir;
-        this.modulesDir = path.join(this.publicDir, 'modules');
+        this.srcDir = this.config.get('srcDir') || this.srcDir;
 
         // module name is required
         this.argument('name', { type: String, required: true });
@@ -74,7 +74,7 @@ module.exports = generators.Base.extend({
         this.module = {
             name: name,
             dir: dir,
-            path: path.join(this.modulesDir,dir),
+            path: path.join(this.srcDir,dir),
             label: label,
             nameCamel: nameCamel
         }
@@ -96,7 +96,7 @@ module.exports = generators.Base.extend({
      */
     getModules: function() {
         if(!this.modules) {
-            var baseDir = this.modulesDir;
+            var baseDir = this.srcDir;
             this.modules = fs.readdirSync(baseDir).filter(function(file) {
                 if(fs.statSync(path.join(baseDir, file)).isDirectory()) {
                     return true;
@@ -179,7 +179,7 @@ module.exports = generators.Base.extend({
      * @param file
      */
     moduleAppendFile: function(file) {
-        var moduleFile =  path.join(this.modulesDir, this.module.dir, this.module.dir)+'-module.js';
+        var moduleFile =  path.join(this.srcDir, this.module.dir, this.module.dir)+'-module.js';
         var parts = file.split('/').splice(1);
         var str = "require('./"+parts.join('/')+"');";
 

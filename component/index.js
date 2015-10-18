@@ -5,7 +5,7 @@ var path = require('path');
 module.exports = Base.extend({
     createFiles: function() {
 
-        var file = path.join(this.modulesDir, this.file.dir, this.file.name);
+        var file = path.join(this.srcDir, this.file.dir, this.file.name);
 
         // JS
         this.fs.copyTpl(

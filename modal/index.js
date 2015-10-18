@@ -10,7 +10,7 @@ module.exports = Base.extend({
         this.file.name = this.file.name+'-modal';
         this.file.dir = this.file.dir+'-modal';
 
-        var file = path.join(this.modulesDir, this.file.dir, this.file.name);
+        var file = path.join(this.srcDir, this.file.dir, this.file.name);
 
         // JS
         this.fs.copyTpl(

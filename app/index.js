@@ -1,8 +1,6 @@
 'use strict';
 var path = require('path');
-var util = require('util');
 var Base = require('../base-public');
-var af = require('../_angular-flow/af');
 var yeoman = require('yeoman-generator');
 var _ = require('lodash');
 
@@ -11,6 +9,14 @@ module.exports = Base.extend({
     constructor: function (args, options) {
         yeoman.Base.apply(this, arguments);
 
+    },
+
+    defaults: {
+        publicDir: 'public',
+        srcDir: 'src',
+        distDir: 'dist',
+        configModule: 'app',
+        defaultModule: 'app'
     },
 
     default: function(){
@@ -36,20 +42,27 @@ module.exports = Base.extend({
             // ask if you want to crate new app
             this.log('____________________________________________________________________________');
             this.log('');
-            this.log('Welcome to generator-angular-flow!!!');
-            this.log('AngularJs Yeoman generator for large application.');
+            this.log('Welcome to angular-flow Yeoman generator!!!');
+            this.log('AngularJs+Webpack boilerplate for large application.');
             this.log('____________________________________________________________________________');
             this.log('');
             this.log('Project not found');
 
             this.prompt({
-                type: 'confirm',
+                type: 'list',
                 name: 'start',
-                message: 'Do you want to create new project',
-                default: true
+                message: 'Do you want to create new one ?',
+                default: 1,
+                choices: [
+                    {value: 0, name: 'no'},
+                    {value: 1, name: 'yes'},
+                    {value: 2, name: 'yes (advanced users)'},
+                ]
             }, function (answers) {
-                if(answers.start) {
-                    this._startNewApp();
+                if(answers.start === 1) {
+                    this._createApp(this.defaults);
+                } else if (answers.start === 2) {
+                    this._advancedQuestions();
                 }
             }.bind(this));
         }
@@ -58,69 +71,61 @@ module.exports = Base.extend({
     /**
      * init new app
      */
-    _startNewApp: function () {
+    _advancedQuestions: function () {
 
         this.prompt([
             {
                 type: 'input',
-                name: 'name',
-                message: 'application name',
-                default: this.appname // Default to current folder
+                name: 'publicDir',
+                message: 'base directory for your front-end code',
+                default: this.defaults.publicDir
             },
             {
                 type: 'input',
-                name: 'baseDir',
-                message: 'base directory',
-                default: './' // Default to current folder
+                name: 'srcDir',
+                message: 'source directory, for all your source code',
+                default: this.defaults.srcDir
             },
             {
                 type: 'input',
-                name: 'basePath',
-                message: 'base path (url)',
-                default: '/' // Default to current folder name
-            }
-        ], function (answers) {
-            answers.name = this._.camelize(this._.slugify(this._.humanize(answers.name)));
-            this.appname = answers.name;
-            answers.baseDir = _.trimRight(answers.baseDir, '/')+'/';
-            answers.basePath = _.trimRight(answers.basePath, '/')+'/';
-            this.config.set(answers);
-            this.config.save();
-            this._createAppFiles();
-        }.bind(this));
+                name: 'distDir',
+                message: 'distribution directory, for all your builds',
+                default: this.defaults.distDir
+            },
+            {
+                type: 'input',
+                name: 'configModule',
+                message: 'configuration module name',
+                default: this.defaults.configModule
+            },
+            {
+                type: 'input',
+                name: 'defaultModule',
+                message: 'configuration module name',
+                default: this.defaults.defaultModule
+            },
+
+        ], this._createApp.bind(this));
     },
 
     /**
      * now all data are ready so create all required files
      */
-    _createAppFiles: function () {
-        this.baseDir = this.config.get('baseDir');
-        this.name = this.config.get('name');
+    _createApp: function (answers) {
+        //this.destinationRoot(answers.publicDir)
+        console.log('costam')
+        console.log(this.sourceRoot(), this.destinationRoot());
+        console.log(this.templatePath('root-tpls'), this.destinationPath('Gulpfile.js'));
 
-        this.bowerDir = this.baseDir+'bower_components';
+        this.config.set(answers);
+        this.config.save();
 
         this.fs.copyTpl(
-            this.templatePath('Gulpfile.js'),
-            this.destinationPath('Gulpfile.js'),
-            this
-        );
-        this.fs.copyTpl(
-            this.templatePath('package.json'),
-            this.destinationPath('package.json'),
-            this
-        );
-        this.fs.copyTpl(
-            this.templatePath('bower.json'),
-            this.destinationPath('bower.json'),
-            this
-        );
-        this.fs.copyTpl(
-            this.templatePath('bowerrc'),
-            this.destinationPath('.bowerrc'),
+            this.templatePath('root-tpls'),
+            this.destinationPath(),
             this
         );
 
-        this.spawnCommand('sudo', ['npm', 'install', 'underscore'], {'saveDev':true});
-        this.bowerInstall();
+        //this.spawnCommand('sudo', ['npm', 'install', 'underscore'], {'saveDev':true});
     }
 });

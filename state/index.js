@@ -20,7 +20,7 @@ module.exports = Base.extend({
         this.file.name = this.file.name+'-state';
         this.file.dir = this.file.dir+'-state';
 
-        var file = path.join(this.modulesDir, this.module.dir, '_states',  this.state.dir, this.file.name);
+        var file = path.join(this.srcDir, this.module.dir, '_states',  this.state.dir, this.file.name);
 
         // JS
         this.fs.copyTpl(

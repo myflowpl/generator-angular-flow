@@ -8,7 +8,7 @@ module.exports = Base.extend({
         this.setFile(this.file.dirParts.slice(1), '-srv');
 
         var file = path.join(this.module.dir, '_services',  this.file.dir, this.file.name);
-        var filePath = path.join(this.modulesDir, file);
+        var filePath = path.join(this.srcDir, file);
 
         // JS
         this.fs.copyTpl(
