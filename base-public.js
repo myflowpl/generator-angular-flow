@@ -30,7 +30,7 @@ module.exports = generators.Base.extend({
 
         // config props
         this.publicDir = this.config.get('publicDir') || this.publicDir;
-        this.srcDir = this.config.get('srcDir') || this.srcDir;
+        this.srcDir = path.join(this.publicDir, this.config.get('srcDir'));
 
         // module name is required
         this.argument('name', { type: String, required: true });
@@ -48,8 +48,9 @@ module.exports = generators.Base.extend({
         if((this.options.namespace === 'angular-flow:module') && fs.existsSync(moduleFile)) {
             throw new Error('Module "'+this.module.dir+'" already exist, can\'t overwrite it');
         }
+        console.log('debug', moduleFile);
         if((this.options.namespace !== 'angular-flow:module') && !fs.existsSync(moduleFile)) {
-            throw new Error('Module "'+this.module.dir+'" does not exist, create id first with angular-flow:module [name] command' );
+            throw new Error('Module "'+this.module.dir+'" does not exist, create ii first with angular-flow:module [name] command' );
         }
 
 
