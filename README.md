@@ -2,7 +2,7 @@
 
 Improve productivity and consistency on your AngularJS projects.  
 Designed for large multi-module ng apps.  
-Uses: Webpack, sass, ui-router, ui-bootstrap.
+Uses: angular, webpack, sass, ui-router, ui-bootstrap, angular-modals.
 
 ## Features
 - easily create multiple angular modules in your project
@@ -127,7 +127,7 @@ public/src/user/_states/login/user-login-state.scss
 ```
 
 ### Component
-A component is basically a element directive that by convention use a view located in `public/components/<component-name>/<component-name>.html`.
+A component is basically a element directive that by convention keeps all js,html and css files in one place.  
 This helps keep complexity low, and makes it easy to separate parts of your application into smaller and more maintainable parts.
 
 Example:
@@ -142,7 +142,7 @@ public/src/user/login/user-login.scss
 ```
 
 Witch in turn lets you specify custom HTML tags like this to invoke a completely self contained component:
-```
+```html
 <user-login></user-login>
 ```
 
@@ -163,7 +163,18 @@ public/src/user/login-modal/user-login-modal.js
 public/src/user/login-modal/user-login-modal.html
 public/src/user/login-modal/user-login-modal.scss
 ```
-
+now to open the modal use `modal` directive
+```html
+<button modal="user-login">login</button>
+```
+or `$modals` service
+```javascript
+$modals.open('user-login').then(function(user){
+    // user was logged in
+}, function(error){
+    // modal closed or dismised
+});
+```
 check the [angular-modals](https://github.com/myflowpl/angular-modals) documentation for more info how to use it
 
 ### Service
@@ -176,6 +187,8 @@ yo angular-flow:service user/auth
 
 Produces `public/src/user/_services/auth-srv.js`:
 
+and you can inject it with name `authSrv`
+
 ### Resource
 Generates an restmod resource in module.
 
@@ -185,6 +198,8 @@ yo angular-flow:resource user/profile
 ```
 
 Produces `public/src/user/_resource/profile-res.js`:
+
+and you can inject it with name `profileRes`
 
 ### Directive
 Generates an AngularJS directive in module.
@@ -196,6 +211,7 @@ yo angular-flow:directive user/status
 
 Produces `public/src/user/_directives/status-directive.js`:
 
+and you can use it like `<div status></div>`
 
 ### Filter
 Generates an AngularJS filter in module.
@@ -207,6 +223,7 @@ yo angular-flow:service user/user-name
 
 Produces `public/src/user/_filters/user-name-filter.js`:
 
+and you can inject it with name `{{user.id|userStatus}}`
 
 ## Externals TODO
 
