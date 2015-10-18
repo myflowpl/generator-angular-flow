@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('config')
+angular.module('app')
     //.constant('Config', angular.deepExtend({
     //    viewsDir: 'views/',
     //    componentsDir: 'components/',

@@ -4,7 +4,7 @@ var ExtractTextPlugin = require("extract-text-webpack-plugin");
 module.exports = {
 
     entry: {
-        app: "./public/src/map/map-module.js"
+        app: "./public/src/app/app-module.js"
     },
     output: {
         path: './public/dist', //path to where webpack will build your stuff

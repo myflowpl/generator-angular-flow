@@ -31,6 +31,7 @@ npm install -g yo
 webpack
 ```bash
 npm install webpack -g
+npm install webpack-dev-server -g
 ```
 
 angular-flow generaotr

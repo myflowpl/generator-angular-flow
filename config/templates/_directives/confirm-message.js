@@ -6,7 +6,7 @@
  * @description
  *
  */
-angular.module('config')
+angular.module('app')
 
     .directive('confirmMessage', function () {
         return {

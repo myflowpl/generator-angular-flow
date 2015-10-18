@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('config')
+angular.module('app')
     .factory('apiSrv', function ($http) {
 
         var basePath = '/api/';

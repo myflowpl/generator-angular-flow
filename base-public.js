@@ -96,7 +96,7 @@ module.exports = generators.Base.extend({
      */
     getModules: function() {
         if(!this.modules) {
-            var baseDir = this.srcDir;
+            var baseDir = './public/src';//todo get this from config
             this.modules = fs.readdirSync(baseDir).filter(function(file) {
                 if(fs.statSync(path.join(baseDir, file)).isDirectory()) {
                     return true;

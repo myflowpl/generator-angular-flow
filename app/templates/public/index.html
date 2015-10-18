@@ -1,9 +1,9 @@
 <!doctype html>
-<html ng-app="<%= config.defaultModule %>">
-  <head>
+<html ng-app="app">
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title><%= config.defaultModule %></title>
+    <title>angular-flow app</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
     <meta name="mobile-web-app-capable" content="yes">
@@ -25,26 +25,24 @@
     <!-- TODO: Insert Qbaka script-->
     <!-- /Qbaka -->
 
+    <link rel="stylesheet" href="/dist/app.bundle.css">
+</head>
+<body>
 
-  </head>
-  <body>
-
-    <div class="site-loading" ng-show="false">
-        <div class="spinner"></div>
+<noscript>
+    <div>
+        <h3>Javascript is deactivated. You must <a href="http://www.activatejavascript.org/">activate javascript</a> in
+            order to use this site.</h3>
     </div>
+</noscript>
 
-    <noscript>
-      <div>
-        <h3>Javascript is deactivated. You must <a href="http://www.activatejavascript.org/">activate javascript</a> in order to use this site.</h3>
-      </div>
-    </noscript>
+<div id="root" class="ng-cloak">
 
-    <div id="root" class="ng-cloak">
+    <div ui-view class="view-change-animation"></div>
 
-        <div ui-view class="view-change-animation"></div>
+</div>
 
-    </div>
+<script src="/dist/app.bundle.js" type="text/javascript" charset="utf-8"></script>
 
-
-  </body>
+</body>
 </html>

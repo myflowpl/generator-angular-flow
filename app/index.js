@@ -3,6 +3,7 @@ var path = require('path');
 var Base = require('../base-public');
 var yeoman = require('yeoman-generator');
 var _ = require('lodash');
+var fs = require('fs');
 
 
 module.exports = Base.extend({
@@ -20,22 +21,21 @@ module.exports = Base.extend({
     },
 
     default: function(){
-        var baseDir = this.config.get('baseDir');
-        if(baseDir) {
+        if(this.config.get('publicDir')) {
             // info about existing app
             this.log('____________________________________________________________________________');
             this.log('');
-            this.log('Welcome to "'+this.config.get('name')+'" application!');
+            this.log('Welcome to angular-flow generated application!');
             this.log('');
             this.log('CREATED MODULES:');
-            af.getModules().forEach(function(m){
-                this.log('-> '+ m.dirName);
+            this.getModules().forEach(function(m){
+                this.log('-> '+ m);
             }.bind(this))
             this.log('');
             this.log('AVAILABLE COMMANDS:');
-            this.log('-> yo angular-flow:module {moduleName}                    - creates module');
-            this.log('-> yo angular-flow:component {moduleName} {componentName} - creates component for module');
-            this.log('-> yo angular-flow:state {moduleName} {stateNamePath}     - creates state for module');
+            this.log('-> yo angular-flow:module {moduleName}                      ');
+            this.log('-> yo angular-flow:component {moduleName/componentName}     ');
+            this.log('-> yo angular-flow:state {moduleName/your-state/path/parts} ');
             this.log('____________________________________________________________________________');
 
         } else {
@@ -46,17 +46,17 @@ module.exports = Base.extend({
             this.log('AngularJs+Webpack boilerplate for large application.');
             this.log('____________________________________________________________________________');
             this.log('');
-            this.log('Project not found');
+            //this.log('Project not found');
 
             this.prompt({
                 type: 'list',
                 name: 'start',
-                message: 'Do you want to create new one ?',
+                message: 'Project not found, do you want to create one?',
                 default: 1,
                 choices: [
                     {value: 0, name: 'no'},
                     {value: 1, name: 'yes'},
-                    {value: 2, name: 'yes (advanced users)'},
+                    //{value: 2, name: 'yes (advanced users)'},
                 ]
             }, function (answers) {
                 if(answers.start === 1) {
@@ -114,7 +114,6 @@ module.exports = Base.extend({
     _createApp: function (answers) {
 
         this.config.set(answers);
-        //this.config.save();
 
         this.fs.copyTpl(
             this.templatePath('root'),
@@ -131,6 +130,9 @@ module.exports = Base.extend({
         this.fs.copyTpl(this.templatePath('root/.editorconfig'),this.destinationPath('.editorconfig'),this);
         this.fs.copyTpl(this.templatePath('root/.gitattributes'),this.destinationPath('.gitattributes'),this);
 
-        //this.spawnCommand('sudo', ['npm', 'install', 'underscore'], {'saveDev':true});
+        this.invoke('angular-flow:config');
+
+        this.spawnCommand('npm', ['install'], {'saveDev':true});
     }
+
 });
