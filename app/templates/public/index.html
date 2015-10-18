@@ -1,9 +1,9 @@
 <!doctype html>
-<html ng-app="<%= scriptAppName %>" manifest="manifest.appcache">
+<html ng-app="<%= config.defaultModule %>">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title><%= scriptAppName %></title>
+    <title><%= config.defaultModule %></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
     <meta name="mobile-web-app-capable" content="yes">
@@ -25,7 +25,6 @@
     <!-- TODO: Insert Qbaka script-->
     <!-- /Qbaka -->
 
-    <!--INJECT STYLES--><!--/INJECT STYLES-->
 
   </head>
   <body>
@@ -42,12 +41,10 @@
 
     <div id="root" class="ng-cloak">
 
-        <navbar-comp></navbar-comp>
         <div ui-view class="view-change-animation"></div>
 
     </div>
 
-    <!--INJECT SCRIPTS--><!--/INJECT SCRIPTS-->
 
   </body>
 </html>

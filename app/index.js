@@ -112,19 +112,24 @@ module.exports = Base.extend({
      * now all data are ready so create all required files
      */
     _createApp: function (answers) {
-        //this.destinationRoot(answers.publicDir)
-        console.log('costam')
-        console.log(this.sourceRoot(), this.destinationRoot());
-        console.log(this.templatePath('root-tpls'), this.destinationPath('Gulpfile.js'));
 
         this.config.set(answers);
-        this.config.save();
+        //this.config.save();
 
         this.fs.copyTpl(
-            this.templatePath('root-tpls'),
+            this.templatePath('root'),
             this.destinationPath(),
             this
         );
+        this.fs.copy(
+            this.templatePath('public'),
+            this.destinationPath('public'),
+            this
+        );
+        this.fs.copyTpl(this.templatePath('root/.gitignore'),this.destinationPath('.gitignore'),this);
+        this.fs.copyTpl(this.templatePath('root/.jshintrc'),this.destinationPath('.jshintrc'),this);
+        this.fs.copyTpl(this.templatePath('root/.editorconfig'),this.destinationPath('.editorconfig'),this);
+        this.fs.copyTpl(this.templatePath('root/.gitattributes'),this.destinationPath('.gitattributes'),this);
 
         //this.spawnCommand('sudo', ['npm', 'install', 'underscore'], {'saveDev':true});
     }
