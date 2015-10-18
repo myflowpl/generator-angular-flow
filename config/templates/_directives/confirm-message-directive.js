@@ -15,7 +15,7 @@ angular.module('app')
             terminal: true,
             link: function link(scope, element, attrs) {
                 element.bind('click', function(e) {
-                    console.log('event', e);
+
                     e.stopImmediatePropagation();
                     e.preventDefault();
 

@@ -16,3 +16,6 @@ angular.module('app',[
 module.exports = 'app';
 
 require('./config');
+require('./_states/error/error-state');
+require('./_services/api-srv');
+require('./_directives/confirm-message-directive');

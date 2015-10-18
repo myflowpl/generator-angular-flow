@@ -37,18 +37,6 @@ angular.module('app')
             })
         });
 
-        // intercept templatki i prefixuj z basePath
-        $httpProvider.interceptors.push(function() {
-            return {
-                'request': function(config) {
-                    if(/^(sale|inhub|config)(\/)?[\d\w\/-]*.html$/.test(config.url)){
-                        config.url = '/public_html/'+config.url;
-                    }
-                    return config;
-                }
-            };
-        });
-
     })
     .run(function($rootScope){
 
