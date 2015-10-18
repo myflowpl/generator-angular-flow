@@ -5,11 +5,14 @@ require('./<%= file.name %>.scss');
 angular.module('<%= module.name %>')
 
     .run(function($modalsProvider){
-        $modalsProvider.register('<%= modalName %>', function(){
+        $modalsProvider.register('<%= modalName %>', function(params, config){
             return {
                 template: require('./<%= file.name %>.html'),
                 controller: '<%= file.nameCamel %>ModalController',
                 windowClass: '<%=file.name%>',
+                resolve: {
+                    // you can add some extra resolves here
+                }
             };
         });
     })

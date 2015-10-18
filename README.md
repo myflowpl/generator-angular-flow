@@ -8,7 +8,7 @@ Uses: Webpack, sass, ui-router, ui-bootstrap.
 - easily create multiple angular modules in your project
 - each [module](#module) can have it's own states, components, services, directives, modals, filters etc. 
 - angular-flow [components](#component) are based on web components so they group .js, .html, .scss files in one place.
-- easy create nested ui-router [states](#state)
+- easy create nested ui-router [states](#state) in modules
 - start ```webpack-dev-server``` for development with live reload
 
 ## TODO
@@ -19,37 +19,40 @@ Uses: Webpack, sass, ui-router, ui-bootstrap.
 Author: [Piotr Błaszczak](https://github.com/myflowpl)
 
 
-# Instalation
-install node.js with npm
-then install yeoman
-```
+## Instalation
+first make sure you have installed node.js with npm
+then you have to install:
+
+yeoman
+```bash
 npm install -g yo
 ```
 
-then run:
+webpack
+```bash
+npm install webpack -g
 ```
+
+angular-flow generaotr
+```bash
 npm install -g generator-angular-flow
 ```
 
-Make a new directory, and `cd` into it:
+## create new project
+Make a new directory, and `cd` into it
 ```
 mkdir my-new-project
 cd my-new-project
 ```
 
-Run `yo angular-flow`, with your application name:
+generate new app
 ```
 yo angular-flow
 ```
 
-Run `npm run server` to start the local server.
+Run `npm run watch` and go to localhost:8080 to see the app running with live relad
 
-OR
-
-Run `npm run watch` if you use your own web serwer (apache, nginx etc.)
-
-
-# Development
+Now you are ready to start developing your app.
 
 ## Scripts
 Helpful scripts ready for you to start your work
@@ -75,25 +78,53 @@ Available generators:
 **Note: Generators are to be run from the root directory of your app.**
 
 ### App
-Sets up a new AngularJS app, generating all the boilerplate you need to get started. The app generator also installs Twitter Bootstrap and additional AngularJS modules.
+Sets up a new AngularJS app, 
+generating all the boilerplate you need to get started. 
+The app generator will gide you through the process with questions.
 
 Example:
 ```bash
 yo angular-flow
 ```
+it will generate files required to develop, build and run your app  
+you should look to ```/public/src``` becourse there you will be doing your work
 
 ### Module
-`public/config/module-tpl.js` contains the applications main module definition. All dependancies for your application needs to be specified here.
-
-### State
-States are located under `public/states`. A state basically is a controller, with a view and state specific styling. Routes are specified using the powerful Angular-UI Route API in the config section in the controller.
+This generator creates new module in ```/public/src``` 
 
 Example:
 ```bash
-yo angular-flow:state user
+yo angular-flow:module user
+```
+will generate ```/public/src/user/user-module.js``` 
+
+### State
+Creates new ui-router state in module.  
+The argument should require the path of the state
+
+*notice: the path should start with module name, otherwise you will get module not found error*
+
+Example:
+```bash
+yo angular-flow:state user;
+```
+creates
+```
+public/src/user/_states/user-state.js
+public/src/user/_states/user-state.html
+public/src/user/_states/user-state.scss
 ```
 
-Produces `public/states/user/user-state.js`, `public/states/user/user-state.html` and `public/states/user/_user-state.scss`
+you can create another nested state
+```bash
+yo angular-flow:state user/login;
+```
+creates
+```
+public/src/user/_states/login/user-login-state.js
+public/src/user/_states/login/user-login-state.html
+public/src/user/_states/login/user-login-state.scss
+```
 
 ### Component
 A component is basically a element directive that by convention use a view located in `public/components/<component-name>/<component-name>.html`.
@@ -101,110 +132,83 @@ This helps keep complexity low, and makes it easy to separate parts of your appl
 
 Example:
 ```bash
-yo angular-flow:component awesomeUnicorn
+yo angular-flow:component user/login
 ```
 Produces these files:
-`public/components/navbar.js`:
-```javascript
-angular.module('yourModule')
-    .directive('navbar', function () {
-            return {
-                restrict: 'E',
-                restrict: true,
-                templateUrl: '/components/navbar/navbar.html',
-                controller: 'navbarComponent'
-            };
-        })
-
-        .controller('navbarComponent', function ($scope) {
-
-        });
 ```
-`public/components/navbar/_navbar.scss` (and adds an import statement to it in `public/styles/_components.scss`)
-`public/components/navbar/navbar.html`
-```
-<div class="navbar-comp">
-    <p>This is the navbar component.</p>
-</div>
+public/src/user/login/user-login.js
+public/src/user/login/user-login.html
+public/src/user/login/user-login.scss
 ```
 
 Witch in turn lets you specify custom HTML tags like this to invoke a completely self contained component:
 ```
-<navbar></navbar>
+<user-login></user-login>
 ```
 
-The view has specified a component name as a class, helping you avoid CSS collisions. Specify your styles specific for this component in SCSS under a ```.navbar-comp``` class wrapper, and only this component is targeted. This is an OK approach until shadow DOMs and web components become widely supported.
+The view has specified a component name as a class, helping you avoid CSS collisions.  
+Specify your styles specific for this component in SCSS under a ```.user-login``` class wrapper,   
+and only this component is targeted. 
+This is an OK approach until shadow DOMs and web components become widely supported.
 
 ### Modal
+Similar to components but uses ```angular-modals``` module to register ui-bootstrap modal
+Example:
+```bash
+yo angular-flow:modal user/login
+```
+Produces these files:
+```
+public/src/user/login-modal/user-login-modal.js
+public/src/user/login-modal/user-login-modal.html
+public/src/user/login-modal/user-login-modal.scss
+```
+
+check the [angular-modals](https://github.com/myflowpl/angular-modals) documentation for more info how to use it
 
 ### Service
-Generates an AngularJS service.
+Generates an AngularJS service in module.
 
 Example:
 ```bash
-yo angular-flow:service myService
+yo angular-flow:service user/auth
 ```
 
-Produces `public/scripts/services/my-service.js`:
-```javascript
-angular.module('myMod').service('myService', function () {
-  // ...
-});
-```
+Produces `public/src/user/_services/auth-srv.js`:
 
 ### Resource
-Generates an AngularJS $resource instance.
+Generates an restmod resource in module.
 
 Example:
 ```bash
-yo angular-flow:resource myResource
+yo angular-flow:resource user/profile
 ```
 
-Produces `public/scripts/resources/my-resource.js`:
-```javascript
-angular.module('myMod').factory('MyResource', function ($resource, apiBaseUrl) {
-  // ...
-});
-```
+Produces `public/src/user/_resource/profile-res.js`:
+
 ### Directive
-Generates a directive in `public/scripts/directives`.
+Generates an AngularJS directive in module.
 
 Example:
 ```bash
-yo angular-flow:directive myDirective
+yo angular-flow:directive user/status
 ```
 
-Produces `public/scripts/directives/my-directive.js`:
-```javascript
-angular.module('myMod').directive('myDirective', function () {
-  return {
-    template: '<div></div>',
-    restrict: 'E',
-    link: function postLink(scope, element, attrs) {
-      element.text('this is the myDirective directive');
-    }
-  };
-});
-```
+Produces `public/src/user/_directives/status-directive.js`:
+
 
 ### Filter
-Generates a filter in `public/scripts/filters`.
+Generates an AngularJS filter in module.
 
 Example:
 ```bash
-yo angular-flow:filter myFilter
+yo angular-flow:service user/user-name
 ```
 
-Produces `public/scripts/filters/my-filter.js`:
-```javascript
-angular.module('myMod').filter('myFilter', function () {
-  return function (input) {
-    return 'myFilter filter:' + input;
-  };
-});
-```
+Produces `public/src/user/_filters/user-name-filter.js`:
 
-## Externals
+
+## Externals TODO
 
 The following packages can be required by the [module](#module) generator:
 
