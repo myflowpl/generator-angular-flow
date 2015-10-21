@@ -27,6 +27,9 @@ module.exports = generators.Base.extend({
     constructor: function (args, options) {
 
         generators.Base.apply(this, arguments);
+        if(!this.config.get('publicDir')) {
+            this.error("you have to init your app with yo angular-flow command, or make sure you run commands at root level of your project");
+        }
 
         // config props
         this.publicDir = this.config.get('publicDir') || this.publicDir;
@@ -46,11 +49,11 @@ module.exports = generators.Base.extend({
         // test if module exists
         var moduleFile = this.module.path
         if((this.options.namespace === 'angular-flow:module') && fs.existsSync(moduleFile)) {
-            throw new Error('Module "'+this.module.dir+'" already exist, can\'t overwrite it');
+            this.error('Module "'+this.module.dir+'" already exist, can\'t overwrite it');
         }
         console.log('debug', moduleFile);
         if((this.options.namespace !== 'angular-flow:module') && !fs.existsSync(moduleFile)) {
-            throw new Error('Module "'+this.module.dir+'" does not exist, create ii first with angular-flow:module [name] command' );
+            this.error('Module "'+this.module.dir+'" does not exist, create ii first with angular-flow:module [name] command' );
         }
 
 
@@ -137,7 +140,7 @@ module.exports = generators.Base.extend({
             return name.map(function(component_name){
                 var c = _.find(bower_components, 'name', component_name);
                 if(!c) {
-                    throw new Error('bower component "'+component_name+'" not found!!!')
+                    this.error('bower component "'+component_name+'" not found!!!')
                 }
                 return c;
             })
@@ -145,11 +148,11 @@ module.exports = generators.Base.extend({
 
         // else its string, so return it's config
         if(!name) {
-            throw new Error('bower component name is empty!!!')
+            this.error('bower component name is empty!!!')
         }
         var c = _.find(this.bower_components, 'name', name);
         if(!c) {
-            throw new Error('bower component '+name+' not found!!!')
+            this.error('bower component '+name+' not found!!!')
         }
         return c;
 
@@ -201,6 +204,7 @@ module.exports = generators.Base.extend({
         this.log('ERROR !!!');
         this.log('');
         this.log(msg);
+        this.log('');
         this.log('____________________________________________________________________________');
         this.log('');
         throw new Error(msg);

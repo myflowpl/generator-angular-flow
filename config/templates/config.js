@@ -1,58 +1,71 @@
 'use strict';
 
 angular.module('app')
-    //.constant('Config', angular.deepExtend({
-    //    viewsDir: 'views/',
-    //    componentsDir: 'components/',
-    //    statesDir: 'states/',
-    //    environment: 'production', //development or production
-    //    API: {
-    //        protocol: window.location.protocol.split(':')[0], //Use the same protocol, host and port as the UI is hosted from bu default
-    //        host: window.location.hostname,
-    //        port: String(window.location.port || 80),
-    //        path: '/api'
-    //    }
-    //}, angular._localConfig || {}))
-    //.value('cgBusyTemplateName', 'views/angular-busy/default-spinner.html')
-    //.factory('BaseUrl', function (Config) {
-    //    return (Config.API.protocol + '://' + Config.API.host + ':' + Config.API.port + '/');
-    //})
-    //.factory('APIBaseUrl', function (Config) {
-    //    return (Config.API.protocol + '://' + Config.API.host + ':' + Config.API.port + Config.API.path + '/');
-    //})
-    .config(function ($urlRouterProvider, $httpProvider) {
+    .constant('config', (function(){
 
-        // obsluga errorow 404
+        // create your config here
+        return {
+
+        };
+
+    })())
+    .config(function ($urlRouterProvider, config, $httpProvider, $locationProvider) {
+
+        // you can put it in if statement or something
+        $locationProvider.html5Mode(false);
+
+        // 404 hanler
         $urlRouterProvider.when('', '/');
         $urlRouterProvider.otherwise(function($injector, $location){
-            $injector.invoke(function($state, $timeout){
-                //$timeout(function(){
-                    $state.go('error', {
-                        location: false,
-                        notify: false,
-                        reload: false
-                    })
-                //})
 
+            $injector.invoke(function($state, $timeout){
+                $state.go('app.error', {
+                    location: false,
+                    notify: false,
+                    reload: false
+                })
             })
+        });
+
+        // when you expect json response but you don't get one, convert it to error and reject promise
+        $httpProvider.interceptors.push(function ($q) {
+            return {
+                response: function (response) {
+                    if(response.config.responseType == 'json' || response.config.headers['Content-Type'] == "application/json;charset=utf-8" || response.headers()['content-type'] === "application/json; charset=utf-8"){
+                        if(angular.isString(response.data)) {
+                            // convert it to error object
+                            response.status = 400;
+                            response.statusText = 'Bad JSON Response';
+                            response.data = {
+                                detail: 'JSON parse error',
+                                responseText: response.data,
+                                status: 400
+                            };
+                            return $q.reject(response);
+                        }
+                    }
+                    return response;
+                }
+            };
         });
 
     })
     .run(function($rootScope){
 
-
-
-        $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
-            pr('state change start', toState.name, toParams);
-        })
-        $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
-            pr('state change success', toState.name);
-        })
-        $rootScope.$on('$stateNotFound', function(event, toState, toParams, fromState, fromParams){
-            pr('state not found', toState.name);
-        })
-
-        $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams){
-            pr('state change error', arguments);
-        })
+        /**
+         * in case you need it
+         */
+        //$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
+        //    pr('state change start', toState.name, arguments);
+        //})
+        //$rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
+        //    pr('state change success', toState.name, arguments);
+        //})
+        //$rootScope.$on('$stateNotFound', function(event, toState, toParams, fromState, fromParams){
+        //    pr('state not found', toState.name, arguments);
+        //})
+        //
+        //$rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams){
+        //    pr('state change error', arguments);
+        //})
     });

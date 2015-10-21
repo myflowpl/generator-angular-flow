@@ -1,9 +1,15 @@
 <div class="<%= file.name %>">
-    <div class="row">
-        <div class="col-lg-12">
-            <h1><%= state.name %></h1>
-            <p>This is a state template, just put some of your components here and have fun.</p>
-        </div>
+
+    <ul class="nav nav-pills sub-menu">
+        <!--menu-item-->
+    </ul>
+    <div class="jumbotron">
+        <h1>This is <%= state.name %> state :)</h1>
+        <p class="lead">
+            Change this template in <%= filePath %>.html<br>
+            there you can also find state controller nad styles
+        </p>
     </div>
     <ui-view></ui-view>
+
 </div>

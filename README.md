@@ -9,7 +9,7 @@ Uses: angular, webpack, sass, ui-router, ui-bootstrap, angular-modals.
 - each [module](#module) can have it's own states, components, services, directives, modals, filters etc. 
 - angular-flow [components](#component) are based on web components so they group .js, .html, .scss files in one place.
 - easy create nested ui-router [states](#state) in modules
-- start ```webpack-dev-server``` for development with live reload
+- use scripts for running dev server with live reload or for building for production
 
 ## TODO
 - generate doc-blocks
@@ -26,12 +26,6 @@ then you have to install:
 yeoman
 ```bash
 npm install -g yo
-```
-
-webpack
-```bash
-npm install webpack -g
-npm install webpack-dev-server -g
 ```
 
 angular-flow generaotr
@@ -51,16 +45,17 @@ generate new app
 yo angular-flow
 ```
 
-Run `npm run watch` and go to localhost:8080 to see the app running with live relad
+Run `npm run start`  
+and go to `localhost:8080/webpack-dev-server/` to see the app running with live reload
 
 Now you are ready to start developing your app.
 
 ## Scripts
 Helpful scripts ready for you to start your work
 
-    npm run watch   to watch files for changes and build for dev.
-    npm run server  to run a dev server.
-    npm build       build for production.
+    npm run start   to watch files for changes and build for dev.
+    npm run watch    watch for changes and build it to /dist/.
+    npm run build    build for production to /dist/.
 
 ## Generators
 

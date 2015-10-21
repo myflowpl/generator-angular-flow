@@ -1,0 +1,30 @@
+<div class="container app-state">
+
+    <div class="header clearfix">
+        <nav>
+            <ul class="nav nav-pills pull-right">
+                <li role="presentation" ui-sref-active="active"><a ui-sref="app.index">Home</a></li>
+                <li role="presentation" ui-sref-active="active"><a ui-sref="app.error">404 error</a></li>
+                <!--menu-item-->
+            </ul>
+        </nav>
+        <h3 class="text-muted">angular-flow project</h3>
+    </div>
+
+    <ui-view>
+
+        <div class="jumbotron">
+            <h1>Your default content :) </h1>
+            <p class="lead">
+                It shows when child state didn't define the view template
+            </p>
+        </div>
+
+
+    </ui-view>
+
+    <footer class="footer">
+        <p>&copy; Company 2015</p>
+    </footer>
+
+</div>

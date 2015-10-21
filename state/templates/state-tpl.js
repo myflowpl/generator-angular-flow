@@ -1,7 +1,7 @@
 /**
  * <%=file.name%> state
  */
-require('./<%= file.name %>.scss'),
+require('./<%= file.name %>.scss');
 
 angular.module('<%= module.name %>')
     .config(function ($stateProvider) {
