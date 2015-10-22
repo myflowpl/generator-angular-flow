@@ -44,7 +44,7 @@ module.exports = Base.extend({
 
         // JS
         this.fs.copyTpl(
-            this.templatePath('state-tpl.js'),
+            this.templatePath('state-tpl-js.tpl'),
             this.destinationPath(file+'.js'),
             this
         );
