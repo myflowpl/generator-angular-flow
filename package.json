@@ -1,6 +1,6 @@
 {
   "name": "generator-angular-flow",
-  "version": "2.0.0-rc1",
+  "version": "2.0.0",
   "description": "AngularJS+Webpack app generator for large applications with maintainable and clear file structure",
   "keywords": [
     "yeoman",
