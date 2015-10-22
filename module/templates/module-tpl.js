@@ -4,8 +4,9 @@
 require('angular');
 
 angular.module('<%= module.name %>',[
-    // require('angular-ui-router'), // example of adding other moduls
-    // require('angular-ui-bootstrap')
+     require('angular-ui-router'),
+     require('angular-ui-bootstrap'),
+     require('angular-modals')
 ]);
 
 module.exports = '<%= module.name %>';

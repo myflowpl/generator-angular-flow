@@ -10,7 +10,7 @@ module.exports = Base.extend({
 
         this.setFile(this.file.dirParts, '-directive');
 
-        var file = path.join(this.module.dir, '_directives',  this.file.dir, this.file.name);
+        var file = path.join(this.module.dir, '_directives', this.file.name);
         var filePath = path.join(this.srcDir, file);
 
         // JS

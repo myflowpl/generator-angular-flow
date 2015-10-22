@@ -4,7 +4,7 @@ require('./<%= file.name %>.scss');
 
 angular.module('<%= module.name %>')
 
-    .run(function($modalsProvider){
+    .config(function($modalsProvider){
         $modalsProvider.register('<%= modalName %>', function(params, config){
             return {
                 template: require('./<%= file.name %>.html'),

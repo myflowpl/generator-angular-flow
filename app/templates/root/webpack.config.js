@@ -19,7 +19,8 @@ module.exports = {
                 exclude: [
                     /[\\\/]node_modules/
                 ],
-                loader: 'ng-annotate!jshint-loader'
+                //loader: 'ng-annotate!jshint-loader'// uncoment if you want to jshint to be on
+                loader: 'ng-annotate'
             },
             {
                 test: /\.scss$/,

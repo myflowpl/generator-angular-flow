@@ -85,7 +85,14 @@ yo angular-flow
 it will generate files required to develop, build and run your app  
 you should look to ```/public/src``` becourse there you will be doing your work
 
+This generator wil create the project and default module "app" with all basic configuration
+
+
 ### Module
+When you generate your app with ```yo angular-flow``` command you will have "app" module created so you can put your states, components and other stuff there  
+but when your application grows, it's better to separate some functionality to other modules  
+for this task we can se ```yo angular-flow:module {moduleName}``` command
+
 This generator creates new module in ```/public/src``` 
 
 Example:
@@ -98,7 +105,7 @@ will generate ```/public/src/user/user-module.js```
 Creates new ui-router state in module.  
 The argument should require the path of the state
 
-*notice: the path should start with module name, otherwise you will get module not found error*
+**notice: the path should start with module name, otherwise you will get module not found error**
 
 Example:
 ```bash
