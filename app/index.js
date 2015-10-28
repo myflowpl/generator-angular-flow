@@ -125,10 +125,10 @@ module.exports = Base.extend({
             this.destinationPath('public'),
             this
         );
-        this.fs.copyTpl(this.templatePath('root/.gitignore'),this.destinationPath('.gitignore'),this);
-        this.fs.copyTpl(this.templatePath('root/.jshintrc'),this.destinationPath('.jshintrc'),this);
-        this.fs.copyTpl(this.templatePath('root/.editorconfig'),this.destinationPath('.editorconfig'),this);
-        this.fs.copyTpl(this.templatePath('root/.gitattributes'),this.destinationPath('.gitattributes'),this);
+        this.fs.copyTpl(this.templatePath('root-hidden/gitignore'),this.destinationPath('.gitignore'),this);
+        this.fs.copyTpl(this.templatePath('root-hidden/jshintrc'),this.destinationPath('.jshintrc'),this);
+        this.fs.copyTpl(this.templatePath('root-hidden/editorconfig'),this.destinationPath('.editorconfig'),this);
+        this.fs.copyTpl(this.templatePath('root-hidden/gitattributes'),this.destinationPath('.gitattributes'),this);
 
         this.invoke('angular-flow:config');
 
