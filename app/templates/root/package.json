@@ -28,9 +28,9 @@
         "webpack-dev-server": "^1.12.0"
     },
     "scripts": {
-        "start": "node node_modules/.bin/webpack-dev-server --inline --content-base public/",
-        "watch": "node node_modules/.bin/webpack -w",
-        "build": "node node_modules/.bin/webpack -p"
+        "start": "node node_modules/.bin/webpack-dev-server --inline --content-base --progress --colors public/",
+        "watch": "node node_modules/.bin/webpack -w --progress --colors ",
+        "build": "node node_modules/.bin/webpack -p --progress --colors "
     },
     "keywords": [
         "nodejs",
