@@ -20,7 +20,7 @@ Author: [Piotr Błaszczak](https://github.com/myflowpl)
 
 
 ## Instalation
-first make sure you have installed node.js with npm
+first make sure you have installed `NodeJS`(tested on v4.2.0) with `npm` (tested on v2.14.7)
 then you have to install:
 
 yeoman
