@@ -1,9 +1,9 @@
 /**
- * <%=filterName%> filter
+ * <%=name.nameLowCamel%> filter
  */
 angular.module('<%= module.name %>')
-    .filter('<%= filterName %>', function () {
+    .filter('<%= name.nameLowCamel %>', function () {
         return function (input) {
-            return '<%= filterName %> filter: ' + input;
+            return '<%= name.nameLowCamel %> filter: ' + input;
         };
     });

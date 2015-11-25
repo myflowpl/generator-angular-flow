@@ -1,13 +1,13 @@
 /**
  * @ngdoc directive
- * @name <%= filterName %>
+ * @name <%= name.nameLowCamel %>
  * @restrict A
  * @description
  *
  */
 angular.module('<%= module.name %>')
 
-    .directive('<%= filterName %>', function () {
+    .directive('<%= name.nameLowCamel %>', function () {
         return {
             restrict: 'A',
             link: function link(scope, element, attrs) {

@@ -24,6 +24,19 @@ module.exports = generators.Base.extend({
         dirParts: ''
     },
 
+    nameRequired: true, // is name argument required
+    nameDescription: 'in most cases it\'s file name you want to generate', // give the halp description of the name argument
+
+    nameSuffix: '',  // suffix for name attribute
+
+    fileSuffix: '', // suffix for name file
+
+    /**
+     * prepare basic stuff for sub generators
+     *
+     * @param args
+     * @param options
+     */
     constructor: function (args, options) {
 
         generators.Base.apply(this, arguments);
@@ -36,32 +49,41 @@ module.exports = generators.Base.extend({
         this.srcDir = path.join(this.publicDir, this.config.get('srcDir'));
 
         // module name is required
-        this.argument('name', { type: String, required: true });
+        this.argument('moduleName', { type: String, required: false });
+
+        // subGenerator name is optional, depends on this.requiredName prop, witch you can be overwrite
+        this.argument('fileName', { type: String, required: false });
+
+        if(!this.moduleName) {
+            this.log.error('Module name is required, try:    yo:'+this.options.namespace+' [moduleName]');
+            this.log('available modules: ', this.getModules());
+            this.exit();
+        }
+        if(this.nameRequired && !this.fileName) {
+            this.log.error('Name is required, try:            yo:'+this.options.namespace+' [moduleName] [fileName]');
+            this.log(this.nameDescription);
+            this.exit();
+        }
 
         // set module and file properties based on user input
-        var parts = this.name.split('/');
-        this.setModule(parts[0]);
-        this.setFile(parts);
+        this.setModule(this.moduleName);
+        this.setName(this.fileName, this.nameSuffix);
+        this.setFile(this.fileName, this.fileSuffix);
 
-        //console.log("MODULE\n", this.module);
-        //console.log("FILE\n", this.file);
+        console.log("MODULE\n", this.module);
+        console.log("NAME\n", this.name);
+        console.log("FILE\n", this.file);
 
         // test if module exists
-        var moduleFile = this.module.path
+        var moduleFile = this.module.path;
+        console.log('debug', moduleFile);
         if((this.options.namespace === 'angular-flow:module') && fs.existsSync(moduleFile)) {
             this.error('Module "'+this.module.dir+'" already exist, can\'t overwrite it');
         }
-        console.log('debug', moduleFile);
+
         if((this.options.namespace !== 'angular-flow:module') && !fs.existsSync(moduleFile)) {
-            this.error('Module "'+this.module.dir+'" does not exist, create ii first with angular-flow:module [name] command' );
+            this.error('Module "'+this.module.dir+'" does not exist, create it first with angular-flow:module [moduleName]' );
         }
-
-
-        // set destination for this module
-        //if(this.updateDocumentRoot) {
-        //    this.destinationRoot(path.join(this.destinationRoot(), this.baseDir, this.dirName));
-        //}
-
     },
 
     /**
@@ -78,19 +100,30 @@ module.exports = generators.Base.extend({
         this.module = {
             name: name,
             dir: dir,
-            path: path.join(this.srcDir,dir),
+            path: path.join(this.srcDir,dir).replace(/\\/g, '/'),
             label: label,
             nameCamel: nameCamel
         }
     },
 
-    setFile: function(parts, sufix) {
+    setFile: function(name, sufix) {
+        name = name||'';
         sufix = sufix||'';
-        this.file = this.normalizeName(parts.join('/').replace(/\//g, '-')+sufix);
-        this.file.dirParts = parts.map(function(n){
+        this.file = this.normalizeName(name.replace(/\//g, '-')+sufix);
+        this.file.dirParts = name.split('/').map(function(n){
             return this._.slugify(this._.humanize(n));
         }.bind(this));
         this.file.dir = this.file.dirParts.join('/');
+    },
+
+    setName: function(name, sufix) {
+        name = name||'';
+        sufix = sufix||'';
+        this.name = this.normalizeName(name.replace(/\//g, '-')+sufix);
+        this.name.dirParts = name.split('/').map(function(n){
+            return this._.slugify(this._.humanize(n));
+        }.bind(this));
+        this.name.dir = this.name.dirParts.join('/');
     },
 
     /**
@@ -110,52 +143,6 @@ module.exports = generators.Base.extend({
             });
         }
         return this.modules;
-    },
-
-    /**
-     * get component config
-     * all | by name | by array of names
-     *
-     * @param name
-     * @returns {*}
-     */
-    getComponents: function(name){
-
-        if(this.bower_components === null) {
-            this.bower_components = [];
-            if(fs.existsSync('bower-components.json')) {
-                this.bower_components = JSON.parse(fs.readFileSync('bower-components.json'));
-            }
-
-            this.bower_components = this.bower_components.concat(JSON.parse(fs.readFileSync(__dirname+'/bower-components.json')));
-        }
-        // return list if no name given
-        if(arguments.length === 0) {
-            return this.bower_components;
-        }
-
-        // if array, its array of names, so convert it to array of configs
-        if(_.isArray(name)) {
-            var bower_components = this.bower_components;
-            return name.map(function(component_name){
-                var c = _.find(bower_components, 'name', component_name);
-                if(!c) {
-                    this.error('bower component "'+component_name+'" not found!!!')
-                }
-                return c;
-            })
-        }
-
-        // else its string, so return it's config
-        if(!name) {
-            this.error('bower component name is empty!!!')
-        }
-        var c = _.find(this.bower_components, 'name', name);
-        if(!c) {
-            this.error('bower component '+name+' not found!!!')
-        }
-        return c;
-
     },
 
     /**
@@ -184,12 +171,33 @@ module.exports = generators.Base.extend({
      */
     moduleAppendFile: function(file) {
         var moduleFile =  path.join(this.srcDir, this.module.dir, this.module.dir)+'-module.js';
-        var parts = file.split('/').splice(1);
-        var str = "require('./"+parts.join('/')+"');";
-
+        var file = file.replace(/\\/g, '/');// no matter win or unix we use unix style
+        var str = "require('./"+file+"');";
+console.log('APPEND',file, moduleFile, str)
         var data = fs.readFileSync(moduleFile);
         if(data.indexOf(str) < 0){
             fs.appendFileSync(moduleFile, "\n"+str);
+        }
+    },
+
+    /**
+     *
+     * @param templateFile template file from subgen template folders
+     * @param ext file extenasion (with dot included), to append to dest file
+     * @param appendToModule, append the file to module
+     */
+    copyFileTemplate: function (templateFile, ext, appendToModule) {
+
+        var file = path.join(this.fileSubDir,this.file.dirParts.slice(0,-1).join('/'), this.file.name);
+        var filePath = path.join(this.srcDir, this.module.dir, file);
+
+        this.fs.copyTpl(
+            this.templatePath(templateFile),
+            this.destinationPath(filePath+ext),
+            this
+        );
+        if(appendToModule) {
+            this.moduleAppendFile(file+ext);
         }
     },
 
@@ -198,17 +206,69 @@ module.exports = generators.Base.extend({
      *
      * @param msg
      */
-    error: function (msg) {
-        this.log('____________________________________________________________________________');
+    error: function (msg, err) {
+        if(arguments.length==1) err = '';
+        this.log.error(msg, err);
         this.log('');
-        this.log('ERROR !!!');
-        this.log('');
-        this.log(msg);
-        this.log('');
-        this.log('____________________________________________________________________________');
-        this.log('');
-        throw new Error(msg);
+        this.exit();
+    },
+
+    /**
+     * exits process
+     *
+     * @param msg
+     */
+    exit: function () {
+        process.exit(1);
     }
+
+
+    /**
+     * get component config
+     * all | by name | by array of names
+     *
+     * @param name
+     * @returns {*}
+     */
+    //getComponents: function(name){
+    //
+    //    if(this.bower_components === null) {
+    //        this.bower_components = [];
+    //        if(fs.existsSync('bower-components.json')) {
+    //            this.bower_components = JSON.parse(fs.readFileSync('bower-components.json'));
+    //        }
+    //
+    //        this.bower_components = this.bower_components.concat(JSON.parse(fs.readFileSync(__dirname+'/bower-components.json')));
+    //    }
+    //    // return list if no name given
+    //    if(arguments.length === 0) {
+    //        return this.bower_components;
+    //    }
+    //
+    //    // if array, its array of names, so convert it to array of configs
+    //    if(_.isArray(name)) {
+    //        var bower_components = this.bower_components;
+    //        return name.map(function(component_name){
+    //            var c = _.find(bower_components, 'name', component_name);
+    //            if(!c) {
+    //                this.error('bower component "'+component_name+'" not found!!!')
+    //            }
+    //            return c;
+    //        })
+    //    }
+    //
+    //    // else its string, so return it's config
+    //    if(!name) {
+    //        this.error('bower component name is empty!!!')
+    //    }
+    //    var c = _.find(this.bower_components, 'name', name);
+    //    if(!c) {
+    //        this.error('bower component '+name+' not found!!!')
+    //    }
+    //    return c;
+    //
+    //},
+
 });
 
 
