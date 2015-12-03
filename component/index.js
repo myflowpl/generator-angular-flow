@@ -1,34 +1,17 @@
-'use strict';
-var Base = require('../base-public');
-var path = require('path');
+/**
+ *
+ */
+var Base = require('../base-public.js');
 
 module.exports = Base.extend({
-    createFiles: function() {
 
-        var file = path.join(this.srcDir, this.file.dir, this.file.name);
+    fileSliceDir: false,
+    fileSubDir: 'components',
 
-        // JS
-        this.fs.copyTpl(
-            this.templatePath('component-tpl.js'),
-            this.destinationPath(file+'.js'),
-            this
-        );
+    createFiles: function () {
 
-        // HTML
-        this.fs.copyTpl(
-            this.templatePath('component-tpl.html'),
-            this.destinationPath(file+'.html'),
-            this
-        );
-
-        // SASS
-        this.fs.copyTpl(
-            this.templatePath('component-tpl.scss'),
-            this.destinationPath(file+'.scss'),
-            this
-        );
-
-        this.moduleAppendFile(path.join(this.file.dir, this.file.name)+'.js');
-
+        this.copyFileTemplate('component-tpl.js', '.js', true);
+        this.copyFileTemplate('component-tpl.html', '.html', false);
+        this.copyFileTemplate('component-tpl.scss', '.scss', false);
     }
 });

@@ -24,12 +24,24 @@ module.exports = generators.Base.extend({
         dirParts: ''
     },
 
+    moduleRequired: true, // is name argument required
     nameRequired: true, // is name argument required
     nameDescription: 'in most cases it\'s file name you want to generate', // give the halp description of the name argument
 
     nameSuffix: '',  // suffix for name attribute
 
     fileSuffix: '', // suffix for name file
+    fileSubDir: '', // suffix for name file
+    /**
+     * remove one last level of dir for the file,
+     * example: when set to true
+     * user/login/form
+     * will be
+     *     user/login/user-login-form.js
+     * otherwise
+     *     user/login/form/user-login-form.js
+     */
+    fileSliceDir: true,
 
     /**
      * prepare basic stuff for sub generators
@@ -76,11 +88,11 @@ module.exports = generators.Base.extend({
 
         // test if module exists
         var moduleFile = this.module.path;
-        console.log('debug', moduleFile);
+        // if we createin new module, tyr if it already exists
         if((this.options.namespace === 'angular-flow:module') && fs.existsSync(moduleFile)) {
             this.error('Module "'+this.module.dir+'" already exist, can\'t overwrite it');
         }
-
+        // if you create somethink for the module, test if it exists
         if((this.options.namespace !== 'angular-flow:module') && !fs.existsSync(moduleFile)) {
             this.error('Module "'+this.module.dir+'" does not exist, create it first with angular-flow:module [moduleName]' );
         }
@@ -173,10 +185,13 @@ module.exports = generators.Base.extend({
         var moduleFile =  path.join(this.srcDir, this.module.dir, this.module.dir)+'-module.js';
         var file = file.replace(/\\/g, '/');// no matter win or unix we use unix style
         var str = "require('./"+file+"');";
-console.log('APPEND',file, moduleFile, str)
+
         var data = fs.readFileSync(moduleFile);
         if(data.indexOf(str) < 0){
             fs.appendFileSync(moduleFile, "\n"+str);
+            this.log.info(str, 'appended to', moduleFile);
+        } else {
+            this.log.info(str, 'already exists in', moduleFile);
         }
     },
 
@@ -188,7 +203,11 @@ console.log('APPEND',file, moduleFile, str)
      */
     copyFileTemplate: function (templateFile, ext, appendToModule) {
 
-        var file = path.join(this.fileSubDir,this.file.dirParts.slice(0,-1).join('/'), this.file.name);
+        var filePath = this.file.dirParts.join('/');
+        if(this.fileSliceDir) {
+            filePath = this.file.dirParts.slice(0,-1).join('/');
+        }
+        var file = path.join(this.fileSubDir,filePath, this.file.name);
         var filePath = path.join(this.srcDir, this.module.dir, file);
 
         this.fs.copyTpl(

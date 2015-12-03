@@ -5,10 +5,10 @@ require('./<%= file.name %>.scss');
 angular.module('<%= module.name %>')
 
     .config(function($modalsProvider){
-        $modalsProvider.register('<%= modalName %>', function(params, config){
+        $modalsProvider.register('<%= name.name %>', function(params, config){
             return {
                 template: require('./<%= file.name %>.html'),
-                controller: '<%= file.nameCamel %>ModalController',
+                controller: '<%= file.nameCamel %>Controller',
                 windowClass: '<%=file.name%>',
                 resolve: {
                     // you can add some extra resolves here
@@ -17,12 +17,12 @@ angular.module('<%= module.name %>')
         });
     })
 
-    .controller('<%= file.nameCamel %>ModalController', function ($scope, $modalInstance) {
+    .controller('<%= file.nameCamel %>Controller', function ($scope, $uibModalInstance) {
         $scope.ok = function () {
-            $modalInstance.close('reason');
+            $uibModalInstance.close('reason');
         };
 
         $scope.cancel = function () {
-            $modalInstance.dismiss('cancel');
+            $uibModalInstance.dismiss('cancel');
         };
     });

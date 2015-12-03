@@ -1,22 +1,14 @@
-
-var path = require('path');
-var Base = require('../base-public');
+/**
+ *
+ */
+var Base = require('../base-public.js');
 
 module.exports = Base.extend({
+    fileSuffix: '-srv',
+    nameSuffix: 'Srv',
+    fileSubDir: 'services',
     createFiles: function () {
 
-        this.setFile(this.file.dirParts.slice(1), '-srv');
-
-        var file = path.join(this.module.dir, '_services',  this.file.name);
-        var filePath = path.join(this.srcDir, file);
-
-        // JS
-        this.fs.copyTpl(
-            this.templatePath('factory-tpl.js'),
-            this.destinationPath(filePath+'.js'),
-            this
-        );
-
-        this.moduleAppendFile(file+'.js');
+        this.copyFileTemplate('factory-tpl.js', '.js', true);
     }
 });

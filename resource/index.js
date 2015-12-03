@@ -1,22 +1,14 @@
-
-var path = require('path');
-var Base = require('../base-public');
+/**
+ *
+ */
+var Base = require('../base-public.js');
 
 module.exports = Base.extend({
+    fileSuffix: '-res',
+    nameSuffix: 'Res',
+    fileSubDir: 'resources',
     createFiles: function () {
 
-        this.setFile(this.file.dirParts.slice(1), '-res');
-
-        var file = path.join(this.module.dir, '_resources',  this.file.dir, this.file.name);
-        var filePath = path.join(this.srcDir, file);
-
-        // JS
-        this.fs.copyTpl(
-            this.templatePath('restmod.tpl'),
-            this.destinationPath(filePath+'.js'),
-            this
-        );
-
-        this.moduleAppendFile(file+'.js');
+        this.copyFileTemplate('restmod.tpl', '.js', true);
     }
 });

@@ -1,19 +1,19 @@
 /**
  * <%=file.name%> component
  */
-require('./<%= file.name %>.scss');
+require('./<%= name.name %>.scss');
 
 angular.module('<%= module.name %>')
 
-    .directive('<%= file.nameLowCamel %>', function () {
+    .directive('<%= name.nameLowCamel %>', function () {
         return {
             restrict: 'E',
             replace:false,
-            template: require('./<%= file.name %>.html'),
-            controller: '<%= file.nameCamel %>Controller'
+            template: require('./<%= name.name %>.html'),
+            controller: '<%= name.nameCamel %>Controller'
         };
     })
 
-    .controller('<%= file.nameCamel %>Controller', function ($scope) {
+    .controller('<%= name.nameCamel %>Controller', function ($scope) {
 
     });

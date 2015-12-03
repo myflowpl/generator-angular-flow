@@ -1,8 +1,8 @@
 /**
- * <%=file.nameLowCamel%> service
+ * <%=name.nameLowCamel%> service
  */
 angular.module('<%= module.name %>')
-    .factory('<%= file.nameLowCamel %>', function () {
+    .factory('<%= name.nameLowCamel %>', function () {
 
         return {
             get: function(){

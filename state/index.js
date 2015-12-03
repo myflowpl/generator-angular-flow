@@ -4,94 +4,70 @@ var path = require('path');
 var fs = require('fs');
 
 module.exports = Base.extend({
-
+    fileSuffix: '-state',
+    fileSubDir: '_states',
+    setName: function(name, suffix){
+        this.fileName = this.fileName.replace(/\./g, '/');
+        Base.prototype.setName.call(this, this.fileName, suffix);
+    },
     createFiles: function() {
 
-        var dirParts = this.file.dirParts.slice(1);
         this.state = {
             name: this.file.dirParts.join('.'),
-            url: '/'+this.file.dirParts.slice(this.file.dirParts.length-1),
-            dirParts: dirParts,
-            dir: dirParts.join('/'),
-            file: {
-                name: dirParts.join('-')+'-state'
-            }
+            url: '/'+this.file.dirParts.slice(-1),
         };
-        var dirParts = this.file.dirParts.slice(1).slice(0, -1);
+
         this.parent = {
-            name: this.file.dirParts.join('.'),
-            url: '/'+this.file.dirParts.slice(this.file.dirParts.length-1),
-            dirParts: dirParts,
-            dir: dirParts.join('/'),
+            name: this.name.dirParts.slice(0,-1).join('.'),
+            dir: this.name.dirParts.slice(0, -1).join('/'),
             file: {
-                name: this.file.dirParts.slice(0, -1).join('-')+'-state'
+                name: this.file.dirParts.slice(0, -1).join('-')+this.fileSuffix
             }
         };
-        console.log('paretn', this.parent);
-        console.log('state', this.state);
-        console.log('file', this.file);
 
         this.parentStr = '';
-        if(!this.state.dir) {
+        if(!this.parent.name) {
             this.parentStr = "\n            parent: 'app',"
         }
 
-        this.file.name = this.file.name+'-state';
-        this.file.dir = this.file.dir+'-state';
+        this.filePath = path.join(this.srcDir, this.module.dir, '_states',  this.file.dir, this.file.name)+'.html';
 
-        var file = path.join(this.srcDir, this.module.dir, '_states',  this.state.dir, this.file.name);
-        this.filePath = file;
+        console.log("STATE\n",   this.state);
+        console.log("PARENT\n", this.parent);
+        console.log("PARENT STR\n", this.parentStr);
+        console.log("FILE PATH\n", this.filePath);
 
-        // JS
-        this.fs.copyTpl(
-            this.templatePath('state-tpl-js.tpl'),
-            this.destinationPath(file+'.js'),
-            this
-        );
+        this.copyFileTemplate('state-tpl-js.tpl', '.js', true);
+        this.copyFileTemplate('state-tpl.html', '.html', false);
+        this.copyFileTemplate('state-tpl.scss', '.scss', false);
 
-        // HTML
-        this.fs.copyTpl(
-            this.templatePath('state-tpl.html'),
-            this.destinationPath(file+'.html'),
-            this
-        );
+        this._menuAppend();
+    },
 
-        // SASS
-        this.fs.copyTpl(
-            this.templatePath('state-tpl.scss'),
-            this.destinationPath(file+'.scss'),
-            this
-        );
+    /**
+     * insert link to this state in app state menu or to it's parent menu
+     */
+    _menuAppend: function() {
 
-        // require this state inside of module
-        this.moduleAppendFile(path.join(this.module.dir, '_states',  this.state.dir, this.file.name)+'.js');
-
-
-        // append this module to state
-        if(!this.state.dir) {
+        if(!this.parent.name) {
             // append to main app module
-            var parentFile = path.join(this.srcDir, 'app', '_states',  'app-state.html');
+            var file = path.join(this.srcDir, 'app', '_states',  'app-state.html');
         } else {
             // append to paret state
-            var parentFile = path.join(this.srcDir, this.module.dir, '_states',  this.parent.dir, this.parent.file.name)+'.html';
+            var file = path.join(this.srcDir, this.module.dir, '_states',  this.parent.dir, this.parent.file.name)+'.html';
         }
-        console.log('parent file', parentFile);
-        this._menuAppend(parentFile, this.state.name);
-    },
-    _menuAppend: function(file, stateName) {
-        var str = '<li role="presentation" ui-sref-active="active"><a ui-sref="'+stateName+'">'+stateName+'</a></li><!--menu-item-->';
+
+        this.log.info('add', this.state.name, 'state as new menu item in', file)
+        var str = '<li role="presentation" ui-sref-active="active"><a ui-sref="'+this.state.name+'">'+this.state.name+'</a></li><!--menu-item-->';
         var that = this;
         fs.readFile(file, function (err, data) {
             if (err) {
-                that.log('error with appending new menu item to parent, fine not found:');
-                that.log(file);
-                return;
+                return that.log.info('error, file not found:', file);
             };
             data = (data+'').
                 replace('<!--menu-item-->', "\n                "+str);
             fs.writeFileSync(file, data);
-            that.log('new menu item was added to paret state:')
-            that.log(file);
+            that.log.info('success, item menu added', this.state.name);
         });
 
     }

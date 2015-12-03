@@ -4,9 +4,11 @@ var path = require('path');
 var fs = require('fs');
 
 module.exports = Base.extend({
+    nameRequired: false, // is name argument required
+
     createFiles: function() {
 
-        var file = path.join(this.srcDir, this.file.dir, this.module.dir);
+        var file = path.join(this.srcDir, this.module.dir, this.module.dir);
 
         // JS
         this.fs.copyTpl(
@@ -15,7 +17,7 @@ module.exports = Base.extend({
             this
         );
 
-        var thisModuleFile = path.join(this.module.dir, this.module.dir+'-module.js');
+        var thisModuleFile = path.join(this.module.dir, this.module.dir+'-module.js').replace(/\\/g, '/');
         var moduleFile =  path.join(this.srcDir, 'app/app-module.js');
 
         var str = "require('../"+thisModuleFile+"'),";
@@ -23,20 +25,17 @@ module.exports = Base.extend({
         var that = this;
         fs.readFile(moduleFile, function (err, data) {
             if (err) {
-                that.log('main module file not found:');
-                that.log(moduleFile);
+                that.log.info('main module file not found:', moduleFile);
                 return;
             };
             if(data.indexOf(str) >= 0){
-                that.log('module already appended to app-module:');
-                that.log(moduleFile);
+                that.log.info('module already appended to app-module:', moduleFile);
                 return;
             }
-            data = (data+'').
-                replace("angular.module('app',[", "angular.module('app',[\n    "+str);
+            //TODO this is very bad and quick solution, but works for now :D
+            data = (data+''). replace("angular.module('app',[", "angular.module('app',[\n    "+str);
             fs.writeFileSync(moduleFile, data);
-            that.log('new module was created and added to app main module:')
-            that.log(moduleFile);
+            that.log.ok('new module was created and added to app main module:', moduleFile)
         });
     }
 });
