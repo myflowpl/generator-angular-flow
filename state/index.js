@@ -4,6 +4,7 @@ var path = require('path');
 var fs = require('fs');
 
 module.exports = Base.extend({
+    fileSliceDir: false,
     fileSuffix: '-state',
     fileSubDir: '_states',
     setName: function(name, suffix){
@@ -67,7 +68,7 @@ module.exports = Base.extend({
             data = (data+'').
                 replace('<!--menu-item-->', "\n                "+str);
             fs.writeFileSync(file, data);
-            that.log.info('success, item menu added', this.state.name);
+            that.log.info('success, item menu added', that.state.name);
         });
 
     }
