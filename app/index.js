@@ -46,7 +46,6 @@ module.exports = Base.extend({
             this.log('AngularJs+Webpack boilerplate for large application.');
             this.log('____________________________________________________________________________');
             this.log('');
-            //this.log('Project not found');
 
             this.prompt({
                 type: 'list',
@@ -56,7 +55,7 @@ module.exports = Base.extend({
                 choices: [
                     {value: 0, name: 'no'},
                     {value: 1, name: 'yes'},
-                    //{value: 2, name: 'yes (advanced users)'},
+                    //{value: 2, name: 'yes (advanced users)'}, //TODO in next version
                 ]
             }, function (answers) {
                 if(answers.start === 1) {

@@ -19,7 +19,7 @@ angular.module('app')
         $urlRouterProvider.otherwise(function($injector, $location){
 
             $injector.invoke(function($state, $timeout){
-                $state.go('app.error', {
+                $state.go('error', {
                     location: false,
                     notify: false,
                     reload: false

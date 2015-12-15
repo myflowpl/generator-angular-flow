@@ -24,13 +24,15 @@
         "sass-loader": "^3.0.0",
         "style-loader": "^0.12.4",
         "url-loader": "^0.5.6",
+        "ts-loader": "^0.7.2",
+        "typescript": "^1.7.3",
         "webpack": "^1.12.2",
         "webpack-dev-server": "^1.12.0"
     },
     "scripts": {
-        "start": "node node_modules/.bin/webpack-dev-server --progress --colors --inline --content-base public/",
-        "watch": "node node_modules/.bin/webpack -w --progress --colors",
-        "build": "node node_modules/.bin/webpack -p --progress --colors"
+        "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --progress --colors",
+        "watch": "node ./node_modules/webpack/bin/webpack.js -w  --progress --colors",
+        "build": "node ./node_modules/webpack/bin/webpack.js -p  --progress --colors"
     },
     "keywords": [
         "nodejs",
