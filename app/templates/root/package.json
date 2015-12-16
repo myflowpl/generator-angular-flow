@@ -7,7 +7,10 @@
     },
     "devDependencies": {
         "angular": "^1.4.7",
+        "angular-animate": "^1.4.8",
+        "angular-sanitize": "^1.4.8",
         "angular-busy2": "^4.1.5",
+        "angular-loading-bar": "^0.8.0",
         "angular-ui-bootstrap": "^0.14.1",
         "angular-ui-router": "^0.2.15",
         "angular-modals": "0.0.1",

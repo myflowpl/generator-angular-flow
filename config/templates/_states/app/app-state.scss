@@ -2,6 +2,10 @@
  * app-state
  */
 .app-state {
+    .view {
+        position: relative;
+        min-height: 70vh;
+    }
     /* Space out content a bit */
     padding-top: 20px;
     padding-bottom: 20px;

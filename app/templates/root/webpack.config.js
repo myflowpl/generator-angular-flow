@@ -2,7 +2,8 @@ var webpack = require('webpack');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
 
-var exttractCssOnBuild = false;
+
+var exttractCssOnBuild = false;// use other
 var devDomain = 'localhost';
 var devPort = 8080;
 var apiDomain = 'localhost:8081';
@@ -24,7 +25,7 @@ module.exports = {
     },
     output: {
         path: __dirname+'/public/dist', //path to where webpack will build your stuff
-        publicPath: isBuild ? "/dist/" : "http://"+devDomain+"/dist/", //path that will be considered when requiring your files
+        publicPath: isBuild ? "/dist/" : "http://"+devDomain+":"+devPort+"/dist/", //path that will be considered when requiring your files
         filename: "[name].bundle.js"
     },
     resolve: {
@@ -36,12 +37,12 @@ module.exports = {
         contentBase: 'public/',
         host: devDomain,
         port: devPort,
-        proxy: {
-            '/api*': {
-                target: 'http://'+apiDomain,
-                secure: false,
-            }
-        }
+        //proxy: {
+        //    '/api*': {
+        //        target: 'http://'+apiDomain,
+        //        secure: false,
+        //    }
+        //}
     },
     module: {
         loaders: [

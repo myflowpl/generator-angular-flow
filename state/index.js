@@ -52,7 +52,7 @@ module.exports = Base.extend({
 
         if(!this.parent.name) {
             // append to main app module
-            var file = path.join(this.srcDir, 'app', '_states',  'app-state.html');
+            var file = path.join(this.srcDir, 'app', '_states', 'app',  'app-state.html');
         } else {
             // append to paret state
             var file = path.join(this.srcDir, this.module.dir, '_states',  this.parent.dir, this.parent.file.name)+'.html';

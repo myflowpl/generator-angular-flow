@@ -7,7 +7,7 @@ Uses: angular, webpack, sass, ui-router, ui-bootstrap, angular-modals.
 ## Features
 - easily create multiple angular modules in your project
 - each [module](#module) can have it's own states, components, services, directives, modals, filters etc. 
-- angular-flow [components](#component) are based on web components so they group .js, .html, .scss files in one place.
+- angular-flow [components](#component) are inspired by web components so they group .js, .html, .scss files in one place.
 - easy create nested ui-router [states](#state) in modules
 - use scripts for running dev server with live reload or for building for production
 

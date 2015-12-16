@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('app')
-    .factory('apiSrv', function ($http) {
+    .factory('apiSrv', function ($http, $q) {
 
         var basePath = '/api/';
 

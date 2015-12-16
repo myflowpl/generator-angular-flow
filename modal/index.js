@@ -4,6 +4,7 @@
 var Base = require('../base-public.js');
 
 module.exports = Base.extend({
+    fileSliceDir: false,
     fileSuffix: '-modal',
     fileSubDir: 'modals',
     createFiles: function () {
