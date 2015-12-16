@@ -11,10 +11,6 @@ Uses: angular, webpack, sass, ui-router, ui-bootstrap, angular-modals.
 - easy create nested ui-router [states](#state) in modules
 - use scripts for running dev server with live reload or for building for production
 
-## TODO
-- generate doc-blocks
-- generate tests
-- generate mocks
 
 Author: [Piotr Błaszczak](https://github.com/myflowpl)
 
@@ -46,7 +42,7 @@ yo angular-flow
 ```
 
 Run `npm run start`  
-and go to `localhost:8080/webpack-dev-server/` to see the app running with live reload
+and go to `localhost:8080/` to see the app running with live reload
 
 Now you are ready to start developing your app.
 
@@ -109,24 +105,24 @@ The argument should require the path of the state
 
 Example:
 ```bash
-yo angular-flow:state user;
+yo angular-flow:state user user;
 ```
 creates
 ```
-public/src/user/_states/user-state.js
-public/src/user/_states/user-state.html
-public/src/user/_states/user-state.scss
+public/src/user/_states/user/user-state.js
+public/src/user/_states/user/user-state.html
+public/src/user/_states/user/user-state.scss
 ```
 
 you can create another nested state
 ```bash
-yo angular-flow:state user/login;
+yo angular-flow:state user user.login;
 ```
 creates
 ```
-public/src/user/_states/login/user-login-state.js
-public/src/user/_states/login/user-login-state.html
-public/src/user/_states/login/user-login-state.scss
+public/src/user/_states/user/login/user-login-state.js
+public/src/user/_states/user/login/user-login-state.html
+public/src/user/_states/user/login/user-login-state.scss
 ```
 
 ### Component
@@ -135,22 +131,22 @@ This helps keep complexity low, and makes it easy to separate parts of your appl
 
 Example:
 ```bash
-yo angular-flow:component user/login
+yo angular-flow:component user login
 ```
 Produces these files:
 ```
-public/src/user/login/user-login.js
-public/src/user/login/user-login.html
-public/src/user/login/user-login.scss
+public/src/user/components/login/login.js
+public/src/user/components/login/login.html
+public/src/user/components/login/login.scss
 ```
 
 Witch in turn lets you specify custom HTML tags like this to invoke a completely self contained component:
 ```html
-<user-login></user-login>
+<login></login>
 ```
 
 The view has specified a component name as a class, helping you avoid CSS collisions.  
-Specify your styles specific for this component in SCSS under a ```.user-login``` class wrapper,   
+Specify your styles specific for this component in SCSS under a ```.login``` class wrapper,
 and only this component is targeted. 
 This is an OK approach until shadow DOMs and web components become widely supported.
 
@@ -158,21 +154,21 @@ This is an OK approach until shadow DOMs and web components become widely suppor
 Similar to components but uses ```angular-modals``` module to register ui-bootstrap modal
 Example:
 ```bash
-yo angular-flow:modal user/login
+yo angular-flow:modal user login
 ```
 Produces these files:
 ```
-public/src/user/login-modal/user-login-modal.js
-public/src/user/login-modal/user-login-modal.html
-public/src/user/login-modal/user-login-modal.scss
+public/src/user/modals/login-modal/login-modal.js
+public/src/user/modals/login-modal/login-modal.html
+public/src/user/modals/login-modal/login-modal.scss
 ```
 now to open the modal use `modal` directive
 ```html
-<button modal="user-login">login</button>
+<button modal="login">login</button>
 ```
 or `$modals` service
 ```javascript
-$modals.open('user-login').then(function(user){
+$modals.open('login').then(function(user){
     // user was logged in
 }, function(error){
     // modal closed or dismised
@@ -185,10 +181,10 @@ Generates an AngularJS service in module.
 
 Example:
 ```bash
-yo angular-flow:service user/auth
+yo angular-flow:service user auth
 ```
 
-Produces `public/src/user/_services/auth-srv.js`:
+Produces `public/src/user/services/auth-srv.js`:
 
 and you can inject it with name `authSrv`
 
@@ -197,10 +193,10 @@ Generates an restmod resource in module.
 
 Example:
 ```bash
-yo angular-flow:resource user/profile
+yo angular-flow:resource user profile
 ```
 
-Produces `public/src/user/_resource/profile-res.js`:
+Produces `public/src/user/resources/profile-res.js`:
 
 and you can inject it with name `profileRes`
 
@@ -209,40 +205,30 @@ Generates an AngularJS directive in module.
 
 Example:
 ```bash
-yo angular-flow:directive user/status
+yo angular-flow:directive user status
 ```
 
-Produces `public/src/user/_directives/status-directive.js`:
+Produces `public/src/user/directives/status-directive.js`:
 
-and you can use it like `<div status></div>`
+and you can use it like `<div status="off"></div>`
 
 ### Filter
 Generates an AngularJS filter in module.
 
 Example:
 ```bash
-yo angular-flow:service user/user-name
+yo angular-flow:service user user-name
 ```
 
-Produces `public/src/user/_filters/user-name-filter.js`:
+Produces `public/src/user/filters/user-name-filter.js`:
 
-and you can inject it with name `{{user.id|userStatus}}`
+and you can inject it with name `{{user.id|userName}}`
 
-## Externals TODO
 
-The following packages can be required by the [module](#module) generator:
-
-* angular-animate
-* angular-ui-router
-* angular-promise-tracker
-* angular-loading-bar
-* angular-ui-bootstrap
-* angular-cookies
-* angular-loader
-* angular-touch
-* angular-resource
-* angular-sanitize
-* ngStorage
+## TODO
+- generate doc-blocks
+- generate tests
+- generate mocks
 
 # License
 
