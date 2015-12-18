@@ -10,11 +10,11 @@ angular.module('<%= module.name %>')
             views: {
                 "": {
                     template: require('./<%= file.name %>.html'),
-                    controller: '<%= file.nameCamel %>StateController'
+                    controller: '<%= file.nameCamel %>Controller'
                 }
             }
         });
     })
-    .controller('<%= file.nameCamel %>StateController', function ($scope) {
+    .controller('<%= file.nameCamel %>Controller', function ($scope) {
 
     });

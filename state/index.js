@@ -33,10 +33,10 @@ module.exports = Base.extend({
 
         this.filePath = path.join(this.srcDir, this.module.dir, '_states',  this.file.dir, this.file.name)+'.html';
 
-        console.log("STATE\n",   this.state);
-        console.log("PARENT\n", this.parent);
-        console.log("PARENT STR\n", this.parentStr);
-        console.log("FILE PATH\n", this.filePath);
+        //console.log("STATE\n",   this.state);
+        //console.log("PARENT\n", this.parent);
+        //console.log("PARENT STR\n", this.parentStr);
+        //console.log("FILE PATH\n", this.filePath);
 
         this.copyFileTemplate('state-tpl-js.tpl', '.js', true);
         this.copyFileTemplate('state-tpl.html', '.html', false);
