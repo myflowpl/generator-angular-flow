@@ -217,7 +217,7 @@ Generates an AngularJS filter in module.
 
 Example:
 ```bash
-yo angular-flow:service user user-name
+yo angular-flow:filter user user-name
 ```
 
 Produces `public/src/user/filters/user-name-filter.js`:
