@@ -20,7 +20,7 @@ angular.module('<%= module.name %>')
 class <%= file.nameCamel %> {
 
     static $inject = ['$scope', '$uibModalInstance', 'params']
-    constructor (private $scope, private modal, private params: any) {  }
+    constructor (private scope, private modal, private params: any) {  }
 
     ok () {
         this.modal.close('reason');

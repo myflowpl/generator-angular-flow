@@ -15,9 +15,17 @@ angular.module('<%= module.name %>')
 
 class <%= file.nameCamel %> {
 
-    static $inject = [];
-    constructor(){}
+    static $inject = ['$scope'];
+    constructor(private scope){}
 
+    $onInit() {
+
+    }
+
+    // $onDestroy() { }
+    // $onChanges() { }
+    // $doCheck() { }
+    // $postLink() { }
 }
 
 angular.module('<%= module.name %>').controller('<%= file.nameCamel %>', <%= file.nameCamel %>);
