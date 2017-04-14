@@ -1,5 +1,4 @@
-'use strict';
-
+import * as angular from 'angular';
 require('./<%= file.name %>.scss');
 
 angular.module('<%= module.name %>')
@@ -9,20 +8,27 @@ angular.module('<%= module.name %>')
             return {
                 template: require('./<%= file.name %>.html'),
                 controller: '<%= file.nameCamel %>Controller',
+                controllerAs: '$ctrl',
                 windowClass: '<%=file.name%>',
                 resolve: {
                     // you can add some extra resolves here
                 }
             };
         });
-    })
-
-    .controller('<%= file.nameCamel %>Controller', function ($scope, $uibModalInstance) {
-        $scope.ok = function () {
-            $uibModalInstance.close('reason');
-        };
-
-        $scope.cancel = function () {
-            $uibModalInstance.dismiss('cancel');
-        };
     });
+
+class <%= file.nameCamel %>Controller {
+
+    static $inject = ['$scope', '$uibModalInstance', 'params']
+    constructor (private $scope, private modal, private params: any) {  }
+
+    ok () {
+        this.modal.close('reason');
+    }
+
+    cancel () {
+        this.modal.dismiss('cancel');
+    }
+}
+
+angular.module('<%= module.name %>').controller('<%= file.nameCamel %>Controller', <%= file.nameCamel %>Controller);

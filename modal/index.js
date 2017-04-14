@@ -9,7 +9,7 @@ module.exports = Base.extend({
     fileSubDir: 'modals',
     createFiles: function () {
 
-        this.copyFileTemplate('modal-tpl.js', '.js', true);
+        this.copyFileTemplate('modal-tpl.ts', '.ts', true);
         this.copyFileTemplate('modal-tpl.html', '.html', false);
         this.copyFileTemplate('modal-tpl.scss', '.scss', false);
     }

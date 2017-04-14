@@ -82,9 +82,9 @@ module.exports = generators.Base.extend({
         this.setName(this.fileName, this.nameSuffix);
         this.setFile(this.fileName, this.fileSuffix);
 
-        console.log("MODULE\n", this.module);
-        console.log("NAME\n", this.name);
-        console.log("FILE\n", this.file);
+        // console.log("MODULE\n", this.module);
+        // console.log("NAME\n", this.name);
+        // console.log("FILE\n", this.file);
 
         // test if module exists
         var moduleFile = this.module.path;
@@ -216,7 +216,7 @@ module.exports = generators.Base.extend({
             this
         );
         if(appendToModule) {
-            this.moduleAppendFile(file+ext);
+            this.moduleAppendFile(file);
         }
     },
 
