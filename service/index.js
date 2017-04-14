@@ -4,11 +4,11 @@
 var Base = require('../base-public.js');
 
 module.exports = Base.extend({
-    fileSuffix: '-srv',
-    nameSuffix: 'Srv',
+    fileSuffix: '-service',
+    nameSuffix: 'Service',
     fileSubDir: 'services',
     createFiles: function () {
 
-        this.copyFileTemplate('factory-tpl.js', '.js', true);
+        this.copyFileTemplate('service-tpl.ts', '.ts', true);
     }
 });

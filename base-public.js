@@ -122,6 +122,7 @@ module.exports = generators.Base.extend({
         name = name||'';
         sufix = sufix||'';
         this.file = this.normalizeName(name.replace(/\//g, '-')+sufix);
+        console.log('FILE', this.file)
         this.file.dirParts = name.split('/').map(function(n){
             return this._.slugify(this._.humanize(n));
         }.bind(this));
@@ -164,11 +165,19 @@ module.exports = generators.Base.extend({
      */
     normalizeName: function (str) {
         var dir = this._.slugify(this._.humanize(str));
+        var name = dir;
+        if(str.substr(-6)=='-modal') {
+            name = str.substr(0, str.length-6)+'.modal'
+        }
+        if(str.substr(-8)==='-service') {
+            name = str.substr(0, str.length-8)+'.service'
+        }
         var label = this._.humanize(dir);
         var nameCamel = this._.classify(dir);
         var nameLowCamel = this._.camelize(dir, true);
         return {
-            name: dir,
+            dir: dir,
+            name: name,
             label: label,
             nameLowCamel: nameLowCamel,
             nameCamel: nameCamel
