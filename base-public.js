@@ -175,6 +175,13 @@ module.exports = generators.Base.extend({
         var label = this._.humanize(dir);
         var nameCamel = this._.classify(dir);
         var nameLowCamel = this._.camelize(dir, true);
+        if(dir.substr(-10)==='-component') {
+            name = str.substr(0, str.length-10)+'.component'
+            label = this._.humanize(dir);
+            nameCamel = this._.classify(dir);
+            nameLowCamel = this._.camelize(dir, true);
+            dir = str.substr(0, str.length-10)
+        }
         return {
             dir: dir,
             name: name,

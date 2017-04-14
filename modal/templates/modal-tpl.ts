@@ -7,9 +7,9 @@ angular.module('<%= module.name %>')
         $modalsProvider.register('<%= name.name %>', function(params, config){
             return {
                 template: require('./<%= file.name %>.html'),
-                controller: '<%= file.nameCamel %>Controller',
+                controller: '<%= file.nameCamel %>',
                 controllerAs: '$ctrl',
-                windowClass: '<%=file.name%>',
+                windowClass: '<%=file.dir%>-modal',
                 resolve: {
                     // you can add some extra resolves here
                 }
@@ -17,7 +17,7 @@ angular.module('<%= module.name %>')
         });
     });
 
-class <%= file.nameCamel %>Controller {
+class <%= file.nameCamel %> {
 
     static $inject = ['$scope', '$uibModalInstance', 'params']
     constructor (private $scope, private modal, private params: any) {  }
@@ -31,4 +31,4 @@ class <%= file.nameCamel %>Controller {
     }
 }
 
-angular.module('<%= module.name %>').controller('<%= file.nameCamel %>Controller', <%= file.nameCamel %>Controller);
+angular.module('<%= module.name %>').controller('<%= file.nameCamel %>', <%= file.nameCamel %>);
