@@ -3,10 +3,15 @@ var Base = require('../base-public');
 var path = require('path');
 var fs = require('fs');
 
-module.exports = Base.extend({
-    nameRequired: false, // is name argument required
+module.exports = class extends Base{
+    constructor() {
+        super(...arguments);
+        Object.assign(this, {
+            nameRequired: false, // is name argument required
+        })
+    }
 
-    createFiles: function() {
+    createFiles() {
 
         var file = path.join(this.srcDir, this.module.dir, this.module.dir);
 
@@ -38,4 +43,4 @@ module.exports = Base.extend({
             that.log.ok('new module was created and added to app main module:', moduleFile)
         });
     }
-});
+};

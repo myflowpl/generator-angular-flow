@@ -6,21 +6,21 @@ var _ = require('lodash');
 var fs = require('fs');
 
 
-module.exports = Base.extend({
-    constructor: function (args, options) {
-        yeoman.Base.apply(this, arguments);
+module.exports = class extends Base {
+    constructor(args, options) {
+        super(...arguments);
 
-    },
+        this.defaults = {
+            publicDir: 'public',
+            srcDir: 'src',
+            distDir: 'dist',
+            configModule: 'app',
+            defaultModule: 'app'
+        };
+    }
 
-    defaults: {
-        publicDir: 'public',
-        srcDir: 'src',
-        distDir: 'dist',
-        configModule: 'app',
-        defaultModule: 'app'
-    },
 
-    default: function(){
+    default(){
         if(this.config.get('publicDir')) {
             // info about existing app
             this.log('____________________________________________________________________________');
@@ -65,12 +65,12 @@ module.exports = Base.extend({
                 }
             }.bind(this));
         }
-    },
+    }
 
     /**
      * init new app
      */
-    _advancedQuestions: function () {
+    _advancedQuestions() {
 
         this.prompt([
             {
@@ -105,12 +105,12 @@ module.exports = Base.extend({
             },
 
         ], this._createApp.bind(this));
-    },
+    }
 
     /**
      * now all data are ready so create all required files
      */
-    _createApp: function (answers) {
+    _createApp(answers) {
 
         this.config.set(answers);
 
@@ -134,4 +134,4 @@ module.exports = Base.extend({
         this.spawnCommand('npm', ['install'], {'saveDev':true});
     }
 
-});
+};

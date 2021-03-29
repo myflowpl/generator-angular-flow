@@ -3,15 +3,20 @@ var Base = require('../base-public');
 var path = require('path');
 var fs = require('fs');
 
-module.exports = Base.extend({
-    fileSliceDir: false,
-    fileSuffix: '-state',
-    fileSubDir: '_states',
-    setName: function(name, suffix){
+module.exports = class extends Base {
+    constructor() {
+        super(...arguments);
+        Object.assign(this, {
+            fileSliceDir: false,
+            fileSuffix: '-state',
+            fileSubDir: '_states',
+        })
+    }
+    setName(name, suffix){
         this.fileName = this.fileName.replace(/\./g, '/');
         Base.prototype.setName.call(this, this.fileName, suffix);
-    },
-    createFiles: function() {
+    }
+    createFiles() {
 
         this.state = {
             name: this.file.dirParts.join('.'),
@@ -43,12 +48,12 @@ module.exports = Base.extend({
         this.copyFileTemplate('state-tpl.scss', '.scss', false);
 
         this._menuAppend();
-    },
+    }
 
     /**
      * insert link to this state in app state menu or to it's parent menu
      */
-    _menuAppend: function() {
+    _menuAppend() {
 
         if(!this.parent.name) {
             // append to main app module
@@ -72,4 +77,4 @@ module.exports = Base.extend({
         });
 
     }
-});
+};

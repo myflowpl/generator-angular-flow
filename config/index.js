@@ -5,17 +5,18 @@ var yeoman = require('yeoman-generator');
 var _ = require('lodash');
 
 
-module.exports = Base.extend({
-    constructor: function (args, options) {
-        yeoman.Base.apply(this, arguments);
+module.exports = class extends Base {
+    constructor() {
+        super(...arguments);
+        Object.assign(this, {
+        })
+    }
 
-    },
-
-    default: function(){
+    default(){
         this.fs.copy(
             this.templatePath('./'),
             this.destinationPath('public/src/app'),
             this
         );
-    },
-});
+    }
+};

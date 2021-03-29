@@ -1,47 +1,8 @@
-
 var path = require('path');
-var generators = require('yeoman-generator');
+var Generator = require('yeoman-generator');
 var _ = require('underscore.string');
 var fs = require('fs');
-
-module.exports = generators.Base.extend({
-
-    publicDir: './', // public dir of the frontend app parts
-    srcDir: './src', // soruce dir, contains all ng modules created by generator
-    module: {
-        name: '', // angular module name
-        nameCamel: '', // camelcse version of name, ideal for js class name
-        label: '', // module human name
-        dir: '', // module directory name
-        path: '', // full path to module dir
-    },
-    file: {
-        name: '', // dasshed name of the file, includes module name and all path
-        label: '', // label is human redable title version of name
-        nameLowCamel: '', // camelcase with firs lower letter, ideal for dirctive name
-        nameCamel: '', // camecase of the name, ideal for controller or js clsass name
-        dir: '',
-        dirParts: ''
-    },
-
-    moduleRequired: true, // is name argument required
-    nameRequired: true, // is name argument required
-    nameDescription: 'in most cases it\'s file name you want to generate', // give the halp description of the name argument
-
-    nameSuffix: '',  // suffix for name attribute
-
-    fileSuffix: '', // suffix for name file
-    fileSubDir: '', // suffix for name file
-    /**
-     * remove one last level of dir for the file,
-     * example: when set to true
-     * user/login/form
-     * will be
-     *     user/login/user-login-form.js
-     * otherwise
-     *     user/login/form/user-login-form.js
-     */
-    fileSliceDir: true,
+module.exports = class extends Generator {
 
     /**
      * prepare basic stuff for sub generators
@@ -49,9 +10,52 @@ module.exports = generators.Base.extend({
      * @param args
      * @param options
      */
-    constructor: function (args, options) {
+    constructor (args, options) {
 
-        generators.Base.apply(this, arguments);
+        super(...arguments);
+
+        Object.assign(this, {
+            publicDir: './', // public dir of the frontend app parts
+            srcDir: './src', // soruce dir, contains all ng modules created by generator
+            module: {
+                name: '', // angular module name
+                nameCamel: '', // camelcse version of name, ideal for js class name
+                label: '', // module human name
+                dir: '', // module directory name
+                path: '', // full path to module dir
+            },
+            file: {
+                name: '', // dasshed name of the file, includes module name and all path
+                label: '', // label is human redable title version of name
+                nameLowCamel: '', // camelcase with firs lower letter, ideal for dirctive name
+                nameCamel: '', // camecase of the name, ideal for controller or js clsass name
+                dir: '',
+                dirParts: ''
+            },
+
+            moduleRequired: true, // is name argument required
+            nameRequired: true, // is name argument required
+            nameDescription: 'in most cases it\'s file name you want to generate', // give the halp description of the name argument
+
+            nameSuffix: '',  // suffix for name attribute
+
+            fileSuffix: '', // suffix for name file
+            fileSubDir: '', // suffix for name file
+            /**
+             * remove one last level of dir for the file,
+             * example: when set to true
+             * user/login/form
+             * will be
+             *     user/login/user-login-form.js
+             * otherwise
+             *     user/login/form/user-login-form.js
+             */
+            fileSliceDir: true,
+
+        })
+
+        this._ = _;
+
         if(!this.config.get('publicDir')) {
             this.error("you have to init your app with yo angular-flow command, or make sure you run commands at root level of your project");
         }
@@ -65,6 +69,8 @@ module.exports = generators.Base.extend({
 
         // subGenerator name is optional, depends on this.requiredName prop, witch you can be overwrite
         this.argument('fileName', { type: String, required: false });
+        this.moduleName = this.options.moduleName;
+        this.fileName = this.options.fileName;
 
         if(!this.moduleName) {
             this.log.error('Module name is required, try:    yo:'+this.options.namespace+' [moduleName]');
@@ -96,18 +102,18 @@ module.exports = generators.Base.extend({
         if((this.options.namespace !== 'angular-flow:module') && !fs.existsSync(moduleFile)) {
             this.error('Module "'+this.module.dir+'" does not exist, create it first with angular-flow:module [moduleName]' );
         }
-    },
+    }
 
     /**
      * sets this
      *
      * @param name
      */
-    setModule: function (name) {
-        var dir = this._.slugify(this._.humanize(name));
-        var name = this._.camelize(dir, true);
-        var nameCamel = this._.classify(dir);
-        var label = this._.humanize(dir);
+    setModule (name) {
+        var dir = _.slugify(_.humanize(name));
+        var name = _.camelize(dir, true);
+        var nameCamel = _.classify(dir);
+        var label = _.humanize(dir);
 
         this.module = {
             name: name,
@@ -116,37 +122,37 @@ module.exports = generators.Base.extend({
             label: label,
             nameCamel: nameCamel
         }
-    },
+    }
 
-    setFile: function(name, sufix) {
+    setFile(name, sufix) {
         name = name||'';
         sufix = sufix||'';
         this.file = this.normalizeName(name.replace(/\//g, '-')+sufix);
-        console.log('FILE', this.file)
+        // console.log('FILE', this.file)
         this.file.dirParts = name.split('/').map(function(n){
-            return this._.slugify(this._.humanize(n));
+            return _.slugify(_.humanize(n));
         }.bind(this));
         this.file.dir = this.file.dirParts.join('/');
-    },
+    }
 
-    setName: function(name, sufix) {
+    setName(name, sufix) {
         name = name||'';
         sufix = sufix||'';
         this.name = this.normalizeName(name.replace(/\//g, '-')+sufix);
         this.name.dirParts = name.split('/').map(function(n){
-            return this._.slugify(this._.humanize(n));
+            return _.slugify(_.humanize(n));
         }.bind(this));
         this.name.dir = this.name.dirParts.join('/');
-    },
+    }
 
     /**
      * return list of created modules names
      *
      * @returns []
      */
-    getModules: function() {
+    getModules() {
         if(!this.modules) {
-            var baseDir = './public/src';//todo get this from config
+            var baseDir = './src';//todo get this from config
             this.modules = fs.readdirSync(baseDir).filter(function(file) {
                 if(fs.statSync(path.join(baseDir, file)).isDirectory()) {
                     return true;
@@ -156,15 +162,15 @@ module.exports = generators.Base.extend({
             });
         }
         return this.modules;
-    },
+    }
 
     /**
      * converts user input string to normalized file/module names
      *
      * @param name
      */
-    normalizeName: function (str) {
-        var dir = this._.slugify(this._.humanize(str));
+    normalizeName (str) {
+        var dir = _.slugify(_.humanize(str));
         var name = dir;
         if(str.substr(-6)=='-modal') {
             name = str.substr(0, str.length-6)+'.modal'
@@ -172,14 +178,14 @@ module.exports = generators.Base.extend({
         if(str.substr(-8)==='-service') {
             name = str.substr(0, str.length-8)+'.service'
         }
-        var label = this._.humanize(dir);
-        var nameCamel = this._.classify(dir);
-        var nameLowCamel = this._.camelize(dir, true);
+        var label = _.humanize(dir);
+        var nameCamel = _.classify(dir);
+        var nameLowCamel = _.camelize(dir, true);
         if(dir.substr(-10)==='-component') {
             name = str.substr(0, str.length-10)+'.component'
-            label = this._.humanize(dir);
-            nameCamel = this._.classify(dir);
-            nameLowCamel = this._.camelize(dir, true);
+            label = _.humanize(dir);
+            nameCamel = _.classify(dir);
+            nameLowCamel = _.camelize(dir, true);
             dir = str.substr(0, str.length-10)
         }
         return {
@@ -189,7 +195,7 @@ module.exports = generators.Base.extend({
             nameLowCamel: nameLowCamel,
             nameCamel: nameCamel
         }
-    },
+    }
 
     /**
      * creates require() with provided file inside of main module file
@@ -197,7 +203,7 @@ module.exports = generators.Base.extend({
      *
      * @param file
      */
-    moduleAppendFile: function(file) {
+    moduleAppendFile(file) {
         var moduleFile =  path.join(this.srcDir, this.module.dir, this.module.dir)+'-module.js';
         var file = file.replace(/\\/g, '/');// no matter win or unix we use unix style
         var str = "require('./"+file+"');";
@@ -209,7 +215,7 @@ module.exports = generators.Base.extend({
         } else {
             this.log.info(str, 'already exists in', moduleFile);
         }
-    },
+    }
 
     /**
      *
@@ -217,7 +223,7 @@ module.exports = generators.Base.extend({
      * @param ext file extenasion (with dot included), to append to dest file
      * @param appendToModule, append the file to module
      */
-    copyFileTemplate: function (templateFile, ext, appendToModule) {
+    copyFileTemplate (templateFile, ext, appendToModule) {
 
         var filePath = this.file.dirParts.join('/');
         if(this.fileSliceDir) {
@@ -234,26 +240,26 @@ module.exports = generators.Base.extend({
         if(appendToModule) {
             this.moduleAppendFile(file);
         }
-    },
+    }
 
     /**
      * display error message
      *
      * @param msg
      */
-    error: function (msg, err) {
+    error (msg, err) {
         if(arguments.length==1) err = '';
         this.log.error(msg, err);
         this.log('');
         this.exit();
-    },
+    }
 
     /**
      * exits process
      *
      * @param msg
      */
-    exit: function () {
+    exit () {
         process.exit(1);
     }
 
@@ -304,6 +310,6 @@ module.exports = generators.Base.extend({
     //
     //},
 
-});
+};
 
 
